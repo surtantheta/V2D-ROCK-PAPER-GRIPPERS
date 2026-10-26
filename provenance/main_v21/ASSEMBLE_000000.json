@@ -1,0 +1,96 @@
+{
+ "episode": 0,
+ "frames": 790,
+ "object_source": "s6_foundationpose",
+ "s6_mean_iou": 0.5209778830969191,
+ "object_diameter_m": 0.7583897411823273,
+ "mask_redepth_frames": 0,
+ "hand_depth_repaired_frames": 0,
+ "far_from_subject_frames": 0,
+ "far_limit_m": 2.0,
+ "invalid_object_frames": 0,
+ "window_first_frames_interpolated": 49,
+ "static_frac": 0.5632911392405063,
+ "mask_min_score": 0.8,
+ "t_sigma": 3.0,
+ "r_sigma": 2.0,
+ "rot_split_deg": 45.0,
+ "rot_segments": 4,
+ "static_spans": [
+  [
+   1,
+   62
+  ],
+  [
+   64,
+   156
+  ],
+  [
+   157,
+   176
+  ],
+  [
+   179,
+   199
+  ],
+  [
+   201,
+   224
+  ],
+  [
+   225,
+   236
+  ],
+  [
+   237,
+   246
+  ],
+  [
+   247,
+   257
+  ],
+  [
+   262,
+   276
+  ],
+  [
+   284,
+   321
+  ],
+  [
+   322,
+   348
+  ],
+  [
+   662,
+   671
+  ],
+  [
+   677,
+   704
+  ],
+  [
+   708,
+   720
+  ],
+  [
+   726,
+   736
+  ],
+  [
+   740,
+   789
+  ]
+ ],
+ "static_frames": 445,
+ "smoothing_shift_cm": 2.2854920636476086,
+ "object_acc_cm_per_f2": {
+  "mean": 0.1611398256973659,
+  "p95": 0.694356716858123
+ },
+ "object_depth_m": {
+  "median": 3.957017421722413,
+  "min": 3.3291498537729223,
+  "max": 4.221461942054363
+ }
+}

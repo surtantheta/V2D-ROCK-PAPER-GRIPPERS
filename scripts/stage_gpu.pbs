@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+#PBS -N v2d_stage
+#PBS -l select=1:ncpus=6:mem=64gb:ngpus=1
+#PBS -l walltime=24:00:00
+#PBS -j oe
+# usage: qsub -v STAGE=s5,EPS="0 6" stage_gpu.pbs   (add -l select=...:host=cvml04 for 48 GB cards)
+exec > /home/tanuj/V2D_challenge/logs/${STAGE}_${PBS_JOBID%%.*}.log 2>&1
+echo "host=$(hostname) gpu=$(nvidia-smi --query-gpu=name,memory.total --format=csv,noheader|head -1) STAGE=$STAGE EPS=$EPS start=$(date -Is)"
+rc=0
+# snapshot the driver: bash reads scripts incrementally, so editing it mid-run breaks the job
+SNAP=$(mktemp /tmp/run_stage.XXXXXX.sh); cp /home/tanuj/V2D_challenge/code/run_stage.sh $SNAP; chmod +x $SNAP
+for EP in $EPS; do
+  echo "== $STAGE episode $EP $(date -Is)"
+  mkdir -p /home/tanuj/V2D_challenge/work/STATUS
+  rm -f /home/tanuj/V2D_challenge/work/STATUS/${STAGE}_$EP.ok /home/tanuj/V2D_challenge/work/STATUS/${STAGE}_$EP.failed
+  if $SNAP $STAGE $EP; then touch /home/tanuj/V2D_challenge/work/STATUS/${STAGE}_$EP.ok; rm -f /home/tanuj/V2D_challenge/work/STATUS/${STAGE}_$EP.failed
+  else echo "FAILED $STAGE $EP"; rc=1; touch /home/tanuj/V2D_challenge/work/STATUS/${STAGE}_$EP.failed; fi
+done
+echo "done=$(date -Is) rc=$rc"
+exit 0   # per-episode isolation: failures are recorded in work/STATUS, never cancel dependents

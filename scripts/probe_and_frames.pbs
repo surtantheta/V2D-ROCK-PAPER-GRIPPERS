@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+#PBS -N v2d_probe
+#PBS -l select=1:ncpus=8:mem=32gb:ngpus=1
+#PBS -l walltime=02:00:00
+#PBS -j oe
+exec > /home/tanuj/V2D_challenge/logs/probe_and_frames.log 2>&1
+set -uo pipefail
+ROOT=/home/tanuj/V2D_challenge
+V2D=/home/tanuj/.conda/envs/v2d/bin/python
+export PYTHONNOUSERSITE=1 PIP_CONFIG_FILE=/dev/null HF_HUB_OFFLINE=0
+echo "host=$(hostname) gpu=$(nvidia-smi --query-gpu=name,memory.total --format=csv,noheader|head -1) start=$(date -Is)"
+
+echo "== P1 SAM3 env"
+HF_HUB_OFFLINE=1 /home/tanuj/envs/sam3/bin/python -c "import torch,transformers;from transformers import Sam3Model;print('sam3 ok torch',torch.__version__,'tf',transformers.__version__,'cuda',torch.cuda.is_available())" || echo "P1 FAIL"
+
+echo "== P2 MetaV3RSE env + ckpt + registry"
+CK=/rhome/tanuj/unicon3rpp_runs/U3PP-Gates/M10MeshQueryD1/spatial-gtcrop25/checkpoint-25.pth
+ls -la "$CK" /rhome/halinh/BEHAVE/ref_hoi.pkl || echo "P2 FAIL files"
+cd /home/tanuj/UniCon3Rpp-push-b3c6624 && PYTHONPATH=src:src/croco /home/tanuj/.conda/envs/human3r_new/bin/python -c "import torch;from dust3r.model import ARCroco3DStereo;print('u3pp import ok',torch.__version__,torch.cuda.is_available())" || echo "P2 FAIL import"
+
+echo "== P3 MHR package + conversion tool"
+$V2D -m pip install -q mhr smplx scikit-learn tqdm || echo "P3 pip FAIL"
+[ -d $ROOT/third_party/MHR/.git ] || git clone --depth 1 https://github.com/facebookresearch/MHR.git $ROOT/third_party/MHR
+git -C $ROOT/third_party/MHR log -1 --format='MHR_commit=%H'
+ls $ROOT/third_party/MHR/tools/mhr_smpl_conversion
+mkdir -p $ROOT/models/mhr/full && $V2D -I -c "import zipfile,sys;zipfile.ZipFile(sys.argv[1]).extractall(sys.argv[2])" $ROOT/models/mhr/mhr_assets.zip $ROOT/models/mhr/full
+ls $ROOT/models/mhr/full/assets
+$V2D -c "import mhr,inspect;print('mhr pkg',getattr(mhr,'__version__','?'),mhr.__file__)" || echo "P3 import FAIL"
+
+echo "== P4 SAM 3D Body gated access"
+D=$(mktemp -d); /home/tanuj/.local/bin/hf download facebook/sam-3d-body-dinov3 --include "*.json" "*.md" --local-dir $D >/dev/null 2>$D/err && echo "SAM3DBODY ACCESS OK: $(ls $D)" || { echo "SAM3DBODY ACCESS FAIL"; tail -2 $D/err; }
+
+echo "== P5 weights"
+ls /home/tanuj/projects/CARI4D/weights/* | head; ls /home/tanuj/projects/GRAIL/imports/FoundationPose/weights 2>/dev/null | head
+ls /home/tanuj/projects/sam-3d-objects/checkpoints/hf-download/checkpoints | head -40
+
+echo "== S1 frames"
+$V2D -I $ROOT/code/extract_frames.py --track1 $ROOT/data/video_to_data_challenge/track_1 --out $ROOT/work/frames
+du -sh $ROOT/work/frames; ls $ROOT/work/frames | wc -l
+echo "done=$(date -Is)"

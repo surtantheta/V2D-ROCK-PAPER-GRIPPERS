@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+#PBS -N v2d_cpu
+#PBS -l select=1:ncpus=2:mem=8gb
+#PBS -l walltime=00:30:00
+#PBS -j oe
+# usage: qsub -v CMD="..." cpu_task.pbs
+exec > /home/tanuj/V2D_challenge/logs/cpu_${PBS_JOBID%%.*}.log 2>&1
+export PYTHONNOUSERSITE=1
+eval "$CMD"

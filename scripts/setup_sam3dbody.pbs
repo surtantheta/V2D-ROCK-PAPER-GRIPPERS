@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+#PBS -N v2d_s3db_env
+#PBS -l select=1:ncpus=8:mem=32gb
+#PBS -l walltime=03:00:00
+#PBS -j oe
+exec > /home/tanuj/V2D_challenge/logs/setup_sam3dbody.log 2>&1
+set -euo pipefail
+ROOT=/home/tanuj/V2D_challenge
+ENV=/home/tanuj/envs/sam3dbody
+W=$ROOT/models/sam3d_body
+export PYTHONNOUSERSITE=1 PIP_CONFIG_FILE=/dev/null
+echo "host=$(hostname) start=$(date -Is)"
+[ -x $ENV/bin/python ] || /home/tanuj/.conda/envs/v2d/bin/python -m venv $ENV
+PY=$ENV/bin/python
+$PY -m pip install -q torch==2.5.1 torchvision==0.20.1 --index-url https://download.pytorch.org/whl/cu124
+$PY -m pip install -q pytorch-lightning yacs timm einops roma omegaconf hydra-core opencv-python-headless trimesh \
+   huggingface_hub braceexpand scikit-image pyrootutils loguru dill fvcore pillow tqdm imageio
+$PY -c "import torch,torchvision,pytorch_lightning,timm,roma;print('torch',torch.__version__,'cuda',torch.version.cuda,'tv',torchvision.__version__)"
+mkdir -p $W
+HF_HUB_OFFLINE=0 $PY - <<PYEOF
+from huggingface_hub import snapshot_download
+p = snapshot_download("facebook/sam-3d-body-dinov3", local_dir="$W/sam-3d-body-dinov3")
+print("downloaded", p)
+PYEOF
+ls -la $W/sam-3d-body-dinov3 $W/sam-3d-body-dinov3/assets
+D=$W/torch_home/hub/facebookresearch_dinov3_main
+[ -f $D/hubconf.py ] || { mkdir -p $(dirname $D); git clone --depth 1 https://github.com/facebookresearch/dinov3.git $D; }
+git -C $D log -1 --format='dinov3_commit=%H'
+sha256sum $W/sam-3d-body-dinov3/assets/mhr_model.pt $ROOT/models/mhr/mhr_model.pt
+echo "done=$(date -Is)"

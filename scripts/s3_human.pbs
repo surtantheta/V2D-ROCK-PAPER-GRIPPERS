@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+#PBS -N v2d_s3_human
+#PBS -l select=1:ncpus=6:mem=64gb:ngpus=1
+#PBS -l walltime=24:00:00
+#PBS -j oe
+# usage: qsub -v EPS="6 22",MODE=focal s3_human.pbs      (MODE=full also needs FOCALS="<ep>:<px> ...")
+exec > /home/tanuj/V2D_challenge/logs/s3_${MODE}_${PBS_JOBID%%.*}.log 2>&1
+set -euo pipefail
+ROOT=/home/tanuj/V2D_challenge
+CK=/rhome/tanuj/unicon3rpp_runs/U3PP-Gates/M10MeshQueryD1/spatial-gtcrop25/checkpoint-25.pth
+export PYTHONNOUSERSITE=1 PYTHONPATH=/home/tanuj/UniCon3Rpp-push-b3c6624/src:/home/tanuj/UniCon3Rpp-push-b3c6624/src/croco
+cd /home/tanuj/UniCon3Rpp-push-b3c6624
+echo "host=$(hostname) gpu=$(nvidia-smi --query-gpu=name,memory.total --format=csv,noheader|head -1) EPS=$EPS MODE=$MODE start=$(date -Is)"
+for EP in $EPS; do
+  E=$(printf "%06d" $EP)
+  if [ "$MODE" = focal ]; then
+    OUT=$ROOT/work/s3_focal/episode_$E
+    [ -f $OUT/FOCAL.json ] && { echo "skip $EP"; continue; }
+    /home/tanuj/.conda/envs/human3r_new/bin/python $ROOT/code/metav3rse_human_infer.py --frames $ROOT/work/frames/episode_$E \
+       --ckpt $CK --out $OUT --mode focal --window ${WINDOW:-16}
+  else
+    F=$(echo $FOCALS | tr ' ' '\n' | awk -F: -v e=$EP '$1==e{print $2}')
+    [ -n "$F" ] || { echo "no focal for $EP, skipping"; continue; }
+    [ -f $ROOT/work/frames/episode_$E/FRAMES.json ] || { echo "frames missing for $EP"; continue; }
+    OUT=$ROOT/work/s3_human/episode_$E
+    [ -f $OUT/RUN.json ] && { echo "skip $EP"; continue; }
+    /home/tanuj/.conda/envs/human3r_new/bin/python $ROOT/code/metav3rse_human_infer.py --frames $ROOT/work/frames/episode_$E \
+       --ckpt $CK --out $OUT --mode full --focal $F --window ${WINDOW:-16}
+  fi
+done
+echo "done=$(date -Is)"

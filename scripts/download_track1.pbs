@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+#PBS -N v2d_track1_dl
+#PBS -l select=1:ncpus=4:mem=16gb:host=cvml06
+#PBS -l walltime=01:00:00
+#PBS -j oe
+
+exec > /home/tanuj/V2D_challenge/logs/download_track1.log 2>&1
+set -euo pipefail
+ROOT=/home/tanuj/V2D_challenge
+export PATH=/home/tanuj/.local/bin:$PATH
+export HF_HUB_ENABLE_HF_TRANSFER=0
+echo "host=$(hostname) start=$(date -Is)"
+
+# 1) Track 1 data (LeRobot layout) from HF
+hf download nvidia/video_to_data_challenge --repo-type dataset \
+  --include "track_1/*" --local-dir "$ROOT/data/video_to_data_challenge"
+
+# 2) Challenge assets: submission kit + FAQ
+mkdir -p "$ROOT/data/assets"
+curl -fL --retry 3 -o "$ROOT/data/assets/v2d_submission_kit.zip" \
+  https://nvidia-isaac.github.io/video_to_data/v2d_challenge/assets/v2d_submission_kit.zip
+curl -fL --retry 3 -o "$ROOT/data/assets/v2d_challenge_2026_faqs.pdf" \
+  https://nvidia-isaac.github.io/video_to_data/v2d_challenge/assets/v2d_challenge_2026_faqs.pdf
+mkdir -p "$ROOT/data/assets/submission_kit"
+/rhome/tanuj/envs/human3r_new/bin/python -I -c "import zipfile,sys; zipfile.ZipFile(sys.argv[1]).extractall(sys.argv[2])" "$ROOT/data/assets/v2d_submission_kit.zip" "$ROOT/data/assets/submission_kit"
+
+# 3) Starter toolkit (skip LFS blobs for now)
+if [ ! -d "$ROOT/video_to_data/.git" ]; then
+  GIT_LFS_SKIP_SMUDGE=1 git clone --depth 1 https://github.com/nvidia-isaac/video_to_data.git "$ROOT/video_to_data"
+fi
+git -C "$ROOT/video_to_data" log -1 --format='repo_commit=%H %cI'
+
+echo "done=$(date -Is)"

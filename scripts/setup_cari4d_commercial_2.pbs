@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+#PBS -N v2d_c4dc_env2
+#PBS -l select=1:ncpus=12:mem=48gb
+#PBS -l walltime=04:00:00
+#PBS -j oe
+exec > /home/tanuj/V2D_challenge/logs/setup_cari4d_commercial_2.log 2>&1
+set -uo pipefail
+ROOT=/home/tanuj/V2D_challenge
+M=$ROOT/video_to_data/reconstruction/modules
+VENV=/home/tanuj/envs/cari4dcom; PY=$VENV/bin/python
+WTS=$ROOT/models/cari4d_commercial_weights
+export PYTHONNOUSERSITE=1 PIP_CONFIG_FILE=/dev/null TORCH_CUDA_ARCH_LIST="7.5 8.6" FORCE_CUDA=1 MAX_JOBS=8 CUDA_HOME=/home/tanuj/.conda/envs/cari4d
+export PATH=/home/tanuj/.conda/envs/cari4d/bin:$PATH
+echo "host=$(hostname) start=$(date -Is)"
+# 1) numpy-1.26-compatible OpenCV (4.12 wheels require numpy>=2)
+$PY -m pip install -q "numpy==1.26.3" "opencv-python-headless==4.10.0.84" "opencv-contrib-python==4.10.0.84"
+$PY -c "import cv2, numpy; print('cv2', cv2.__version__, 'numpy', numpy.__version__)" || echo "CV2 FAIL"
+# 2) Boost headers only (mycpp's Utils.h uses header-only boost/assign + boost/format)
+B=/home/tanuj/envs/boost_1_83_0
+[ -d $B/boost ] || { mkdir -p /home/tanuj/envs && curl -fsSL https://archives.boost.io/release/1.83.0/source/boost_1_83_0.tar.gz | tar xz -C /home/tanuj/envs --wildcards 'boost_1_83_0/boost/*'; }
+ls -d $B/boost && echo "boost headers ok"
+EIG=/home/tanuj/envs/eigen-3.4.0
+FP=$M/v2d_foundation_pose/lib/FoundationPose
+BLD=/home/tanuj/envs/build_mycpp; rm -rf $BLD; cp -r $FP/mycpp $BLD; rm -rf $BLD/build
+sed -i 's|find_package(Boost REQUIRED COMPONENTS system program_options)|find_package(Boost REQUIRED)|; s|find_package(Eigen3 REQUIRED)|find_package(Eigen3 REQUIRED NO_MODULE)|' $BLD/CMakeLists.txt
+PB=$($PY -c "import pybind11;print(pybind11.get_cmake_dir())")
+mkdir -p $BLD/build && cd $BLD/build && $VENV/bin/cmake .. -DPYTHON_EXECUTABLE=$PY -Dpybind11_DIR=$PB -DBoost_INCLUDE_DIR=$B -DBOOST_ROOT=$B -DEigen3_DIR=$EIG/cmake -DCMAKE_PREFIX_PATH=$EIG 2>&1 | grep -iE "error|boost|eigen" | head -5
+make -j8 2>&1 | tail -3
+mkdir -p $FP/mycpp/build && cp $BLD/build/mycpp*.so $FP/mycpp/build/ && echo "mycpp .so installed"
+cd $FP && $PY -c "import sys; sys.path.insert(0,'.'); import mycpp.build.mycpp as m; print('mycpp import ok', [x for x in dir(m) if not x.startswith('_')])"
+# 3) mycuda (FoundationPose bundlesdf CUDA extension)
+cd $FP/bundlesdf/mycuda && $PY -m pip install -q --no-build-isolation -e . 2>&1 | tail -3
+$PY -c "import common; print('mycuda common ok')" 2>&1 | tail -1
+# 4) weights via the module's own downloader
+export HF_HUB_OFFLINE=0 HF_HOME=$WTS/hf_home
+$PY -c "from v2d.cari4d.lib.download_weights import download_weights; print(download_weights('$WTS'))" 2>&1 | tail -5
+du -sh $WTS; find $WTS -maxdepth 3 | head -30
+echo "done=$(date -Is)"

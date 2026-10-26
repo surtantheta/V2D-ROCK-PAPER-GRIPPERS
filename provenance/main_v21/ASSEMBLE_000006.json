@@ -1,0 +1,31 @@
+{
+ "episode": 6,
+ "frames": 816,
+ "object_source": "s6_foundationpose",
+ "s6_mean_iou": 0.8124148866174665,
+ "object_diameter_m": 0.38357414305210114,
+ "mask_redepth_frames": 0,
+ "hand_depth_repaired_frames": 24,
+ "far_from_subject_frames": 0,
+ "far_limit_m": 2.0,
+ "invalid_object_frames": 0,
+ "window_first_frames_interpolated": 50,
+ "static_frac": 0.0,
+ "mask_min_score": 0.8,
+ "t_sigma": 3.0,
+ "r_sigma": 2.0,
+ "rot_split_deg": 45.0,
+ "rot_segments": 1,
+ "static_spans": [],
+ "static_frames": 0,
+ "smoothing_shift_cm": 2.1849581329696512,
+ "object_acc_cm_per_f2": {
+  "mean": 0.17448348194211052,
+  "p95": 0.4573626478182417
+ },
+ "object_depth_m": {
+  "median": 3.4636598298926926,
+  "min": 3.2228023140255453,
+  "max": 3.744635723642614
+ }
+}

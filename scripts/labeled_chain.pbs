@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+#PBS -N v2d_labeled
+#PBS -l select=1:ncpus=6:mem=64gb:ngpus=1
+#PBS -l walltime=12:00:00
+#PBS -j oe
+# Our S1-S7 pipeline on the branch's labeled dev clips (pseudo-episodes 900-911 in work_labeled), all stages in order.
+# usage: qsub -v EPS="900 901 902 903" labeled_chain.pbs   (one job per dataset: focal is pooled over EPS = one camera)
+exec > /home/tanuj/V2D_challenge/logs/labeled_${PBS_JOBID%%.*}.log 2>&1
+set -uo pipefail
+ROOT=/home/tanuj/V2D_challenge; export W=${WL:-$ROOT/work_labeled} PYTHONNOUSERSITE=1 HF_HUB_OFFLINE=1
+CK=/rhome/tanuj/unicon3rpp_runs/U3PP-Gates/M10MeshQueryD1/spatial-gtcrop25/checkpoint-25.pth
+U3=/home/tanuj/UniCon3Rpp-push-b3c6624
+echo "host=$(hostname) gpu=$(nvidia-smi --query-gpu=name,memory.total --format=csv,noheader|head -1) EPS=$EPS start=$(date -Is)"
+SNAP=$(mktemp /tmp/run_stage.XXXXXX.sh); cp $ROOT/code/run_stage.sh $SNAP; chmod +x $SNAP
+mkdir -p $W/STATUS
+st() { if "$@"; then :; else echo "FAILED $*"; fi; }
+for EP in $EPS; do E=$(printf "%06d" $EP)
+  [ -f $W/masks/episode_$E/MASKS.json ] && continue
+  P=$(python3 -c "import json;print(json.load(open('$W/LABELED_EPISODES.json'))['$EP']['prompt'])")
+  echo "== masks $EP '$P' $(date -Is)"
+  st /home/tanuj/envs/sam3/bin/python $U3/tools/wild_video_masks.py --frames $W/frames/episode_$E --out $W/masks/episode_$E --prompt "$P"
+done
+cd $U3
+for EP in $EPS; do E=$(printf "%06d" $EP)
+  [ -f $W/s3_focal/episode_$E/FOCAL.json ] && continue
+  echo "== focal $EP $(date -Is)"
+  PYTHONPATH=$U3/src:$U3/src/croco st /home/tanuj/.conda/envs/human3r_new/bin/python $ROOT/code/metav3rse_human_infer.py \
+     --frames $W/frames/episode_$E --ckpt $CK --out $W/s3_focal/episode_$E --mode focal --window 16
+done
+# per-camera pooling as on the test set: median focal over this job's clips (one dataset = one camera)
+python3 - <<PY
+import json,os,statistics
+W='$W'; eps='$EPS'.split()
+f={e:json.load(open(f'{W}/s3_focal/episode_{int(e):06d}/FOCAL.json'))['focal_source_px'] for e in eps if os.path.exists(f'{W}/s3_focal/episode_{int(e):06d}/FOCAL.json')}
+p=f'{W}/FOCALS.json'; d=json.load(open(p)) if os.path.exists(p) else {'method':'median over the dataset clips of MetaV3RSE pointmap focal','episode_focal_px':{}}
+m=statistics.median(f.values())
+for e in eps: d['episode_focal_px'][e]=m
+json.dump(d,open(p,'w'),indent=1); print('focals',f,'median',m)
+PY
+cd $ROOT
+for S in ${STAGES:-s3full s3db s4b dscale s5 s6 s7}; do   # S6 needs sm>=80: rerun "s6 s7" on an Ampere node
+  for EP in $EPS; do echo "== $S $EP $(date -Is)"
+    if SUBDIR=submission $SNAP $S $EP; then touch $W/STATUS/${S}_$EP.ok; else echo "FAILED $S $EP"; touch $W/STATUS/${S}_$EP.failed; fi
+  done
+done
+echo "done=$(date -Is)"

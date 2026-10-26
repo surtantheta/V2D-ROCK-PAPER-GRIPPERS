@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+#PBS -N v2d_torchfix
+#PBS -l select=1:ncpus=8:mem=32gb:ngpus=1:host=cvml06
+#PBS -l walltime=01:00:00
+#PBS -j oe
+
+exec > /home/tanuj/V2D_challenge/logs/fix_torch_mhr_smoke.log 2>&1
+set -euo pipefail
+ROOT=/home/tanuj/V2D_challenge
+KIT=$ROOT/data/assets/submission_kit/v2d_submission_kit
+PY=/home/tanuj/.conda/envs/v2d/bin/python
+export PYTHONNOUSERSITE=1 PIP_CONFIG_FILE=/dev/null
+echo "host=$(hostname) gpu=$(nvidia-smi --query-gpu=name,driver_version --format=csv,noheader | head -1)"
+
+"$PY" -m pip uninstall -y -q torch || true
+"$PY" -m pip install -q torch --index-url https://download.pytorch.org/whl/cu126
+"$PY" - "$ROOT/models/mhr/mhr_model.pt" <<'PYEOF'
+import sys, torch
+print("torch", torch.__version__, "cuda", torch.version.cuda, "available", torch.cuda.is_available())
+dev = "cuda"
+m = torch.jit.load(sys.argv[1], map_location=dev).eval()
+n = 2
+shape = torch.zeros(n, 45, device=dev); params = torch.zeros(n, 204, device=dev); expr = torch.zeros(n, 72, device=dev)
+with torch.no_grad():
+    v, sk = m(shape, params, expr, True)
+v_m = v * torch.tensor([1., -1., -1.], device=dev) / 100.0
+print("MHR verts", tuple(v.shape), "skel", tuple(sk.shape),
+      "height_m %.3f" % float(v_m[0, :, 1].max() - v_m[0, :, 1].min()))
+PYEOF
+
+"$PY" -I "$ROOT/scripts/verify_track1.py" \
+  --track1 "$ROOT/data/video_to_data_challenge/track_1" \
+  --sample "$KIT/data/track_1_sample_submission.parquet" \
+  --out "$ROOT/logs/track1_verify_report.json" | grep -E "^(SUMMARY|SAMPLE)"
+"$PY" -I -c "
+import json; r=json.load(open('$ROOT/logs/track1_verify_report.json')); pe=r['sample_submission']['per_episode']
+print('scored_frames_total', sum(v['n_scored_frames'] for v in pe.values()),
+      'all_within_video', all(v['frames_within_video'] for v in pe.values()))"
+echo "done=$(date -Is)"

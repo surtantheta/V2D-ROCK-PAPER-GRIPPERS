@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+#PBS -N v2d_frames
+#PBS -l select=1:ncpus=8:mem=16gb
+#PBS -l walltime=03:00:00
+#PBS -j oe
+exec > /home/tanuj/V2D_challenge/logs/frames.log 2>&1
+set -euo pipefail
+ROOT=/home/tanuj/V2D_challenge
+V2D=/home/tanuj/.conda/envs/v2d/bin/python
+echo "host=$(hostname) start=$(date -Is)"
+echo "== SAM 3D Body gated access (user-site hf)"
+D=$(mktemp -d); /home/tanuj/.local/bin/hf download facebook/sam-3d-body-dinov3 --include "*.json" "*.md" --local-dir $D >/dev/null 2>$D/err && echo "SAM3DBODY ACCESS OK: $(ls $D)" || { echo "SAM3DBODY ACCESS FAIL"; tail -3 $D/err; }
+export PYTHONNOUSERSITE=1 PIP_CONFIG_FILE=/dev/null
+$V2D -m pip install -q pillow
+$V2D -I $ROOT/code/extract_frames.py --track1 $ROOT/data/video_to_data_challenge/track_1 --out $ROOT/work/frames
+echo "episodes=$(ls $ROOT/work/frames | wc -l) jpgs=$(find $ROOT/work/frames -name '*.jpg' | wc -l) size=$(du -sh $ROOT/work/frames | cut -f1)"
+echo "done=$(date -Is)"

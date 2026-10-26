@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+#PBS -N v2d_s2_masks
+#PBS -l select=1:ncpus=4:mem=24gb:ngpus=1
+#PBS -l walltime=12:00:00
+#PBS -j oe
+# usage: qsub -v EPS="6 22" s2_masks.pbs
+exec > /home/tanuj/V2D_challenge/logs/s2_masks_${PBS_JOBID%%.*}.log 2>&1
+set -euo pipefail
+ROOT=/home/tanuj/V2D_challenge
+export PYTHONNOUSERSITE=1 HF_HUB_OFFLINE=1
+echo "host=$(hostname) gpu=$(nvidia-smi --query-gpu=name --format=csv,noheader|head -1) EPS=$EPS start=$(date -Is)"
+for EP in $EPS; do
+  E=$(printf "%06d" $EP)
+  OUT=$ROOT/work/masks/episode_$E
+  [ -f $OUT/MASKS.json ] && { echo "skip $EP"; continue; }
+  PROMPT=$(/home/tanuj/.conda/envs/v2d/bin/python -I -c "
+import json,sys
+for l in open('$ROOT/data/video_to_data_challenge/track_1/meta/episodes_metadata.jsonl'):
+    r=json.loads(l)
+    if r['episode_index']==$EP: print(r['object_prompt'].strip().rstrip('.'))")
+  NAME=$(/home/tanuj/.conda/envs/v2d/bin/python -I -c "
+import json
+for l in open('$ROOT/data/video_to_data_challenge/track_1/meta/episodes_metadata.jsonl'):
+    r=json.loads(l)
+    if r['episode_index']==$EP: print(r['object'].replace('_',' '))")
+  echo "episode $EP prompt='$PROMPT' fallback='$NAME' $(date -Is)"
+  /home/tanuj/envs/sam3/bin/python /home/tanuj/UniCon3Rpp-push-b3c6624/tools/wild_video_masks.py \
+     --frames $ROOT/work/frames/episode_$E --out $OUT --prompt "$PROMPT" --prompt "$NAME"
+done
+echo "done=$(date -Is)"

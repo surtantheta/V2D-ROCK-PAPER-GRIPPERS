@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+#PBS -N v2d_lab_moge
+#PBS -l select=1:ncpus=6:mem=64gb:ngpus=1
+#PBS -l walltime=06:00:00
+#PBS -j oe
+# MoGe-depth/focal variant of our pipeline on the 4 labeled BEHAVE clips: s3full -> inject MoGe depth -> s3db s4b dscale s5
+# (S6/S7 need sm>=80: run labeled_chain.pbs with WL=work_labeled_moge STAGES="s6 s7" on an Ampere node afterwards)
+exec > /home/tanuj/V2D_challenge/logs/labeled_moge_${PBS_JOBID%%.*}.log 2>&1
+set -uo pipefail
+ROOT=/home/tanuj/V2D_challenge; export W=$ROOT/work_labeled_moge PYTHONNOUSERSITE=1 HF_HUB_OFFLINE=1
+PY=/home/tanuj/.conda/envs/v2d/bin/python
+SNAP=$(mktemp /tmp/run_stage.XXXXXX.sh); cp $ROOT/code/run_stage.sh $SNAP; chmod +x $SNAP
+echo "host=$(hostname) gpu=$(nvidia-smi --query-gpu=name --format=csv,noheader|head -1) start=$(date -Is)"
+$PY $ROOT/code/labeled_moge_setup.py --stage setup
+for EP in 900 901 902 903; do echo "== s3full $EP $(date -Is)"; SUBDIR=submission $SNAP s3full $EP || echo "FAILED s3full $EP"; done
+$PY $ROOT/code/labeled_moge_setup.py --stage inject
+for S in s3db s4b dscale s5; do for EP in 900 901 902 903; do echo "== $S $EP $(date -Is)"; SUBDIR=submission $SNAP $S $EP || echo "FAILED $S $EP"; done; done
+echo "done=$(date -Is)"

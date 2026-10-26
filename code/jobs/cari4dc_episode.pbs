@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+#PBS -N v2d_c4dc_ep
+#PBS -l select=1:ncpus=8:mem=64gb:ngpus=1
+#PBS -l walltime=08:00:00
+#PBS -j oe
+# usage: qsub -v EP=0 cari4dc_episode.pbs   (needs an sm_86 A5000 for FoundationPose/nvdiffrast)
+exec > /home/tanuj/V2D_challenge/logs/cari4dc_ep${EP}_${PBS_JOBID%%.*}.log 2>&1
+set -euo pipefail
+ROOT=/home/tanuj/V2D_challenge; PY=/home/tanuj/envs/cari4dcom/bin/python
+export PYTHONNOUSERSITE=1 CUDA_HOME=/home/tanuj/.conda/envs/cari4d PATH=/home/tanuj/.conda/envs/cari4d/bin:$PATH
+E=$(printf "%06d" $EP); IN=/rhome/tanuj/v2d_cari4dc/inputs/episode_$E; OUT=/rhome/tanuj/v2d_cari4dc/outputs   # /home is full
+echo "host=$(hostname) gpu=$(nvidia-smi --query-gpu=name --format=csv,noheader|head -1) start=$(date -Is)"
+$PY -c "import torch; cc=torch.cuda.get_device_capability(); assert cc>=(8,0), cc; print('cc', cc)"
+/home/tanuj/.conda/envs/v2d/bin/python $ROOT/code/cari4dc_prepare.py --episode $EP --out $IN
+$PY -m v2d.cari4d.lib.pack_masks --video_path $IN/episode_$E.0.color.mp4 --human_masks_path $IN/human \
+    --object_masks_path $IN/object --output_path $IN/episode_${E}_masks_k0.h5 --overwrite
+N=$(python3 -c "import json;print(json.load(open('$IN/PREP.json'))['frames'])")
+$PY $ROOT/code/cari4dc_run.py --video_path $IN/episode_$E.0.color.mp4 --mask_h5_path $IN/episode_${E}_masks_k0.h5 \
+    --object_mesh_path $IN/object_mesh.glb --weights_path $ROOT/models/cari4d_commercial_weights --output_dir $OUT \
+    --expected_frames $N --skip_weight_download ${EXTRA:-}
+echo "done=$(date -Is)"

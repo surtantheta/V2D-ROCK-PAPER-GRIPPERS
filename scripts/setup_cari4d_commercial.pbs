@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+#PBS -N v2d_c4dc_env
+#PBS -l select=1:ncpus=12:mem=48gb
+#PBS -l walltime=04:00:00
+#PBS -j oe
+exec > /home/tanuj/V2D_challenge/logs/setup_cari4d_commercial.log 2>&1
+set -euo pipefail
+ROOT=/home/tanuj/V2D_challenge
+M=$ROOT/video_to_data/reconstruction/modules
+VENV=/home/tanuj/envs/cari4dcom
+WTS=$ROOT/models/cari4d_commercial_weights
+export PYTHONNOUSERSITE=1 PIP_CONFIG_FILE=/dev/null TORCH_CUDA_ARCH_LIST="7.5 8.6" FORCE_CUDA=1 MAX_JOBS=8
+echo "host=$(hostname) start=$(date -Is)"
+# 1) venv layered on the cari4d conda env (torch 2.6 cu124, kaolin 0.18, pytorch3d 0.7.9, nvdiffrast)
+[ -x $VENV/bin/python ] || /home/tanuj/.conda/envs/cari4d/bin/python -m venv --system-site-packages $VENV
+PY=$VENV/bin/python
+export CUDA_HOME=/home/tanuj/.conda/envs/cari4d
+$PY -c "import torch,kaolin,pytorch3d,nvdiffrast;print('base torch',torch.__version__,torch.version.cuda)"
+echo "torch==$($PY -c 'import torch;print(torch.__version__.split("+")[0])')" > /tmp/c4dc_constraints.txt
+echo "numpy==1.26.3" >> /tmp/c4dc_constraints.txt
+PIPC="$PY -m pip install -q -c /tmp/c4dc_constraints.txt"
+$PIPC --no-deps "git+https://github.com/EasternJournalist/utils3d.git@3fab839f0be9931dac7c8488eb0e1600c236e183"
+$PIPC "git+https://github.com/microsoft/MoGe.git@925b8ed835a7a9cdb7578ba15c658a0afc969030"
+$PIPC "transformers==5.3.0" "imgaug==0.4.0" "py-soma-x==0.2.1" hdf5plugin "videoio==0.3.0" roma h5py omegaconf hydra-core \
+      pytorch-lightning yacs timm einops pyrender av imageio-ffmpeg webdataset pypng fvcore pyrootutils loguru dill jsonlines \
+      optree rtree xatlas fast_simplification smplx kornia warp-lang open3d trimesh scikit-image huggingface_hub pybind11 cmake ninja
+# 2) toolkit libraries (no deps: everything heavy comes from the base env)
+for d in "v2d_common[io]" "v2d_mv[math,vis]" v2d_mesh/lib v2d_foundation_pose/lib v2d_moge/lib v2d_sam3d_body/lib v2d_cari4d/lib; do
+  $PY -m pip install -q --no-deps -e "$M/${d%%[*}${d#${d%%[*}}" || $PY -m pip install -q --no-deps -e "$M/${d%%\[*}"
+done
+$PY -c "import v2d.cari4d.lib.run_inference, v2d.foundation_pose.lib, v2d.sam3d_body.lib; print('toolkit imports ok')"
+# 3) LFS assets missing from the clone (GIT_LFS_SKIP_SMUDGE) -> fetch from GitHub media
+C=$(git -C $ROOT/video_to_data rev-parse HEAD)
+for f in reconstruction/modules/v2d_cari4d/lib/cari4d/lib_mhr/assets/mhr_collision_proxy_4000v.npz reconstruction/modules/v2d_cari4d/lib/cari4d/lib_mhr/assets/mhr_hand_surface_spec.npz; do
+  head -c 40 $ROOT/video_to_data/$f | grep -q "git-lfs" && curl -fsSL -o $ROOT/video_to_data/$f "https://media.githubusercontent.com/media/nvidia-isaac/video_to_data/$C/$f"
+  $PY -c "import numpy as np,sys;d=np.load(sys.argv[1]);print(sys.argv[1].split('/')[-1],{k:d[k].shape for k in d.files})" $ROOT/video_to_data/$f
+done
+# 4) FoundationPose native extensions from the toolkit copy
+FP=$M/v2d_foundation_pose/lib/FoundationPose
+EIG=/home/tanuj/envs/eigen-3.4.0; [ -d $EIG ] || { curl -fsSL https://gitlab.com/libeigen/eigen/-/archive/3.4.0/eigen-3.4.0.tar.gz | tar xz -C /home/tanuj/envs; }
+PB=$($PY -c "import pybind11;print(pybind11.get_cmake_dir())")
+mkdir -p $FP/mycpp/build && cd $FP/mycpp/build && $VENV/bin/cmake .. -DPYTHON_EXECUTABLE=$PY -Dpybind11_DIR=$PB -DEIGEN3_INCLUDE_DIR=$EIG -DCMAKE_PREFIX_PATH=$EIG > /dev/null && make -j8 2>&1 | tail -2
+cd $FP/bundlesdf/mycuda && $PY -m pip install -q --no-build-isolation -e . 2>&1 | tail -3
+cd $FP && $PY -c "import sys;sys.path.insert(0,'.');import mycpp.build.mycpp as m;print('mycpp ok')" || ls $FP/mycpp/build
+$PY -c "import common, sys; print('mycuda ok')" 2>/dev/null || $PY -c "import importlib;print([m for m in ('mycuda','common','gridencoder') if importlib.util.find_spec(m)])"
+# 5) weights via the module's own downloader (CARI4D commercial, SAM 3D Body, MoGe 2, DINOv2/3, FoundationPose)
+export HF_HUB_OFFLINE=0 HF_HOME=$WTS/hf_home
+$PY -c "from v2d.cari4d.lib.download_weights import download_weights; print(download_weights('$WTS'))"
+du -sh $WTS; echo "done=$(date -Is)"

@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+#PBS -N v2d_setup
+#PBS -l select=1:ncpus=8:mem=32gb:host=cvml06
+#PBS -l walltime=02:00:00
+#PBS -j oe
+
+exec > /home/tanuj/V2D_challenge/logs/setup_env_verify.log 2>&1
+set -euo pipefail
+ROOT=/home/tanuj/V2D_challenge
+KIT=$ROOT/data/assets/submission_kit/v2d_submission_kit
+ENV=/home/tanuj/.conda/envs/v2d
+export PYTHONNOUSERSITE=1
+export PIP_CONFIG_FILE=/dev/null
+echo "host=$(hostname) start=$(date -Is)"
+
+# 1) Repo checkout without LFS smudge (git-lfs absent on compute nodes)
+git -C "$ROOT/video_to_data" -c filter.lfs.process= -c filter.lfs.required=false \
+    -c filter.lfs.smudge=cat reset -q --hard HEAD
+echo "dirty_paths=$(git -C "$ROOT/video_to_data" -c filter.lfs.process= -c filter.lfs.required=false -c filter.lfs.smudge=cat -c filter.lfs.clean=cat status --porcelain | wc -l)"
+echo "repo_files=$(git -C "$ROOT/video_to_data" ls-files | wc -l) commit=$(git -C "$ROOT/video_to_data" rev-parse HEAD)"
+
+# 2) Python 3.11 env for the submission kit (+ torch for MHR / mesh_to_mhr_params)
+if [ ! -x "$ENV/bin/python" ]; then
+  /apps/miniconda3/bin/conda create -y -p "$ENV" python=3.11
+fi
+"$ENV/bin/python" -m pip install -q -r "$KIT/requirements.txt"
+"$ENV/bin/python" -m pip install -q av torch --index-url https://download.pytorch.org/whl/cu124 --extra-index-url https://pypi.org/simple
+"$ENV/bin/python" -c "import torch,av,pandas,trimesh,kaggle; print('torch',torch.__version__,'cuda',torch.version.cuda,'av',av.__version__)"
+
+# 3) MHR lod1 TorchScript model (Apache-2.0 release; what Track 1 GT was generated with)
+mkdir -p "$ROOT/models/mhr"
+if [ ! -f "$ROOT/models/mhr/mhr_model.pt" ]; then
+  curl -fL --retry 3 -o "$ROOT/models/mhr/mhr_assets.zip" \
+    https://github.com/facebookresearch/MHR/releases/download/v1.0.1/assets.zip
+  "$ENV/bin/python" -I -c "import zipfile,sys; z=zipfile.ZipFile(sys.argv[1]); open(sys.argv[2],'wb').write(z.read('assets/mhr_model.pt'))" \
+    "$ROOT/models/mhr/mhr_assets.zip" "$ROOT/models/mhr/mhr_model.pt"
+fi
+echo "mhr_sha256=$(sha256sum "$ROOT/models/mhr/mhr_model.pt" | cut -d' ' -f1) expected=352e271a6c42729c68554ceaea0c955e866970160c31e35506d782dc0f7377bc"
+
+# 4) Verify data
+"$ENV/bin/python" -I "$ROOT/scripts/verify_track1.py" \
+  --track1 "$ROOT/data/video_to_data_challenge/track_1" \
+  --sample "$KIT/data/track_1_sample_submission.parquet" \
+  --out "$ROOT/logs/track1_verify_report.json"
+echo "done=$(date -Is)"

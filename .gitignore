@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+.env
+*.parquet
+*.npz
+*.pth
+*.pt
