@@ -1,0 +1,149 @@
+{
+  "schema": "labeled-model-source-receipt-v1",
+  "groups": {
+    "SAM3": {
+      "/home/tanuj/.cache/huggingface/hub/models--facebook--sam3/snapshots/3c879f39826c281e95690f02c7821c4de09afae7/config.json": {
+        "sha256": "4616385e4b21f2e5e22c875b65679185cbccfa95de42542b9166f7dc3d57160f",
+        "bytes": 25843,
+        "resolved_path": "/home/tanuj/.cache/huggingface/hub/models--facebook--sam3/blobs/3e600e765b0f1b4c52680aed9ad242c9a90f7ed1"
+      },
+      "/home/tanuj/.cache/huggingface/hub/models--facebook--sam3/snapshots/3c879f39826c281e95690f02c7821c4de09afae7/merges.txt": {
+        "sha256": "9fd691f7c8039210e0fced15865466c65820d09b63988b0174bfe25de299051a",
+        "bytes": 524619,
+        "resolved_path": "/home/tanuj/.cache/huggingface/hub/models--facebook--sam3/blobs/76e821f1b6f0a9709293c3b6b51ed90980b3166b"
+      },
+      "/home/tanuj/.cache/huggingface/hub/models--facebook--sam3/snapshots/3c879f39826c281e95690f02c7821c4de09afae7/model.safetensors": {
+        "sha256": "6d06f0a5f84e435071fe6603e61d0b4cc7b40e0d39d487cfd4d67d8cc11cc14a",
+        "bytes": 3439938512,
+        "resolved_path": "/home/tanuj/.cache/huggingface/hub/models--facebook--sam3/blobs/6d06f0a5f84e435071fe6603e61d0b4cc7b40e0d39d487cfd4d67d8cc11cc14a"
+      },
+      "/home/tanuj/.cache/huggingface/hub/models--facebook--sam3/snapshots/3c879f39826c281e95690f02c7821c4de09afae7/processor_config.json": {
+        "sha256": "6420cf2671fa9309ea95bc0144a8b9861666d1c5f43c8db09e410dacda974fce",
+        "bytes": 1712,
+        "resolved_path": "/home/tanuj/.cache/huggingface/hub/models--facebook--sam3/blobs/9d3bd6df8a54852cd56087a3ae019cce051de2b2"
+      },
+      "/home/tanuj/.cache/huggingface/hub/models--facebook--sam3/snapshots/3c879f39826c281e95690f02c7821c4de09afae7/special_tokens_map.json": {
+        "sha256": "2cdb3b8331a60c92fc1e55a13e9fd61fd2293c5a51275fdcccd62b780052530e",
+        "bytes": 588,
+        "resolved_path": "/home/tanuj/.cache/huggingface/hub/models--facebook--sam3/blobs/cf0682d6de72c1547f41b4f6d7c59f62deffef94"
+      },
+      "/home/tanuj/.cache/huggingface/hub/models--facebook--sam3/snapshots/3c879f39826c281e95690f02c7821c4de09afae7/tokenizer.json": {
+        "sha256": "6d9109cc838977f3ca94a379eec36aecc7c807e1785cd729660ca2fc0171fb35",
+        "bytes": 3642073,
+        "resolved_path": "/home/tanuj/.cache/huggingface/hub/models--facebook--sam3/blobs/bd1e367764006ad6a2249b1dcc0b20879c7c211f"
+      },
+      "/home/tanuj/.cache/huggingface/hub/models--facebook--sam3/snapshots/3c879f39826c281e95690f02c7821c4de09afae7/tokenizer_config.json": {
+        "sha256": "39670ad98457fe8f14ca59f6bb74591e9fc850974380a63993e5b8ffc865baa2",
+        "bytes": 799,
+        "resolved_path": "/home/tanuj/.cache/huggingface/hub/models--facebook--sam3/blobs/1f20c0274c5d4581b5ccdcbdddd7a22729b5c57b"
+      },
+      "/home/tanuj/.cache/huggingface/hub/models--facebook--sam3/snapshots/3c879f39826c281e95690f02c7821c4de09afae7/vocab.json": {
+        "sha256": "5047b556ce86ccaf6aa22b3ffccfc52d391ea4accdab9c2f2407da5b742d4363",
+        "bytes": 862328,
+        "resolved_path": "/home/tanuj/.cache/huggingface/hub/models--facebook--sam3/blobs/182766ce89b439768edadda342519f33802f5364"
+      }
+    },
+    "SAM3D_Objects_and_MoGe": {
+      "/rhome/tanuj/projects/sam-3d-objects/checkpoints/hf/pipeline.yaml": {
+        "sha256": "53c3d226b21df85c0bb3d16e6e4fa63abde0d6167525765eb929d02bfa9d358c",
+        "bytes": 3548,
+        "resolved_path": "/rhome/tanuj/projects/sam-3d-objects/checkpoints/hf/pipeline.yaml"
+      },
+      "/rhome/tanuj/projects/sam-3d-objects/checkpoints/hf/ss_generator.yaml": {
+        "sha256": "3c265448bca7c057f94e3ef56adea3a895a10bcd9f15f992a41dd03fa35412cd",
+        "bytes": 5076,
+        "resolved_path": "/rhome/tanuj/projects/sam-3d-objects/checkpoints/hf/ss_generator.yaml"
+      },
+      "/rhome/tanuj/projects/sam-3d-objects/checkpoints/hf/ss_generator.ckpt": {
+        "sha256": "225f40479e4cff4f39d6fa14c55be3abad1475bf55b61af3bec1e19ed2f6c146",
+        "bytes": 6690136964,
+        "resolved_path": "/rhome/tanuj/projects/sam-3d-objects/checkpoints/hf/ss_generator.ckpt"
+      },
+      "/rhome/tanuj/projects/sam-3d-objects/checkpoints/hf/slat_generator.yaml": {
+        "sha256": "53029fadff6fe34a0344381a16d64d65d0567d603484952712e8969319559c4e",
+        "bytes": 1986,
+        "resolved_path": "/rhome/tanuj/projects/sam-3d-objects/checkpoints/hf/slat_generator.yaml"
+      },
+      "/rhome/tanuj/projects/sam-3d-objects/checkpoints/hf/slat_generator.ckpt": {
+        "sha256": "91529bde8e7daa12d09618a66c319e3a5a6398db6b23b958cedcb1c3f28faabb",
+        "bytes": 4906537684,
+        "resolved_path": "/rhome/tanuj/projects/sam-3d-objects/checkpoints/hf/slat_generator.ckpt"
+      },
+      "/rhome/tanuj/projects/sam-3d-objects/checkpoints/hf/ss_decoder.yaml": {
+        "sha256": "baacff269b664f84f7aa1896ebd66128065f6568cdb88d419d5c3d2ccb4193ae",
+        "bytes": 244,
+        "resolved_path": "/rhome/tanuj/projects/sam-3d-objects/checkpoints/hf/ss_decoder.yaml"
+      },
+      "/rhome/tanuj/projects/sam-3d-objects/checkpoints/hf/ss_decoder.ckpt": {
+        "sha256": "6dac1cd7b7fda5a38e0614fadae441f1794f80e39ea2981f1ac8aff0a7e99340",
+        "bytes": 147609242,
+        "resolved_path": "/rhome/tanuj/projects/sam-3d-objects/checkpoints/hf/ss_decoder.ckpt"
+      },
+      "/rhome/tanuj/projects/sam-3d-objects/checkpoints/hf/slat_decoder_gs.yaml": {
+        "sha256": "53f054e02a0c185f0a6885d30bb6ca0ec92efe0a98148688e7f05f7c26afe670",
+        "bytes": 576,
+        "resolved_path": "/rhome/tanuj/projects/sam-3d-objects/checkpoints/hf/slat_decoder_gs.yaml"
+      },
+      "/rhome/tanuj/projects/sam-3d-objects/checkpoints/hf/slat_decoder_gs.ckpt": {
+        "sha256": "f8077c36a06eaf890dd93cda1937411f793dea1eb80b3dd9329f2038ba84a111",
+        "bytes": 171476155,
+        "resolved_path": "/rhome/tanuj/projects/sam-3d-objects/checkpoints/hf/slat_decoder_gs.ckpt"
+      },
+      "/rhome/tanuj/projects/sam-3d-objects/checkpoints/hf/slat_decoder_gs_4.yaml": {
+        "sha256": "3d1dfd4c56cdac56f30e0cf5eb310d4df973fe25c60ac0a462c86ca4e3bf8b48",
+        "bytes": 575,
+        "resolved_path": "/rhome/tanuj/projects/sam-3d-objects/checkpoints/hf/slat_decoder_gs_4.yaml"
+      },
+      "/rhome/tanuj/projects/sam-3d-objects/checkpoints/hf/slat_decoder_gs_4.ckpt": {
+        "sha256": "731a0eceaa47945b52aa27f650d695b2aea9cc70945751e5609e5cb5b49f0186",
+        "bytes": 170269801,
+        "resolved_path": "/rhome/tanuj/projects/sam-3d-objects/checkpoints/hf/slat_decoder_gs_4.ckpt"
+      },
+      "/rhome/tanuj/projects/sam-3d-objects/checkpoints/hf/slat_decoder_mesh.yaml": {
+        "sha256": "8f46952764aa985c50109a56f0b4f07625cdb06457aaded74957d26f3520c69e",
+        "bytes": 300,
+        "resolved_path": "/rhome/tanuj/projects/sam-3d-objects/checkpoints/hf/slat_decoder_mesh.yaml"
+      },
+      "/rhome/tanuj/projects/sam-3d-objects/checkpoints/hf/slat_decoder_mesh.ckpt": {
+        "sha256": "85907b37b67d8ce5b099a96629bdcfbd873eb407dee6b3aa9a75deb15038db33",
+        "bytes": 363726862,
+        "resolved_path": "/rhome/tanuj/projects/sam-3d-objects/checkpoints/hf/slat_decoder_mesh.ckpt"
+      },
+      "/home/tanuj/.cache/huggingface/hub/models--Ruicheng--moge-vitl/refs/main": {
+        "sha256": "841087a0498da6e595273ffbb51d78ed9e19672c1b1d3a5f69c34577c2bddfbc",
+        "bytes": 40,
+        "resolved_path": "/home/tanuj/.cache/huggingface/hub/models--Ruicheng--moge-vitl/refs/main"
+      },
+      "/home/tanuj/.cache/huggingface/hub/models--Ruicheng--moge-vitl/snapshots/ad326bfb61facd6c52b5a825bc1e34d7c97d9672/model.pt": {
+        "sha256": "da96b09a0485a3c45a5aa455e67743c8b4efc4dd8437c1f2aa93c2b4303d957f",
+        "bytes": 1256823446,
+        "resolved_path": "/home/tanuj/.cache/huggingface/hub/models--Ruicheng--moge-vitl/blobs/da96b09a0485a3c45a5aa455e67743c8b4efc4dd8437c1f2aa93c2b4303d957f"
+      }
+    },
+    "FoundationPose": {
+      "/home/tanuj/projects/CARI4D/weights/2023-10-28-18-33-37/config.yml": {
+        "sha256": "28a6ba94a33230ee5fc3c51939486281578b0972542bd9e38ca6123e75605686",
+        "bytes": 708,
+        "resolved_path": "/home/tanuj/projects/CARI4D/weights/2023-10-28-18-33-37/config.yml"
+      },
+      "/home/tanuj/projects/CARI4D/weights/2023-10-28-18-33-37/model_best.pth": {
+        "sha256": "774700586ddc435d408fc01c9809c43e151232936369dfbea0f0f964ba471d60",
+        "bytes": 68220109,
+        "resolved_path": "/home/tanuj/projects/CARI4D/weights/2023-10-28-18-33-37/model_best.pth"
+      },
+      "/home/tanuj/projects/CARI4D/weights/2024-01-11-20-02-45/config.yml": {
+        "sha256": "a79db4de3b95885dd5ae86833b37b8698a75dad81e87d1086cd50b2fcd8dda3f",
+        "bytes": 778,
+        "resolved_path": "/home/tanuj/projects/CARI4D/weights/2024-01-11-20-02-45/config.yml"
+      },
+      "/home/tanuj/projects/CARI4D/weights/2024-01-11-20-02-45/model_best.pth": {
+        "sha256": "81924d384bf5c26c646ee4783104982ae3d1e049c181c36641b6a7aeae494c26",
+        "bytes": 190229389,
+        "resolved_path": "/home/tanuj/projects/CARI4D/weights/2024-01-11-20-02-45/model_best.pth"
+      }
+    }
+  },
+  "MoGe_HF_main_revision_at_freeze": "ad326bfb61facd6c52b5a825bc1e34d7c97d9672",
+  "source_receipt": "/home/tanuj/V2D_challenge/experiments/offline_opt_20261020/labeled_predictions_v1/MODEL_SOURCE_RECEIPT.json",
+  "source_receipt_sha256": "237bdd3360d2e3acd150b18e5028ed04363a7bdf5087d55729415070db61e353"
+}

@@ -1,0 +1,19 @@
+{
+  "experiment": "MoGe fullpipeline objects transferred into MAIN human gauge",
+  "user_authorized_generation_despite_local_regressions": true,
+  "development_gate": "diagnostic only; does not block authorized challenge experiment",
+  "policy": "same per-episode method all30, predicted-only firstscored-human Sim3, no GT selector, no5mmcontactcleanup",
+  "preserve_MAIN_human_exact": true,
+  "episodes": 30,
+  "expected_rows": 740780,
+  "expected_scored_frames": 9877,
+  "output": "track1_moge_hybrid_v1.parquet",
+  "no_actual_Kaggle_upload_requested": true,
+  "GPU_jobs": [
+    "136454.caquelon",
+    "136455.caquelon",
+    "136456.caquelon"
+  ],
+  "source_publication": "new isolated source branch; no default README/main edits",
+  "created_sgt": "2026-10-26T19:20:23.332445+08:00"
+}

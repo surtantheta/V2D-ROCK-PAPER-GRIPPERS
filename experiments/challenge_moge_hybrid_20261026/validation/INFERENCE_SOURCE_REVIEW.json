@@ -1,0 +1,63 @@
+{
+  "status": "SOURCE_CAMERA_INPUT_GO_actual_output_gates_pending",
+  "source_freeze_sha256": "a960e8e12e2b27c4610df71a3cbf521d4982cb9ab64b485390e0c9cd905d5991",
+  "source_guards_checked": 33265,
+  "model_asset_guards_checked": 23,
+  "source_sha256": {
+    "/home/tanuj/V2D_challenge/experiments/challenge_moge_hybrid_20261026/code/prepare_inputs.py": "268ffdd2712c884504191426ceb81b819b8b6d89e6da414e3d07095597369c30",
+    "/home/tanuj/V2D_challenge/experiments/challenge_moge_hybrid_20261026/code/moge_depth.py": "b03f1b27bd844f806e6641586c7b4892377e585c4a5071626ecde5ea5e0e9d21",
+    "/home/tanuj/V2D_challenge/experiments/challenge_moge_hybrid_20261026/code/run_pipeline.py": "15c458345e6fef28aa37f50c157b52a2bc1837cc5fe26b2908277cc757f7586a",
+    "/home/tanuj/V2D_challenge/experiments/challenge_moge_hybrid_20261026/code/build_source_freeze.py": "92918cf48097e9d93d4048d106475333737f120704c73adaf58d24b2ddc726ad",
+    "/home/tanuj/V2D_challenge/experiments/challenge_moge_hybrid_20261026/frozen_main_code/object_mesh_sam3d.py": "d80d1099b60c254d545214a5505e08c69ed2b194fd272b9423dfd267a9f7823e"
+  },
+  "cases": 30,
+  "full_frames": 16563,
+  "scored_frames": 9877,
+  "actual_input_wh": [
+    1536,
+    1152
+  ],
+  "model_wh": [
+    512,
+    384
+  ],
+  "no_InterCap_crop": true,
+  "model_checkpoint_MoGe": "da96b09a0485a3c45a5aa455e67743c8b4efc4dd8437c1f2aa93c2b4303d957f",
+  "camera_checks": [
+    "MoGe normalizedK mapped by diag(sourcewidth,sourceheight,1), same allsourceRGB",
+    "fixed clip median predictedK, squarepixels/principalcentre assertion",
+    "depthZ resizeddirect512x384, invalidmappedzero; noIC64:448crop/no extraZscale",
+    "S3full/S3Body/S5/S6 use samepredictedfocal; body-depth anchor then metricbackprojection",
+    "pinholepixelcentres andP3D[-X,-Y,Z] camera sign; suppliedpointmapK override normalizedbySOURCEw/h",
+    "S5GLBrowconvention/unrotation/scale/centering unchanged, then predictedhumanSim3 maps scale/R/t once",
+    "frozen S7source bitexact priorfullpipeline, sameMAINmaskchoice"
+  ],
+  "synthetic_pixel_reprojection_error_px": 0.0,
+  "uniform_all30_policy": true,
+  "GT_or_score_inputs": false,
+  "contact_cleanup": false,
+  "new_treatment_disclosure": "Known-K override newly corrects suppliedpointmap focal/shift recovery bug; float16depthcache, not exact oldfullMoGe developmentpipeline replication",
+  "runtime_limits": [
+    "actual sm80 consumer required; allocated A5000 used",
+    "8h jobs and2h no-progress consumerdeadline require rootmonitor",
+    "fullsourcehashscan percase adds IOcost; no numerical policychange authorized"
+  ],
+  "actual_new_outputs_validated": false,
+  "experimental_generation_authorized_despite_local_metric_failures": true,
+  "new_jobs_submitted": false,
+  "GPU_used_by_validator": false,
+  "elapsed_seconds": 57.344124435447156,
+  "hash_scope_prelaunch_change": {
+    "old_freeze_sha256": "91c15531f7db60dd614c53cfb3a64e4cb72dc44b6a4e7d26e40852b819883c87",
+    "changed_source_paths": [
+      "/home/tanuj/V2D_challenge/experiments/challenge_moge_hybrid_20261026/code/run_pipeline.py"
+    ],
+    "added_source_paths": [
+      "/home/tanuj/V2D_challenge/experiments/challenge_moge_hybrid_20261026/code/build_source_freeze.py"
+    ],
+    "math_or_camera_changes": false,
+    "full_input_sweep": "workerstart+finish",
+    "case_input_sweep": "RGBandmaskbeforeandafterA/B",
+    "static_sweep": "postcase"
+  }
+}

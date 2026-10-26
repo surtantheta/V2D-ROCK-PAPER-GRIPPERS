@@ -1,0 +1,7 @@
+{
+  "input_manifest_sha256": "3b2e28a5d8d4583c2e9ce44c4e09e2c0df64b5b185aa31508cd079e8d7231317",
+  "cases": 30,
+  "frames": 16563,
+  "rgb_mask_inputs": "Official challenge RGB and previously predicted masks; generated INPUTS.json records each hash. Run code/prepare_inputs.py in the challenge workspace to regenerate symlinks and manifest. No ground-truth assets used.",
+  "input_manifest_not_embedded": "Large per-frame guard manifest remains with experiment artifacts; this source snapshot contains reconstruction code, recipe and its SHA256."
+}

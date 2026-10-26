@@ -1,0 +1,264 @@
+{
+  "parent_commit": "a4a477dce6418a4664be9b9f923ad5a9e3ac3f04",
+  "experiment": "challenge_moge_hybrid_20261026",
+  "source_files": {
+    "experiments/challenge_moge_hybrid_20261026/HYBRID_PROTOCOL.json": {
+      "source": "/home/tanuj/V2D_challenge/experiments/challenge_moge_hybrid_20261026/HYBRID_PROTOCOL.json",
+      "sha256": "90612288e9d540bfb79c4a148e879d87b5725d460713d8012b0baf8ccd2e0cc4",
+      "bytes": 1609
+    },
+    "experiments/challenge_moge_hybrid_20261026/MODEL_EXPECTED.json": {
+      "source": "/home/tanuj/V2D_challenge/experiments/challenge_moge_hybrid_20261026/MODEL_EXPECTED.json",
+      "sha256": "2516d11b6bed73b8acc19c5100215668ffbd945f99a099ea325a8ce00dcb988a",
+      "bytes": 3476
+    },
+    "experiments/challenge_moge_hybrid_20261026/MODEL_SOURCE_RECEIPT.json": {
+      "source": "/home/tanuj/V2D_challenge/experiments/challenge_moge_hybrid_20261026/MODEL_SOURCE_RECEIPT.json",
+      "sha256": "242ef21a24cd29561af638bbec8372f9173e24c52844d8280d28079595b6f241",
+      "bytes": 9416
+    },
+    "experiments/challenge_moge_hybrid_20261026/PACKAGING_INPUTS.json": {
+      "source": "/home/tanuj/V2D_challenge/experiments/challenge_moge_hybrid_20261026/PACKAGING_INPUTS.json",
+      "sha256": "be44ef1e41b15cda7ef767f05fc4583a9cda4c6d268166670c104d0b9c8606d8",
+      "bytes": 143355
+    },
+    "experiments/challenge_moge_hybrid_20261026/PLAN.json": {
+      "source": "/home/tanuj/V2D_challenge/experiments/challenge_moge_hybrid_20261026/PLAN.json",
+      "sha256": "da2c8d076a230def05be8cfc10aa360ef1ab98a2dea0464cb049d3d1daacb5e7",
+      "bytes": 788
+    },
+    "experiments/challenge_moge_hybrid_20261026/code/build_source_freeze.py": {
+      "source": "/home/tanuj/V2D_challenge/experiments/challenge_moge_hybrid_20261026/code/build_source_freeze.py",
+      "sha256": "92918cf48097e9d93d4048d106475333737f120704c73adaf58d24b2ddc726ad",
+      "bytes": 1921
+    },
+    "experiments/challenge_moge_hybrid_20261026/code/challenge_hybrid.py": {
+      "source": "/home/tanuj/V2D_challenge/experiments/challenge_moge_hybrid_20261026/code/challenge_hybrid.py",
+      "sha256": "c9e20f926d5e5a8c2bb74293243ef2e2da6f92900eed00647542815647371ef9",
+      "bytes": 13332
+    },
+    "experiments/challenge_moge_hybrid_20261026/code/check_camera.py": {
+      "source": "/home/tanuj/V2D_challenge/experiments/challenge_moge_hybrid_20261026/code/check_camera.py",
+      "sha256": "0b709b346647a0d9d858362bb9cbad33e9ee61c92dceece3359d57cc8d0e0296",
+      "bytes": 967
+    },
+    "experiments/challenge_moge_hybrid_20261026/code/moge_depth.py": {
+      "source": "/home/tanuj/V2D_challenge/experiments/challenge_moge_hybrid_20261026/code/moge_depth.py",
+      "sha256": "b03f1b27bd844f806e6641586c7b4892377e585c4a5071626ecde5ea5e0e9d21",
+      "bytes": 3593
+    },
+    "experiments/challenge_moge_hybrid_20261026/code/pack_challenge_hybrid.py": {
+      "source": "/home/tanuj/V2D_challenge/experiments/challenge_moge_hybrid_20261026/code/pack_challenge_hybrid.py",
+      "sha256": "ee3f6a6f169e6f67f36b306a6e2db6a5805d137fe8792c26bd3912093cb4f754",
+      "bytes": 10596
+    },
+    "experiments/challenge_moge_hybrid_20261026/code/prepare_inputs.py": {
+      "source": "/home/tanuj/V2D_challenge/experiments/challenge_moge_hybrid_20261026/code/prepare_inputs.py",
+      "sha256": "268ffdd2712c884504191426ceb81b819b8b6d89e6da414e3d07095597369c30",
+      "bytes": 2368
+    },
+    "experiments/challenge_moge_hybrid_20261026/code/run_hybrid_packaging.py": {
+      "source": "/home/tanuj/V2D_challenge/experiments/challenge_moge_hybrid_20261026/code/run_hybrid_packaging.py",
+      "sha256": "026f3b04743edcbe148ecf8099b1e3a3df07cc85ab5cbc714944b3b2ec3dd337",
+      "bytes": 1542
+    },
+    "experiments/challenge_moge_hybrid_20261026/code/run_pipeline.py": {
+      "source": "/home/tanuj/V2D_challenge/experiments/challenge_moge_hybrid_20261026/code/run_pipeline.py",
+      "sha256": "15c458345e6fef28aa37f50c157b52a2bc1837cc5fe26b2908277cc757f7586a",
+      "bytes": 9617
+    },
+    "experiments/challenge_moge_hybrid_20261026/frozen_main_code/assemble_episode.py": {
+      "source": "/home/tanuj/V2D_challenge/experiments/challenge_moge_hybrid_20261026/frozen_main_code/assemble_episode.py",
+      "sha256": "3a7481ac98d9d147a5661aa0b37447cadc33ee99665756dfdd2430d2c9c95c31",
+      "bytes": 15423
+    },
+    "experiments/challenge_moge_hybrid_20261026/frozen_main_code/branch_fit_episode.py": {
+      "source": "/home/tanuj/V2D_challenge/experiments/challenge_moge_hybrid_20261026/frozen_main_code/branch_fit_episode.py",
+      "sha256": "2ecdf31c7ac1295f18fb29b0eec671a0c93a711eb3adbf8fd4a1f75127b43b47",
+      "bytes": 11854
+    },
+    "experiments/challenge_moge_hybrid_20261026/frozen_main_code/branchfit_analysis.py": {
+      "source": "/home/tanuj/V2D_challenge/experiments/challenge_moge_hybrid_20261026/frozen_main_code/branchfit_analysis.py",
+      "sha256": "ff222d19d116a37457bc16991cfdd70e2ef21520af869d30e44176b4043ba265",
+      "bytes": 6409
+    },
+    "experiments/challenge_moge_hybrid_20261026/frozen_main_code/cari4dc_prepare.py": {
+      "source": "/home/tanuj/V2D_challenge/experiments/challenge_moge_hybrid_20261026/frozen_main_code/cari4dc_prepare.py",
+      "sha256": "b7ee470249f1b0b31b5dd14912652a54af3e2ca13f7936521b2b9e2714118d84",
+      "bytes": 4016
+    },
+    "experiments/challenge_moge_hybrid_20261026/frozen_main_code/cari4dc_run.py": {
+      "source": "/home/tanuj/V2D_challenge/experiments/challenge_moge_hybrid_20261026/frozen_main_code/cari4dc_run.py",
+      "sha256": "350f010a67873ca681c78282dc91f6ca7634f2bac9f4b15a92735e165958d394",
+      "bytes": 1024
+    },
+    "experiments/challenge_moge_hybrid_20261026/frozen_main_code/content_digest.py": {
+      "source": "/home/tanuj/V2D_challenge/experiments/challenge_moge_hybrid_20261026/frozen_main_code/content_digest.py",
+      "sha256": "61508f67d25531669649a24b13ab650fe9dadcb82688084fa2e7498a8f2b8410",
+      "bytes": 357
+    },
+    "experiments/challenge_moge_hybrid_20261026/frozen_main_code/depth_scale.py": {
+      "source": "/home/tanuj/V2D_challenge/experiments/challenge_moge_hybrid_20261026/frozen_main_code/depth_scale.py",
+      "sha256": "fd1ac1be4d3159b23dd43482415459f8d7effe038abb095df7e37727679cd7e7",
+      "bytes": 6672
+    },
+    "experiments/challenge_moge_hybrid_20261026/frozen_main_code/dump_mhr_faces.py": {
+      "source": "/home/tanuj/V2D_challenge/experiments/challenge_moge_hybrid_20261026/frozen_main_code/dump_mhr_faces.py",
+      "sha256": "57c4fc55b87f8483e203c1d7bf863cda202967982d796db817d86ff80be64930",
+      "bytes": 1787
+    },
+    "experiments/challenge_moge_hybrid_20261026/frozen_main_code/extract_frames.py": {
+      "source": "/home/tanuj/V2D_challenge/experiments/challenge_moge_hybrid_20261026/frozen_main_code/extract_frames.py",
+      "sha256": "a438f7faef4384f2bf57819f6c72a05690f249765e282e42b030321e4b9d927a",
+      "bytes": 1834
+    },
+    "experiments/challenge_moge_hybrid_20261026/frozen_main_code/fetch_cari4d_commercial.py": {
+      "source": "/home/tanuj/V2D_challenge/experiments/challenge_moge_hybrid_20261026/frozen_main_code/fetch_cari4d_commercial.py",
+      "sha256": "a668cf740ff82d74452754d9976eb7ff8ce7c8cb69f5d48159fec94a77cda3fa",
+      "bytes": 452
+    },
+    "experiments/challenge_moge_hybrid_20261026/frozen_main_code/inspect_cari4dc.py": {
+      "source": "/home/tanuj/V2D_challenge/experiments/challenge_moge_hybrid_20261026/frozen_main_code/inspect_cari4dc.py",
+      "sha256": "676c96200f95931a39a2111a14b2c74cb071f20dc0773afab4afaf8247c965c0",
+      "bytes": 640
+    },
+    "experiments/challenge_moge_hybrid_20261026/frozen_main_code/inspect_cari4dc_frame.py": {
+      "source": "/home/tanuj/V2D_challenge/experiments/challenge_moge_hybrid_20261026/frozen_main_code/inspect_cari4dc_frame.py",
+      "sha256": "11f2a2e05bce0bff41a5f222eefd1d7e7d48dd86a8317c870f26826840c5a2c7",
+      "bytes": 907
+    },
+    "experiments/challenge_moge_hybrid_20261026/frozen_main_code/labeled_align_behave.py": {
+      "source": "/home/tanuj/V2D_challenge/experiments/challenge_moge_hybrid_20261026/frozen_main_code/labeled_align_behave.py",
+      "sha256": "b9cbd884a6e84e28e8a25435c217502f553b991888a12c42ad09dff047a2b60a",
+      "bytes": 12349
+    },
+    "experiments/challenge_moge_hybrid_20261026/frozen_main_code/labeled_align_intercap.py": {
+      "source": "/home/tanuj/V2D_challenge/experiments/challenge_moge_hybrid_20261026/frozen_main_code/labeled_align_intercap.py",
+      "sha256": "d37aaf9467d734a33955c8c884088a359f7ffbe2788cea3809f56fe791963e4d",
+      "bytes": 12202
+    },
+    "experiments/challenge_moge_hybrid_20261026/frozen_main_code/labeled_diagnose.py": {
+      "source": "/home/tanuj/V2D_challenge/experiments/challenge_moge_hybrid_20261026/frozen_main_code/labeled_diagnose.py",
+      "sha256": "90dedb456882fd2b01fa6ecdbe70504f6f5167946fda85b53d7b28869ee83787",
+      "bytes": 3226
+    },
+    "experiments/challenge_moge_hybrid_20261026/frozen_main_code/labeled_moge_setup.py": {
+      "source": "/home/tanuj/V2D_challenge/experiments/challenge_moge_hybrid_20261026/frozen_main_code/labeled_moge_setup.py",
+      "sha256": "ce5ca7dcf1cffa2c2026376ed0ee1cffc9e54c97492d57774ad86766d338d1d6",
+      "bytes": 2544
+    },
+    "experiments/challenge_moge_hybrid_20261026/frozen_main_code/labeled_prepare.py": {
+      "source": "/home/tanuj/V2D_challenge/experiments/challenge_moge_hybrid_20261026/frozen_main_code/labeled_prepare.py",
+      "sha256": "5277a995fbfb28aa03efd7cbd04a4a0a6a104c7e48f67fce198a1e12a66c2ea3",
+      "bytes": 2586
+    },
+    "experiments/challenge_moge_hybrid_20261026/frozen_main_code/labeled_score.py": {
+      "source": "/home/tanuj/V2D_challenge/experiments/challenge_moge_hybrid_20261026/frozen_main_code/labeled_score.py",
+      "sha256": "6187298a7219d14ae9d37090b6aa23f3cd774aff6a7f52a4dbec24397b4bbd40",
+      "bytes": 6189
+    },
+    "experiments/challenge_moge_hybrid_20261026/frozen_main_code/mask_qa.py": {
+      "source": "/home/tanuj/V2D_challenge/experiments/challenge_moge_hybrid_20261026/frozen_main_code/mask_qa.py",
+      "sha256": "0a945700b8fe62ac9b45401cdb36de4ae11671e867844189ff0a4cca650c2656",
+      "bytes": 3332
+    },
+    "experiments/challenge_moge_hybrid_20261026/frozen_main_code/masks_v2.py": {
+      "source": "/home/tanuj/V2D_challenge/experiments/challenge_moge_hybrid_20261026/frozen_main_code/masks_v2.py",
+      "sha256": "1570547a8e5e8c4e577374e03d3fae2826dca827348f777ba23e2736a7067ad3",
+      "bytes": 8076
+    },
+    "experiments/challenge_moge_hybrid_20261026/frozen_main_code/metav3rse_human_infer.py": {
+      "source": "/home/tanuj/V2D_challenge/experiments/challenge_moge_hybrid_20261026/frozen_main_code/metav3rse_human_infer.py",
+      "sha256": "f38127cbd0fcf9c82d265dd1999608b771dcc9779d767bcef5419d3616d1f035",
+      "bytes": 9565
+    },
+    "experiments/challenge_moge_hybrid_20261026/frozen_main_code/mhr_single_identity.py": {
+      "source": "/home/tanuj/V2D_challenge/experiments/challenge_moge_hybrid_20261026/frozen_main_code/mhr_single_identity.py",
+      "sha256": "b55bff5b26942e03f8f661365f84c8e51470c94e64ea8fe2f5e8a5e0e658df15",
+      "bytes": 4090
+    },
+    "experiments/challenge_moge_hybrid_20261026/frozen_main_code/object_mesh_sam3d.py": {
+      "source": "/home/tanuj/V2D_challenge/experiments/challenge_moge_hybrid_20261026/frozen_main_code/object_mesh_sam3d.py",
+      "sha256": "d80d1099b60c254d545214a5505e08c69ed2b194fd272b9423dfd267a9f7823e",
+      "bytes": 11812
+    },
+    "experiments/challenge_moge_hybrid_20261026/frozen_main_code/object_track_fp.py": {
+      "source": "/home/tanuj/V2D_challenge/experiments/challenge_moge_hybrid_20261026/frozen_main_code/object_track_fp.py",
+      "sha256": "2c669ee7bd6239f9148c847a27ce716db8e505f9b12f63a75d4bec4b8f5a54e1",
+      "bytes": 7686
+    },
+    "experiments/challenge_moge_hybrid_20261026/frozen_main_code/pack_gate.py": {
+      "source": "/home/tanuj/V2D_challenge/experiments/challenge_moge_hybrid_20261026/frozen_main_code/pack_gate.py",
+      "sha256": "af342010139b50748c47b06fc6d9721ae4be90180fa323b446d9d6353c44f3a1",
+      "bytes": 2122
+    },
+    "experiments/challenge_moge_hybrid_20261026/frozen_main_code/prepare_optimization.py": {
+      "source": "/home/tanuj/V2D_challenge/experiments/challenge_moge_hybrid_20261026/frozen_main_code/prepare_optimization.py",
+      "sha256": "a4aabb596c3e4ce6d06b44cd13e0ca3ba2ca4fba85e2a1b5bbb21b99e205b288",
+      "bytes": 9440
+    },
+    "experiments/challenge_moge_hybrid_20261026/frozen_main_code/probe_hf_access.py": {
+      "source": "/home/tanuj/V2D_challenge/experiments/challenge_moge_hybrid_20261026/frozen_main_code/probe_hf_access.py",
+      "sha256": "887f963509f76b7b9a41a4672851499cb3274e41f7585ee96af8ffe98e692c63",
+      "bytes": 432
+    },
+    "experiments/challenge_moge_hybrid_20261026/frozen_main_code/probe_hf_cari4d.py": {
+      "source": "/home/tanuj/V2D_challenge/experiments/challenge_moge_hybrid_20261026/frozen_main_code/probe_hf_cari4d.py",
+      "sha256": "daa408a6b58052dcb48c7ffbb7a8089fcfaec71d2de402abc176555b767af6eb",
+      "bytes": 642
+    },
+    "experiments/challenge_moge_hybrid_20261026/frozen_main_code/qa_overlay.py": {
+      "source": "/home/tanuj/V2D_challenge/experiments/challenge_moge_hybrid_20261026/frozen_main_code/qa_overlay.py",
+      "sha256": "1828ddd8246458012e290d96cad1671aeff60b7f8b9e1ad1d6881bb40f29ad3d",
+      "bytes": 4384
+    },
+    "experiments/challenge_moge_hybrid_20261026/frozen_main_code/run_stage_frozen.sh": {
+      "source": "/home/tanuj/V2D_challenge/experiments/challenge_moge_hybrid_20261026/frozen_main_code/run_stage_frozen.sh",
+      "sha256": "eb4f815b26a16c6879daf9efac6719f240897cd02c877ecd370848855b38c50f",
+      "bytes": 3948
+    },
+    "experiments/challenge_moge_hybrid_20261026/frozen_main_code/sam3d_body_infer.py": {
+      "source": "/home/tanuj/V2D_challenge/experiments/challenge_moge_hybrid_20261026/frozen_main_code/sam3d_body_infer.py",
+      "sha256": "39c7dda3d88cec8004159489ea91343f74cc8374da6106ac060116ead3fcc94c",
+      "bytes": 5848
+    },
+    "experiments/challenge_moge_hybrid_20261026/frozen_main_code/smplx_to_mhr.py": {
+      "source": "/home/tanuj/V2D_challenge/experiments/challenge_moge_hybrid_20261026/frozen_main_code/smplx_to_mhr.py",
+      "sha256": "c2d3a99e60b8d71f0a84453f2f9aaaf0797b3905b41cb125061e1ae5cf7f5db5",
+      "bytes": 7468
+    },
+    "experiments/challenge_moge_hybrid_20261026/frozen_main_code/viz_masks.py": {
+      "source": "/home/tanuj/V2D_challenge/experiments/challenge_moge_hybrid_20261026/frozen_main_code/viz_masks.py",
+      "sha256": "8bf1a2537e3cfaa25fa4e289bd658f5e00207c9337be34a46d566ae5faf4dee1",
+      "bytes": 1146
+    },
+    "experiments/challenge_moge_hybrid_20261026/run_gate.pbs": {
+      "source": "/home/tanuj/V2D_challenge/experiments/challenge_moge_hybrid_20261026/run_gate.pbs",
+      "sha256": "d251bca82fbeafe218cefd0c26033a619d9dd0c36f420bc714c6d6a6464d9071",
+      "bytes": 1369
+    },
+    "experiments/challenge_moge_hybrid_20261026/run_pack_gate.pbs": {
+      "source": "/home/tanuj/V2D_challenge/experiments/challenge_moge_hybrid_20261026/run_pack_gate.pbs",
+      "sha256": "503e0959ca081660fc18d2189366d19341790780cee6393481e0cc25a5641291",
+      "bytes": 1288
+    },
+    "experiments/challenge_moge_hybrid_20261026/validation/HYBRID_PACKAGING_SOURCE_REVIEW.json": {
+      "source": "/home/tanuj/V2D_challenge/experiments/challenge_moge_hybrid_20261026/validation/HYBRID_PACKAGING_SOURCE_REVIEW.json",
+      "sha256": "62a5dd857a40b0ac9ce9d1afca98037db07ddf94889b9a27a32d462091c415a1",
+      "bytes": 5570
+    },
+    "experiments/challenge_moge_hybrid_20261026/validation/INFERENCE_SOURCE_REVIEW.json": {
+      "source": "/home/tanuj/V2D_challenge/experiments/challenge_moge_hybrid_20261026/validation/INFERENCE_SOURCE_REVIEW.json",
+      "sha256": "50bab6690d1a744b27b34c3ff6b09d4e733534d5a255a0d66e5ce6ebf86d3ff9",
+      "bytes": 3388
+    }
+  },
+  "input_summary": {
+    "input_manifest_sha256": "3b2e28a5d8d4583c2e9ce44c4e09e2c0df64b5b185aa31508cd079e8d7231317",
+    "cases": 30,
+    "frames": 16563,
+    "rgb_mask_inputs": "Official challenge RGB and previously predicted masks; generated INPUTS.json records each hash. Run code/prepare_inputs.py in the challenge workspace to regenerate symlinks and manifest. No ground-truth assets used.",
+    "input_manifest_not_embedded": "Large per-frame guard manifest remains with experiment artifacts; this source snapshot contains reconstruction code, recipe and its SHA256."
+  },
+  "source_scope": "Frozen reconstruction pipeline, predicted-only hybrid mapping and official parquet packaging; externally licensed model checkpoints and challenge data are not redistributed."
+}

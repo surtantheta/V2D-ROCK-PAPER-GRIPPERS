@@ -1,0 +1,29 @@
+#!/bin/bash
+#PBS -N v2d_moge_test
+#PBS -l walltime=08:00:00
+#PBS -j oe
+set -euo pipefail
+export OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 NUMBA_NUM_THREADS=2 PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1
+RUN_ROOT=/home/tanuj/V2D_challenge/experiments/challenge_moge_hybrid_20261026
+exec > "$RUN_ROOT/reservation_${STAGE}_${PBS_JOBID%%.*}.log" 2>&1
+echo "reservation_started=$(date -Is) job=$PBS_JOBID stage=$STAGE node=$(hostname)"
+/home/tanuj/.conda/envs/v2d/bin/python -I -u - "$RUN_ROOT" "$STAGE" <<'PYCODE'
+import sys,time,json,hashlib,subprocess,os
+from pathlib import Path
+root,stage=Path(sys.argv[1]),sys.argv[2]
+gate=root/f'LAUNCH_{stage}.json'
+deadline=time.monotonic()+1800
+while not gate.exists():
+    if time.monotonic()>deadline:raise SystemExit('Preparation gate expired after 30 minutes; releasing reservation')
+    time.sleep(5)
+j=json.loads(gate.read_text());assert j['stage']==stage
+for path,digest in j['sha256'].items():
+    h=hashlib.sha256()
+    with open(path,'rb') as f:
+        for b in iter(lambda:f.read(1048576),b''):h.update(b)
+    assert h.hexdigest()==digest,('launch provenance mismatch',path)
+print('gate_verified',len(j['sha256']),'sources',flush=True)
+env=dict(os.environ);env.update(j.get('environment',{}))
+subprocess.run(j['command'],cwd=str(root),env=env,check=True)
+PYCODE
+echo "reservation_finished=$(date -Is)"

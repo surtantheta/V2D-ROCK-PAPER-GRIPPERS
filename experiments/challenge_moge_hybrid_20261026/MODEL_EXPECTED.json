@@ -1,0 +1,30 @@
+{
+  "A": {
+    "/rhome/tanuj/projects/sam-3d-objects/checkpoints/hf/pipeline.yaml": "53c3d226b21df85c0bb3d16e6e4fa63abde0d6167525765eb929d02bfa9d358c",
+    "/rhome/tanuj/projects/sam-3d-objects/checkpoints/hf/ss_generator.yaml": "3c265448bca7c057f94e3ef56adea3a895a10bcd9f15f992a41dd03fa35412cd",
+    "/rhome/tanuj/projects/sam-3d-objects/checkpoints/hf/ss_generator.ckpt": "225f40479e4cff4f39d6fa14c55be3abad1475bf55b61af3bec1e19ed2f6c146",
+    "/rhome/tanuj/projects/sam-3d-objects/checkpoints/hf/slat_generator.yaml": "53029fadff6fe34a0344381a16d64d65d0567d603484952712e8969319559c4e",
+    "/rhome/tanuj/projects/sam-3d-objects/checkpoints/hf/slat_generator.ckpt": "91529bde8e7daa12d09618a66c319e3a5a6398db6b23b958cedcb1c3f28faabb",
+    "/rhome/tanuj/projects/sam-3d-objects/checkpoints/hf/ss_decoder.yaml": "baacff269b664f84f7aa1896ebd66128065f6568cdb88d419d5c3d2ccb4193ae",
+    "/rhome/tanuj/projects/sam-3d-objects/checkpoints/hf/ss_decoder.ckpt": "6dac1cd7b7fda5a38e0614fadae441f1794f80e39ea2981f1ac8aff0a7e99340",
+    "/rhome/tanuj/projects/sam-3d-objects/checkpoints/hf/slat_decoder_gs.yaml": "53f054e02a0c185f0a6885d30bb6ca0ec92efe0a98148688e7f05f7c26afe670",
+    "/rhome/tanuj/projects/sam-3d-objects/checkpoints/hf/slat_decoder_gs.ckpt": "f8077c36a06eaf890dd93cda1937411f793dea1eb80b3dd9329f2038ba84a111",
+    "/rhome/tanuj/projects/sam-3d-objects/checkpoints/hf/slat_decoder_gs_4.yaml": "3d1dfd4c56cdac56f30e0cf5eb310d4df973fe25c60ac0a462c86ca4e3bf8b48",
+    "/rhome/tanuj/projects/sam-3d-objects/checkpoints/hf/slat_decoder_gs_4.ckpt": "731a0eceaa47945b52aa27f650d695b2aea9cc70945751e5609e5cb5b49f0186",
+    "/rhome/tanuj/projects/sam-3d-objects/checkpoints/hf/slat_decoder_mesh.yaml": "8f46952764aa985c50109a56f0b4f07625cdb06457aaded74957d26f3520c69e",
+    "/rhome/tanuj/projects/sam-3d-objects/checkpoints/hf/slat_decoder_mesh.ckpt": "85907b37b67d8ce5b099a96629bdcfbd873eb407dee6b3aa9a75deb15038db33",
+    "/home/tanuj/.cache/huggingface/hub/models--Ruicheng--moge-vitl/refs/main": "841087a0498da6e595273ffbb51d78ed9e19672c1b1d3a5f69c34577c2bddfbc",
+    "/home/tanuj/.cache/huggingface/hub/models--Ruicheng--moge-vitl/snapshots/ad326bfb61facd6c52b5a825bc1e34d7c97d9672/model.pt": "da96b09a0485a3c45a5aa455e67743c8b4efc4dd8437c1f2aa93c2b4303d957f",
+    "/rhome/tanuj/unicon3rpp_runs/U3PP-Gates/M10MeshQueryD1/spatial-gtcrop25/checkpoint-25.pth": "3675ff5af9409b490e6cd34bc453c6a1793b5bcaf382416e9bb9fcceb205aa7c",
+    "/home/tanuj/V2D_challenge/models/sam3d_body/sam-3d-body-dinov3/model.ckpt": "b5a2f9d305dd02626b967aa2e86021fba07065df66ce7a7e00ffb9664f150abf",
+    "/home/tanuj/V2D_challenge/models/sam3d_body/sam-3d-body-dinov3/assets/mhr_model.pt": "352e271a6c42729c68554ceaea0c955e866970160c31e35506d782dc0f7377bc",
+    "/home/tanuj/V2D_challenge/models/mhr/mhr_model.pt": "352e271a6c42729c68554ceaea0c955e866970160c31e35506d782dc0f7377bc"
+  },
+  "B": {
+    "/home/tanuj/projects/CARI4D/weights/2023-10-28-18-33-37/config.yml": "28a6ba94a33230ee5fc3c51939486281578b0972542bd9e38ca6123e75605686",
+    "/home/tanuj/projects/CARI4D/weights/2023-10-28-18-33-37/model_best.pth": "774700586ddc435d408fc01c9809c43e151232936369dfbea0f0f964ba471d60",
+    "/home/tanuj/projects/CARI4D/weights/2024-01-11-20-02-45/config.yml": "a79db4de3b95885dd5ae86833b37b8698a75dad81e87d1086cd50b2fcd8dda3f",
+    "/home/tanuj/projects/CARI4D/weights/2024-01-11-20-02-45/model_best.pth": "81924d384bf5c26c646ee4783104982ae3d1e049c181c36641b6a7aeae494c26"
+  },
+  "GT_input": false
+}

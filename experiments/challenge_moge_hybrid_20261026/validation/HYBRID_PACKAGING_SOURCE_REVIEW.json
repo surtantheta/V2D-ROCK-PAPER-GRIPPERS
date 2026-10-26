@@ -1,0 +1,216 @@
+{
+  "status": "SOURCE_AND_PURE_GO_actual_outputs_pending",
+  "source_sha256": {
+    "/home/tanuj/V2D_challenge/experiments/challenge_moge_hybrid_20261026/code/challenge_hybrid.py": "c9e20f926d5e5a8c2bb74293243ef2e2da6f92900eed00647542815647371ef9",
+    "/home/tanuj/V2D_challenge/experiments/challenge_moge_hybrid_20261026/code/pack_challenge_hybrid.py": "ee3f6a6f169e6f67f36b306a6e2db6a5805d137fe8792c26bd3912093cb4f754",
+    "/home/tanuj/V2D_challenge/experiments/challenge_moge_hybrid_20261026/code/run_hybrid_packaging.py": "026f3b04743edcbe148ecf8099b1e3a3df07cc85ab5cbc714944b3b2ec3dd337"
+  },
+  "actual_sample_rows": 740780,
+  "actual_scored_frames": 9877,
+  "actual_full_frames": 16563,
+  "episodes": [
+    {
+      "episode": 0,
+      "scored_count": 169,
+      "first_scored_frame": 90,
+      "last_scored_frame": 699
+    },
+    {
+      "episode": 1,
+      "scored_count": 174,
+      "first_scored_frame": 151,
+      "last_scored_frame": 461
+    },
+    {
+      "episode": 2,
+      "scored_count": 84,
+      "first_scored_frame": 236,
+      "last_scored_frame": 786
+    },
+    {
+      "episode": 3,
+      "scored_count": 340,
+      "first_scored_frame": 90,
+      "last_scored_frame": 501
+    },
+    {
+      "episode": 4,
+      "scored_count": 519,
+      "first_scored_frame": 125,
+      "last_scored_frame": 649
+    },
+    {
+      "episode": 5,
+      "scored_count": 412,
+      "first_scored_frame": 90,
+      "last_scored_frame": 577
+    },
+    {
+      "episode": 6,
+      "scored_count": 636,
+      "first_scored_frame": 90,
+      "last_scored_frame": 725
+    },
+    {
+      "episode": 7,
+      "scored_count": 597,
+      "first_scored_frame": 90,
+      "last_scored_frame": 686
+    },
+    {
+      "episode": 8,
+      "scored_count": 454,
+      "first_scored_frame": 90,
+      "last_scored_frame": 543
+    },
+    {
+      "episode": 9,
+      "scored_count": 325,
+      "first_scored_frame": 90,
+      "last_scored_frame": 414
+    },
+    {
+      "episode": 10,
+      "scored_count": 418,
+      "first_scored_frame": 90,
+      "last_scored_frame": 507
+    },
+    {
+      "episode": 11,
+      "scored_count": 803,
+      "first_scored_frame": 0,
+      "last_scored_frame": 802
+    },
+    {
+      "episode": 12,
+      "scored_count": 209,
+      "first_scored_frame": 69,
+      "last_scored_frame": 365
+    },
+    {
+      "episode": 13,
+      "scored_count": 106,
+      "first_scored_frame": 75,
+      "last_scored_frame": 370
+    },
+    {
+      "episode": 14,
+      "scored_count": 83,
+      "first_scored_frame": 90,
+      "last_scored_frame": 387
+    },
+    {
+      "episode": 15,
+      "scored_count": 356,
+      "first_scored_frame": 81,
+      "last_scored_frame": 436
+    },
+    {
+      "episode": 16,
+      "scored_count": 240,
+      "first_scored_frame": 50,
+      "last_scored_frame": 289
+    },
+    {
+      "episode": 17,
+      "scored_count": 277,
+      "first_scored_frame": 75,
+      "last_scored_frame": 351
+    },
+    {
+      "episode": 18,
+      "scored_count": 420,
+      "first_scored_frame": 72,
+      "last_scored_frame": 491
+    },
+    {
+      "episode": 19,
+      "scored_count": 283,
+      "first_scored_frame": 90,
+      "last_scored_frame": 372
+    },
+    {
+      "episode": 20,
+      "scored_count": 375,
+      "first_scored_frame": 90,
+      "last_scored_frame": 483
+    },
+    {
+      "episode": 21,
+      "scored_count": 347,
+      "first_scored_frame": 90,
+      "last_scored_frame": 436
+    },
+    {
+      "episode": 22,
+      "scored_count": 452,
+      "first_scored_frame": 18,
+      "last_scored_frame": 469
+    },
+    {
+      "episode": 23,
+      "scored_count": 399,
+      "first_scored_frame": 90,
+      "last_scored_frame": 488
+    },
+    {
+      "episode": 24,
+      "scored_count": 242,
+      "first_scored_frame": 61,
+      "last_scored_frame": 302
+    },
+    {
+      "episode": 25,
+      "scored_count": 219,
+      "first_scored_frame": 90,
+      "last_scored_frame": 308
+    },
+    {
+      "episode": 26,
+      "scored_count": 281,
+      "first_scored_frame": 85,
+      "last_scored_frame": 365
+    },
+    {
+      "episode": 27,
+      "scored_count": 243,
+      "first_scored_frame": 84,
+      "last_scored_frame": 326
+    },
+    {
+      "episode": 28,
+      "scored_count": 147,
+      "first_scored_frame": 90,
+      "last_scored_frame": 236
+    },
+    {
+      "episode": 29,
+      "scored_count": 267,
+      "first_scored_frame": 38,
+      "last_scored_frame": 304
+    }
+  ],
+  "first_scored_frame_policy_verified": true,
+  "only_episode_with_frame0_fit": 11,
+  "packaging_frozen_guard_count": 47,
+  "synthetic_results": {
+    "known_sim3_error_m": 4.440892098500626e-15,
+    "composition_error_m": 1.7763568394002505e-15,
+    "local_origin_invariance_error_m": 1.7763568394002505e-15,
+    "nonzero_first_scored_frame_error_m": 4.440892098500626e-15,
+    "reflection_proper": true
+  },
+  "checks": [
+    "proper positivepredictedMHR Sim3 atfirstACTUALscoredframe, noGT/objectfit",
+    "scale/R/tcomposition once, unchangedlocalmeshorigin",
+    "MAINhuman arraydtype/shape/bytepreservation andpackedMAINrowsindependentlycompared",
+    "officialuploaderofflinevalidation+scorerarraymesh/scaleroundtrip+sampleexactroworder",
+    "pendingplaceholderonly, finalizerrequirespublicactualHEAD/tree/all3codebytes, changesonlyuniformcommitURL",
+    "orchestratorPBSrequired, reservedCPUdecoder/packer isolation, noKaggleupload"
+  ],
+  "experimental_generation_authorized": true,
+  "local_metric_gate_not_a_generation_blocker": true,
+  "actual_new_outputs_validated": false,
+  "new_GPU_used": false,
+  "new_jobs_submitted": false
+}

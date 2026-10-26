@@ -1,0 +1,28 @@
+#!/bin/bash
+#PBS -N v2d_mogetest_pack
+#PBS -l walltime=01:00:00
+#PBS -j oe
+set -euo pipefail
+export OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 NUMBA_NUM_THREADS=2 PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1
+RUN_ROOT=/home/tanuj/V2D_challenge/experiments/challenge_moge_hybrid_20261026
+exec > "$RUN_ROOT/pack_${PBS_JOBID%%.*}.log" 2>&1
+echo "pack_started=$(date -Is) job=$PBS_JOBID node=$(hostname)"
+/home/tanuj/.conda/envs/v2d/bin/python -I -u - "$RUN_ROOT" <<'PYCODE'
+import sys,time,json,hashlib,subprocess,os
+from pathlib import Path
+root=Path(sys.argv[1]);gate=root/'LAUNCH_PACK.json';deadline=time.monotonic()+1800
+while not gate.exists():
+    if time.monotonic()>deadline:raise SystemExit('Packing source gate absent; releasing CPU allocation')
+    time.sleep(5)
+j=json.loads(gate.read_text())
+for path,digest in j['sha256'].items():
+    h=hashlib.sha256()
+    with open(path,'rb') as f:
+        for b in iter(lambda:f.read(1048576),b''):h.update(b)
+    assert h.hexdigest()==digest,('launch provenance mismatch',path)
+print('pack_gate_verified',len(j['sha256']),'sources',flush=True)
+env=dict(os.environ);env.update(j.get('environment',{}))
+for cmd in j['commands']:
+    subprocess.run(cmd,cwd=str(root),env=env,check=True)
+PYCODE
+echo "pack_finished=$(date -Is)"
