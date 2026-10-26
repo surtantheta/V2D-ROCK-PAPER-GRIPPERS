@@ -1,6 +1,6 @@
 # Independent upload preparation audit — 2026-10-26
 
-Status: existing inputs pass; final prepared Parquets await independent validation. No publishing, submission, inference, fitting, or score-based arm selection was performed.
+Status: both prepared Parquet payloads PASS independent validation; publication and a real commit URL remain pending. No publishing, submission, inference, fitting, or score-based arm selection was performed.
 
 Package `work/branchfit/shared_scale_contact` as the existing optimization candidate alongside the main v2.1 pack. This preserves the documented candidate; it does not establish that the branch wins on these unlabeled test episodes. These 30 branch outputs use the main pipeline's MetaV3RSE depth, raw S6 translations and v2.1 rotations. They are not the independently generated MoGe-based development pipeline that obtained the earlier InterCap result. The canonical record documents known sparse-mask/contact regressions, particularly episodes 8 and 18.
 
@@ -26,7 +26,7 @@ The existing main `work/pack_v21_test/track1.parquet` independently has 740,780 
 
 ## Required changes before upload
 
-1. Create and push a reproducible source commit. The `code/` repository has no remote. `branch_fit_episode.py` is currently untracked, and the branch adapter imports solver sources from `experiments/offline_opt_20261020/code` outside that repository. Include those exact dependencies and the current adapter/configuration rather than pointing both artifacts at the old local commit alone.
+1. Publish the prepared reproducible source snapshot. The original `code/` repository has no remote and its old commit omits the untracked branch adapter and external solver dependencies. The new isolated `source_repository/` includes those exact sources; use its final commit rather than the old main-only commit. Private repositories must grant organizer access.
 2. Replace the placeholder commit column in both prepared Parquets with the corresponding real pushed commit URL; one shared commit is possible if it contains both pipelines. Repack or rewrite only that column and preserve a numeric content digest.
 3. Run the final local structural/input-equivalence check after that replacement. Pushed-commit accessibility is a separate check from regex validity.
 
@@ -69,5 +69,22 @@ These are provenance/packaging requirements. The saved branch NPZ arrays and mes
 
 ## Final prepared Parquets
 
-Pending paths from the packaging agent. This section will be updated after independent checks of the final files.
+Both prepared files PASS independent offline validation. Exact 740,780 sample row IDs/order, 9,877 scored frames, finite values, all 30 NPZ human/rotation/translation/scale values, exact official kit mesh-budget outputs, zero parameter padding, valid proper rotations, integral face indices, and 120 source hashes across the pair are verified. The official uploader's local validator passes without importing Kaggle or authenticating. Human parameters, mesh vertices/faces and rotations agree exactly between the candidates; only object translation and scale differ.
+
+- `/home/tanuj/V2D_challenge/submissions/upload_prep_20261026/pending_commit/track1_main_v21.parquet`
+  - File SHA256: `1f8423517e77121ae4396bbcc9a7fe1dd697fc3805ce0e39b05c3280e77ce0e9`.
+  - Content SHA256 excluding commit: `36feaed7204e75c3cb53d94345e261087e62b2568b2dd347142081c87cdbf596`.
+  - Minimum camera Z over packed meshes at scored frames: 1.909045765 m.
+- `/home/tanuj/V2D_challenge/submissions/upload_prep_20261026/pending_commit/track1_optimization_shared_scale_contact.parquet`
+  - File SHA256: `ecc5be08b9d4cc99dad7e93a9524633f9a117ad594d17560c5b909d4c868bec1`.
+  - Content SHA256 excluding commit: `078ebe045ce820a7fad86a934a363ef720a5c863243c8b6e2a3021dcf921a5a9`.
+  - Minimum camera Z over packed meshes at scored frames: 2.061715293 m.
+
+Both still contain the explicit placeholder commit URL and remain **PAYLOAD VALID / NOT UPLOAD READY**. No push, authentication, dry-run against Kaggle, or submission occurred.
+
+The isolated `submissions/upload_prep_20261026/source_repository/` contains the current main code, untracked branch adapter, all 92 Python files from the frozen branch code directory, configurations, and per-episode assembly/fit provenance. All 243 archived payload hashes match its source manifest; every live source other than this report (which changed during validation) also matches. Critical dependency coverage includes `run_identity_scale_v2.py`, `centroid_scale_trajectory_v2.py`, `constrained_trajectory_v1.py`, and `run_constrained_intercap_v1.py`. The packager will refresh this report's archived copy/manifest entry after this report freeze and create the final local commit. No original main repository files were modified by this audit.
+
+The offline finalizer rejects placeholder/all-zero URLs and URLs naming a different SHA from the prepared source repository HEAD. It changes only `code_commit_url`, verifies unchanged numeric content and input hashes, and validates both resulting files. It deliberately does not verify publication or organizer access: the supplied URL must name the actually pushed commit. No code or model rerun is needed for this metadata change. The source snapshot documents historical absolute paths and external licensed checkpoints; it is not a standalone model distribution.
+
+Independent validator report freeze: 2026-10-26. No further report changes are planned before the final source snapshot is committed.
 
