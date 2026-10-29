@@ -1,0 +1,24 @@
+#!/bin/bash
+#PBS -N v2d_pi3x30_fit2
+#PBS -l select=1:ncpus=2:mem=16gb
+#PBS -l walltime=02:00:00
+#PBS -j oe
+set -euo pipefail
+export OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 NUMBA_NUM_THREADS=2
+export PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1
+export NUMBA_CACHE_DIR=/rhome/tanuj/v2d_pi3x_kaggle_20261029/numba_cache
+TASK_ROOT=/home/tanuj/V2D_challenge/experiments/pi3x_kaggle_20261029
+exec > "$TASK_ROOT/logs/cpu_${PBS_JOBID%%.*}.log" 2>&1
+/home/tanuj/.conda/envs/cari4d/bin/python -I -B -u - "$TASK_ROOT" <<'PY'
+import hashlib,json,os,subprocess,sys
+from pathlib import Path
+root=Path(sys.argv[1]);gate=json.loads((root/'LAUNCH_CPU_FIT_V2.json').read_text())
+assert gate['stage']=='PI3X_CHALLENGE30_CPU_FIT_V2'
+for path,expected in gate['sha256'].items():
+    digest=hashlib.sha256()
+    with open(path,'rb') as f:
+        for block in iter(lambda:f.read(4194304),b''):digest.update(block)
+    assert digest.hexdigest()==expected,('source/input changed',path)
+env=dict(os.environ);env.update(gate.get('environment',{}))
+subprocess.run(gate['command'],env=env,check=True,cwd=root)
+PY

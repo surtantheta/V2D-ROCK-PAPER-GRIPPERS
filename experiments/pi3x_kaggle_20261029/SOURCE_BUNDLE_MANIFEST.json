@@ -1,0 +1,106 @@
+{
+  "parent_commit": "b2e5413a3a4683e6c8f5cd83a678935742ac7825",
+  "base_tree_sha": "8ed0aa82bd37ae06321bef4cac9355e26b75f5df",
+  "repository": "surtantheta/V2D-ROCK-PAPER-GRIPPERS",
+  "branch": "pi3x-geometry-pose-20261029",
+  "files": {
+    "experiments/pi3x_kaggle_20261029/code/run_geometry_model.py": {
+      "source": "/home/tanuj/V2D_challenge/experiments/pi3x_kaggle_20261029/code/run_geometry_model.py",
+      "sha256": "88677434e29cf580d551aef4784d2dea1e980891d29f816c3e6cf732be4e5524",
+      "bytes": 12887
+    },
+    "experiments/pi3x_kaggle_20261029/code/geometry_contract.py": {
+      "source": "/home/tanuj/V2D_challenge/experiments/pi3x_kaggle_20261029/code/geometry_contract.py",
+      "sha256": "cfd00f9fe500a8aa49a20bedb74ed5f96977fd619225ec912bf818441286d538",
+      "bytes": 3123
+    },
+    "experiments/pi3x_kaggle_20261029/code/prepare_inputs_v1.py": {
+      "source": "/home/tanuj/V2D_challenge/experiments/pi3x_kaggle_20261029/code/prepare_inputs_v1.py",
+      "sha256": "48097caaff05fa6d073bae5961c8e25734a8ad2f6431fd321ae00ae842507518",
+      "bytes": 4421
+    },
+    "experiments/pi3x_kaggle_20261029/code/run_cpu_adapter_v2.py": {
+      "source": "/home/tanuj/V2D_challenge/experiments/pi3x_kaggle_20261029/code/run_cpu_adapter_v2.py",
+      "sha256": "f4a5b0645912a223471b990448d9ea844d38fa60fe13b87484adb42e8d0ff5ed",
+      "bytes": 13599
+    },
+    "experiments/pi3x_kaggle_20261029/code/rotation_precision_v2.py": {
+      "source": "/home/tanuj/V2D_challenge/experiments/pi3x_kaggle_20261029/code/rotation_precision_v2.py",
+      "sha256": "07ef0ea6bdb68c3a99c61dc46af3fe045a77bd2a44b0f658008224f7e6cc2404",
+      "bytes": 1671
+    },
+    "experiments/pi3x_kaggle_20261029/code/test_rotation_precision_v2.py": {
+      "source": "/home/tanuj/V2D_challenge/experiments/pi3x_kaggle_20261029/code/test_rotation_precision_v2.py",
+      "sha256": "70f13bf05f1118a30f99ebe3aa303c2366ca68b0a2e4519dad3a184478c775ac",
+      "bytes": 3184
+    },
+    "experiments/pi3x_kaggle_20261029/code/test_cpu_transport_contract_v2.py": {
+      "source": "/home/tanuj/V2D_challenge/experiments/pi3x_kaggle_20261029/code/test_cpu_transport_contract_v2.py",
+      "sha256": "38396ca15d1adbf879f7c1e85ef525160be3dc88d5a0064d2657bed1e3916886",
+      "bytes": 5333
+    },
+    "experiments/pi3x_kaggle_20261029/code/pack_validate_v2.py": {
+      "source": "/home/tanuj/V2D_challenge/experiments/pi3x_kaggle_20261029/code/pack_validate_v2.py",
+      "sha256": "420385ab3214bc85676af75bdff5a8852b4fd0d3fe92b3eb682bbf4e48ef932d",
+      "bytes": 5087
+    },
+    "experiments/pi3x_kaggle_20261029/MODEL_SPEC.json": {
+      "source": "/home/tanuj/V2D_challenge/experiments/pi3x_kaggle_20261029/MODEL_SPEC.json",
+      "sha256": "ab60146ec34c1f18227fa62c21a0a79700ed4c78deef71009c489e486142f9e4",
+      "bytes": 7286
+    },
+    "experiments/pi3x_kaggle_20261029/SOURCE_RUN_SPEC.json": {
+      "source": "/home/tanuj/V2D_challenge/experiments/pi3x_kaggle_20261029/SOURCE_RUN_SPEC.json",
+      "sha256": "6e5ccea601b9067bbe441bfc18cc9d15128ccb0344adade2aced32ef1a074804",
+      "bytes": 2163
+    },
+    "experiments/pi3x_kaggle_20261029/gpu_geometry.pbs": {
+      "source": "/home/tanuj/V2D_challenge/experiments/pi3x_kaggle_20261029/gpu_geometry.pbs",
+      "sha256": "f4d813bb3494a2b920bfb5b183885dbb3ab4769058a3ecbd830cc7b2632c3d91",
+      "bytes": 1455
+    },
+    "experiments/pi3x_kaggle_20261029/cpu_fit_v2.pbs": {
+      "source": "/home/tanuj/V2D_challenge/experiments/pi3x_kaggle_20261029/cpu_fit_v2.pbs",
+      "sha256": "c640b9bad8407191aa8a1a2fc1e9b3de79d2503fc64abf82705a62f0b8fea0b5",
+      "bytes": 1104
+    },
+    "experiments/vggt_fusion_20261028/admin/evaluate_geometry_pilot.py": {
+      "source": "/home/tanuj/V2D_challenge/experiments/vggt_fusion_20261028/admin/evaluate_geometry_pilot.py",
+      "sha256": "de9ed348eba683efe99cba4dedf30000ef0726652babc5d4433e711d1e4c38a3",
+      "bytes": 28319
+    },
+    "experiments/vggt_fusion_20261028/admin/body_surface_raster_v3.py": {
+      "source": "/home/tanuj/V2D_challenge/experiments/vggt_fusion_20261028/admin/body_surface_raster_v3.py",
+      "sha256": "4dd92dc90036f537b50ec40956adf80dca6a884d36edb674f91434f831f228f4",
+      "bytes": 4744
+    },
+    "experiments/identity_fusion_20261029/code/run_real_mesh_fit_v3.py": {
+      "source": "/home/tanuj/V2D_challenge/experiments/identity_fusion_20261029/code/run_real_mesh_fit_v3.py",
+      "sha256": "b5fe1d0758c6e7939158918a9a64b59e6eba3196c7762d5b528a180c394f3f50",
+      "bytes": 16050
+    },
+    "experiments/identity_fusion_20261029/code/real_mesh_optimizer.py": {
+      "source": "/home/tanuj/V2D_challenge/experiments/identity_fusion_20261029/code/real_mesh_optimizer.py",
+      "sha256": "116e9cab6335102a323de01b8b17868ff463d7b7f5eabcb8c83db20bb34a6f3b",
+      "bytes": 15521
+    },
+    "submissions/upload_prep_20261026/prepare_uploads.py": {
+      "source": "/home/tanuj/V2D_challenge/submissions/upload_prep_20261026/prepare_uploads.py",
+      "sha256": "cd4a0930b174ae1307f8dd259f1e424c30e2bc9b07985812258e6ed3987cd516",
+      "bytes": 10096
+    }
+  },
+  "excludes": [
+    "images",
+    "modelweights",
+    "humanpredictionarrays",
+    "privateGT",
+    "credentials"
+  ],
+  "runtime_manifest_hashes": {
+    "PILOT_INPUTS.json": "4777c2b993e7636f50a73d89a04546d7ec00a8fd2a8f93323e70f38d04154dea",
+    "CHALLENGE_EPISODES.json": "eb172a1f4b761215cc0c1978e7c30ec3ea66459c241feb2b20a2e65e760b8003",
+    "SOURCE_FREEZE.json": "712d4599103075114252fa91d01f59089687e13532549668bd6d6f07e6694d18",
+    "CPU_INPUTS_V2.json": "b7ce07a21560c6679291399aef7e599f3a2bcb24d88e0bb7ef25e0d7cf865345"
+  }
+}

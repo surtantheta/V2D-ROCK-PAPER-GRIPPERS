@@ -1,0 +1,31 @@
+#!/bin/bash
+#PBS -N v2d_pi3x30
+#PBS -l select=1:host=cvml07:ncpus=6:mem=64gb:ngpus=1
+#PBS -l walltime=04:00:00
+#PBS -j oe
+set -euo pipefail
+export OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 NUMBA_NUM_THREADS=2
+export PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1
+TASK_ROOT=/home/tanuj/V2D_challenge/experiments/pi3x_kaggle_20261029
+mkdir -p "$TASK_ROOT/logs"
+exec > "$TASK_ROOT/logs/gpu_${PBS_JOBID%%.*}.log" 2>&1
+echo "reservation_started=$(date -Is) job=$PBS_JOBID node=$(hostname)"
+nvidia-smi --query-gpu=name,memory.total --format=csv,noheader
+/home/tanuj/.conda/envs/v2d/bin/python -I -u - "$TASK_ROOT" <<'PY'
+import hashlib,json,os,subprocess,sys,time
+from pathlib import Path
+root=Path(sys.argv[1]);gate=root/'LAUNCH_GEOMETRY.json';deadline=time.monotonic()+2700
+while not gate.exists():
+    if time.monotonic()>deadline:raise SystemExit('No reviewed launch gate in45min; releaseGPU')
+    time.sleep(5)
+j=json.loads(gate.read_text());assert j['stage']=='PI3X_CHALLENGE30_GEOMETRY_V1'
+for p,expected in j['sha256'].items():
+    digest=hashlib.sha256()
+    with open(p,'rb') as f:
+        for b in iter(lambda:f.read(4194304),b''):digest.update(b)
+    assert digest.hexdigest()==expected,('launch source/input changed',p)
+env=dict(os.environ);env.update(j.get('environment',{}))
+print('gate_verified',len(j['sha256']),flush=True)
+subprocess.run(j['command'],env=env,check=True,cwd=str(root))
+PY
+echo "reservation_finished=$(date -Is)"
