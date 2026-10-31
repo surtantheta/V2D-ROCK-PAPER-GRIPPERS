@@ -1,0 +1,18 @@
+#!/bin/bash
+#PBS -N v2d_joint30_smoke2
+#PBS -l select=1:ncpus=2:mem=16gb
+#PBS -l walltime=02:00:00
+#PBS -j oe
+#PBS -k doe
+set -euo pipefail
+TASK_ROOT=/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031
+exec > "$TASK_ROOT/logs/smoke_v2_${PBS_JOBID%%.*}_${PBS_ARRAY_INDEX:-single}.log" 2>&1
+export OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 NUMBA_NUM_THREADS=2
+export PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1
+export NUMBA_CACHE_DIR=/rhome/tanuj/v2d_joint_kaggle_20261031/numba_cache_v2
+export XDG_CACHE_HOME=/rhome/tanuj/v2d_joint_kaggle_20261031/cache
+cd "$TASK_ROOT"
+printf '%s  %s\n' '1533f49b930b8ff2cddd3f62c8c66f8135af2ec46ea759461be000edd026a909' "$TASK_ROOT/FIT_INPUTS_V2.json" | sha256sum --check --status
+printf '%s  %s\n' '67176966775483ffb07159de9a6a7cdcf0bcdda87d8774434083505536a945f8' "$TASK_ROOT/validation/audit_case_v2.py" | sha256sum --check --status
+/home/tanuj/.conda/envs/cari4d/bin/python -I -B -u "$TASK_ROOT/code/run_challenge_joint_v2.py" --episode 12
+/home/tanuj/.conda/envs/cari4d/bin/python -I -B -u "$TASK_ROOT/validation/audit_case_v2.py" --episode 12 --out "$TASK_ROOT/validation/SMOKE_OUTPUT_REVIEW_V2.json" --smoke

@@ -1,0 +1,39 @@
+#!/bin/bash
+#PBS -N v2d_joint30_join2
+#PBS -l select=1:ncpus=2:mem=16gb
+#PBS -l walltime=00:30:00
+#PBS -j oe
+#PBS -k doe
+set -euo pipefail
+TASK_ROOT=/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031
+exec > "$TASK_ROOT/logs/consolidate_v2_${PBS_JOBID%%.*}_${PBS_ARRAY_INDEX:-single}.log" 2>&1
+export OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 NUMBA_NUM_THREADS=2
+export PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1
+export NUMBA_CACHE_DIR=/rhome/tanuj/v2d_joint_kaggle_20261031/numba_cache_v2
+export XDG_CACHE_HOME=/rhome/tanuj/v2d_joint_kaggle_20261031/cache
+cd "$TASK_ROOT"
+printf '%s  %s\n' '1533f49b930b8ff2cddd3f62c8c66f8135af2ec46ea759461be000edd026a909' "$TASK_ROOT/FIT_INPUTS_V2.json" | sha256sum --check --status
+printf '%s  %s\n' '67176966775483ffb07159de9a6a7cdcf0bcdda87d8774434083505536a945f8' "$TASK_ROOT/validation/audit_case_v2.py" | sha256sum --check --status
+/home/tanuj/.conda/envs/cari4d/bin/python -I -B -u - "$TASK_ROOT" <<'PY_AUDIT'
+from pathlib import Path
+import hashlib,json,sys
+root=Path(sys.argv[1]);large=Path('/rhome/tanuj/v2d_joint_kaggle_20261031')
+def sha(p):
+ h=hashlib.sha256()
+ with Path(p).open('rb') as f:
+  for b in iter(lambda:f.read(4194304),b''):h.update(b)
+ return h.hexdigest()
+manifest_hash=sha(root/'FIT_INPUTS_V2.json');reviews=[]
+for ep in range(30):
+ folder=large/'episodes_v2'/f'episode_{ep:06d}'
+ path=root/'validation/SMOKE_OUTPUT_REVIEW_V2.json' if ep==12 else folder/'INDEPENDENT_REVIEW.json'
+ review=json.loads(path.read_text())
+ assert review['status']==('PASS_CHALLENGE_SMOKE_V2' if ep==12 else 'PASS_CHALLENGE_JOINT_EPISODE')
+ assert review['episode']==ep and review['all_frames_all_5840_hand_points_checked']
+ assert review['producer_completion_sha256']==sha(folder/'COMPLETE.json')
+ assert review['input_manifest_sha256']==manifest_hash
+ reviews.append(dict(episode=ep,path=str(path),sha256=sha(path),frames=review['frames']))
+assert sum(x['frames'] for x in reviews)==16563
+(large/'INDEPENDENT_CASE_AUDITS_V2.json').write_text(json.dumps(dict(status='PASS_ALL30_INDEPENDENT_CASE_AUDITS',records=reviews,cases=30,frames=16563,input_manifest_sha256=manifest_hash),indent=2)+'\n')
+PY_AUDIT
+/home/tanuj/.conda/envs/cari4d/bin/python -I -B -u "$TASK_ROOT/code/run_challenge_joint_v2.py" --consolidate

@@ -1,0 +1,15 @@
+#!/bin/bash
+#PBS -N v2d_joint_pack4
+#PBS -l select=1:ncpus=2:mem=12gb
+#PBS -l walltime=01:00:00
+#PBS -j oe
+#PBS -k doe
+set -euo pipefail
+TASK_ROOT=/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031
+exec > "$TASK_ROOT/logs/pack_${PBS_JOBID%%.*}.log" 2>&1
+export OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2
+export PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1
+export XDG_CACHE_HOME=/rhome/tanuj/v2d_joint_kaggle_20261031/cache
+export NUMBA_CACHE_DIR=/rhome/tanuj/v2d_joint_kaggle_20261031/numba_cache
+cd "$TASK_ROOT"
+/home/tanuj/.conda/envs/v2d/bin/python -I -B -u "$TASK_ROOT/code/pack_validate_v4.py"

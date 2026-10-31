@@ -1,0 +1,358 @@
+{
+  "schema": "source-bundle-joint-full30-v2-rare-oracle-repair",
+  "repository": "surtantheta/V2D-ROCK-PAPER-GRIPPERS",
+  "branch": "joint-pi3x-20261031",
+  "parent_commit": "ae9ad7f5a0387f17e786e40c50512370c8ef5c2c",
+  "base_tree_sha": "6c2656c0df3f25d7a0d55eac0073b6da23095b39",
+  "files": {
+    "data/assets/submission_kit/v2d_submission_kit/metric_code/track_1/PEN.py": {
+      "source": "/home/tanuj/V2D_challenge/data/assets/submission_kit/v2d_submission_kit/metric_code/track_1/PEN.py",
+      "sha256": "07585d38cc0911f0d9b14c53d482302c7b9cc31365a394127687798136604021",
+      "bytes": 50109
+    },
+    "data/assets/submission_kit/v2d_submission_kit/v2dlb/mesh_budget.py": {
+      "source": "/home/tanuj/V2D_challenge/data/assets/submission_kit/v2d_submission_kit/v2dlb/mesh_budget.py",
+      "sha256": "8f29481d52a82c4656a29d0a1c35bb12123497d9dd5955ac29a81c8dc1168536",
+      "bytes": 1566
+    },
+    "experiments/identity_fusion_20261029/code/evaluate_penetration.py": {
+      "source": "/home/tanuj/V2D_challenge/experiments/identity_fusion_20261029/code/evaluate_penetration.py",
+      "sha256": "3d7dd3d7ceacfd9ae9c947a754f42215f9b36e3bb4bb56b8028a99f7afeb6c78",
+      "bytes": 10620
+    },
+    "experiments/identity_fusion_20261029/code/real_mesh_optimizer.py": {
+      "source": "/home/tanuj/V2D_challenge/experiments/identity_fusion_20261029/code/real_mesh_optimizer.py",
+      "sha256": "116e9cab6335102a323de01b8b17868ff463d7b7f5eabcb8c83db20bb34a6f3b",
+      "bytes": 15521
+    },
+    "experiments/identity_fusion_20261029/code/run_real_mesh_fit_v3.py": {
+      "source": "/home/tanuj/V2D_challenge/experiments/identity_fusion_20261029/code/run_real_mesh_fit_v3.py",
+      "sha256": "b5fe1d0758c6e7939158918a9a64b59e6eba3196c7762d5b528a180c394f3f50",
+      "bytes": 16050
+    },
+    "experiments/pi3x_kaggle_20261029/CHALLENGE_EPISODES.json": {
+      "source": "/home/tanuj/V2D_challenge/experiments/pi3x_kaggle_20261029/CHALLENGE_EPISODES.json",
+      "sha256": "eb172a1f4b761215cc0c1978e7c30ec3ea66459c241feb2b20a2e65e760b8003",
+      "bytes": 531654
+    },
+    "experiments/post_feedback_20261026/human_penetration_audit/code/audit_human_penetration.py": {
+      "source": "/home/tanuj/V2D_challenge/experiments/post_feedback_20261026/human_penetration_audit/code/audit_human_penetration.py",
+      "sha256": "1e77ac6c9b521bbf79d5f5f7309b8b268bfc2a046fda17c16e16f83b2e9f67cd",
+      "bytes": 14475
+    },
+    "submissions/upload_prep_20261026/prepare_uploads.py": {
+      "source": "/home/tanuj/V2D_challenge/submissions/upload_prep_20261026/prepare_uploads.py",
+      "sha256": "cd4a0930b174ae1307f8dd259f1e424c30e2bc9b07985812258e6ed3987cd516",
+      "bytes": 10096
+    },
+    "work/MASK_CHOICE.json": {
+      "source": "/home/tanuj/V2D_challenge/work/MASK_CHOICE.json",
+      "sha256": "07a07658d8c6efbf3174896469bfb051a8fdd4e253cbfef7104b45277edaffb8",
+      "bytes": 140
+    },
+    "data/assets/submission_kit/v2d_submission_kit/eval_reconstruction.py": {
+      "source": "/rhome/tanuj/home_moved_20261029/V2D_challenge/data/assets/submission_kit/v2d_submission_kit/eval_reconstruction.py",
+      "sha256": "73433f5e8c172979f342f854edfd8a85f61106c7b0862ed006a3f789c35bf951",
+      "bytes": 442
+    },
+    "data/assets/submission_kit/v2d_submission_kit/submit/v2d_submit.py": {
+      "source": "/rhome/tanuj/home_moved_20261029/V2D_challenge/data/assets/submission_kit/v2d_submission_kit/submit/v2d_submit.py",
+      "sha256": "d31d4a7c179b581739cfbe0c4bd4557dfdb60e6a548e4295b4f681c7b018aadf",
+      "bytes": 28938
+    },
+    "data/assets/submission_kit/v2d_submission_kit/tools/pack_reconstruction.py": {
+      "source": "/rhome/tanuj/home_moved_20261029/V2D_challenge/data/assets/submission_kit/v2d_submission_kit/tools/pack_reconstruction.py",
+      "sha256": "e0fb5749bc9753e0fd522934bb51c246164c9cdee526584ecb0b1a0b5b1bf585",
+      "bytes": 11338
+    },
+    "data/assets/submission_kit/v2d_submission_kit/v2dlb/mesh_common.py": {
+      "source": "/rhome/tanuj/home_moved_20261029/V2D_challenge/data/assets/submission_kit/v2d_submission_kit/v2dlb/mesh_common.py",
+      "sha256": "aaeac13286c839a7d7e271888613875c934e46de094b2ac928ff2ff01c5a1f06",
+      "bytes": 2175
+    },
+    "data/assets/submission_kit/v2d_submission_kit/v2dlb/mhr_submission.py": {
+      "source": "/rhome/tanuj/home_moved_20261029/V2D_challenge/data/assets/submission_kit/v2d_submission_kit/v2dlb/mhr_submission.py",
+      "sha256": "06fbd58d07bae1c583a92598f879771a4805ccea3e8346605975bcf5007b1fa3",
+      "bytes": 24344
+    },
+    "data/assets/submission_kit/v2d_submission_kit/v2dlb/report_schema.py": {
+      "source": "/rhome/tanuj/home_moved_20261029/V2D_challenge/data/assets/submission_kit/v2d_submission_kit/v2dlb/report_schema.py",
+      "sha256": "2a14b19dcef1004c8bcce73bb69cb60605e2a54c783df8b52575fc861631222a",
+      "bytes": 5441
+    },
+    "experiments/joint_kaggle_20261031/SOURCE_RUN_SPEC_V1.json": {
+      "source": "/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031/SOURCE_RUN_SPEC_V1.json",
+      "sha256": "24bc4167cc8f50e9d7791a468ffbb21b66f26598bf2baa84af43354174faa96a",
+      "bytes": 6504
+    },
+    "experiments/joint_kaggle_20261031/array_fit_v1.pbs": {
+      "source": "/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031/array_fit_v1.pbs",
+      "sha256": "1df11e40833728f23c035698892a6eb7aa9b0f391f24000fdd3a10e1345cd69e",
+      "bytes": 1356
+    },
+    "experiments/joint_kaggle_20261031/code/pack_validate_v3.py": {
+      "source": "/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031/code/pack_validate_v3.py",
+      "sha256": "e7b36f6cfee0ee38a02f2fe963d289bbd947dd60976db810d8c98cb288809fcd",
+      "bytes": 9247
+    },
+    "experiments/joint_kaggle_20261031/code/preflight_v1.py": {
+      "source": "/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031/code/preflight_v1.py",
+      "sha256": "8f8fa06348e704a9046e11d57c8dadb0e8285fcb75bf7450cc8ab446f7506f24",
+      "bytes": 4304
+    },
+    "experiments/joint_kaggle_20261031/code/rebuild_hand_vertex_ids_v1.py": {
+      "source": "/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031/code/rebuild_hand_vertex_ids_v1.py",
+      "sha256": "b853442d90a516dd7d8e89553bf8435829477e077f0ad337535461eb543e172d",
+      "bytes": 2395
+    },
+    "experiments/joint_kaggle_20261031/code/run_challenge_joint_v1.py": {
+      "source": "/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031/code/run_challenge_joint_v1.py",
+      "sha256": "fc830caf738278d3efded51c8a7039da55d1cc616f4a2d2b5a5cf1cf833e5073",
+      "bytes": 9609
+    },
+    "experiments/joint_kaggle_20261031/code/upload_validated_v1.py": {
+      "source": "/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031/code/upload_validated_v1.py",
+      "sha256": "7bf6e19bc8de8bc23c80bb549822eb36073ce82dbd9c8e607def51469b0a5428",
+      "bytes": 8756
+    },
+    "experiments/joint_kaggle_20261031/consolidate_fit_v1.pbs": {
+      "source": "/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031/consolidate_fit_v1.pbs",
+      "sha256": "2b661c0338ea836dc774877ac33ea425afc409f85172b162237adf93182f25c5",
+      "bytes": 2281
+    },
+    "experiments/joint_kaggle_20261031/cpu_pack_v3.pbs": {
+      "source": "/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031/cpu_pack_v3.pbs",
+      "sha256": "3a2ed1207c4d87eb68cccfaa1de01046c54a9927e6a737eecb52614140b7a187",
+      "bytes": 645
+    },
+    "experiments/joint_kaggle_20261031/cpu_preflight_v1.pbs": {
+      "source": "/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031/cpu_preflight_v1.pbs",
+      "sha256": "65f1ea40eb23ad2f0ecc84ea4c361f25797031466df9f1e0c8657fa6c1c82fcc",
+      "bytes": 624
+    },
+    "experiments/joint_kaggle_20261031/cpu_public_hand_rebuild_v1.pbs": {
+      "source": "/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031/cpu_public_hand_rebuild_v1.pbs",
+      "sha256": "3199d187535d51cae8eeb1e7b870f34c1af1cf43c126353a9d8dc562c07ac114",
+      "bytes": 837
+    },
+    "experiments/joint_kaggle_20261031/cpu_upload_v1.pbs": {
+      "source": "/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031/cpu_upload_v1.pbs",
+      "sha256": "426485aabd1c763c8f09fc7858bd3c23d1dcf245933b69436491d496a1ca2de7",
+      "bytes": 586
+    },
+    "experiments/joint_kaggle_20261031/smoke_fit_v1.pbs": {
+      "source": "/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031/smoke_fit_v1.pbs",
+      "sha256": "24ef2da634887deb0e7ea4941b82818aba146ac985c03f0f4454ed022496b78f",
+      "bytes": 1184
+    },
+    "experiments/joint_kaggle_20261031/validation/audit_case_v1.py": {
+      "source": "/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031/validation/audit_case_v1.py",
+      "sha256": "f2de2741b99aec8f76042b1e6dad276cd5c31c5de3ba0f6456a00a128805685a",
+      "bytes": 13440
+    },
+    "experiments/joint_kaggle_20261031/validation/audit_final_parquet_v1.pbs": {
+      "source": "/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031/validation/audit_final_parquet_v1.pbs",
+      "sha256": "6f58d02f4f2b778a6b1b606fe195651588528777fdc159bfc2a656329da013fd",
+      "bytes": 860
+    },
+    "experiments/joint_kaggle_20261031/validation/audit_final_parquet_v1.py": {
+      "source": "/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031/validation/audit_final_parquet_v1.py",
+      "sha256": "d18448bbb32eb31807e3d9c86866f46ced804273b72d755314c746c9422d489e",
+      "bytes": 14299
+    },
+    "experiments/joint_kaggle_20261031/validation/audit_producer_v1.pbs": {
+      "source": "/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031/validation/audit_producer_v1.pbs",
+      "sha256": "0ca9d3183ac69267ca93a66cd3e075ea63663560185260c898efc76bf2701494",
+      "bytes": 847
+    },
+    "experiments/joint_kaggle_20261031/validation/audit_producer_v1.py": {
+      "source": "/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031/validation/audit_producer_v1.py",
+      "sha256": "c3695e6d80e11a6175730092e296ea049f61b5151acad412af94275260198594",
+      "bytes": 5745
+    },
+    "experiments/joint_kaggle_20261031/validation/probe_budget_environments_v1.pbs": {
+      "source": "/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031/validation/probe_budget_environments_v1.pbs",
+      "sha256": "317c25668a58dc82b8591521a6d3acdd6a9e540da6218b0348a1fd2caba8712d",
+      "bytes": 2212
+    },
+    "experiments/joint_kaggle_20261031/validation/probe_budget_environments_v1.py": {
+      "source": "/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031/validation/probe_budget_environments_v1.py",
+      "sha256": "547593944047c870c4bbb70233b0d6a0f1dfb4db7cd66f5e08f024b2a5345b46",
+      "bytes": 2843
+    },
+    "experiments/physical_refinement_20261031/JOINT_CORE_TEST_V1.json": {
+      "source": "/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/physical_refinement_20261031/JOINT_CORE_TEST_V1.json",
+      "sha256": "74bb8d076e0710b856923dd35007d6e5e5b26b7f1d9dd85421cd0cabcdb7ee81",
+      "bytes": 985
+    },
+    "experiments/physical_refinement_20261031/JOINT_INPUTS_V3.json": {
+      "source": "/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/physical_refinement_20261031/JOINT_INPUTS_V3.json",
+      "sha256": "5671f186c71439050402955417db6e4d4c5b91cd6976e5fd1e35096449b9977f",
+      "bytes": 37598
+    },
+    "experiments/physical_refinement_20261031/code/joint_core_v1.py": {
+      "source": "/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/physical_refinement_20261031/code/joint_core_v1.py",
+      "sha256": "023e0229ee20347e255dbf673442956a0f9ff36016fb3d793b611edc3de505b6",
+      "bytes": 10604
+    },
+    "experiments/physical_refinement_20261031/code/joint_runner_v3.py": {
+      "source": "/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/physical_refinement_20261031/code/joint_runner_v3.py",
+      "sha256": "6a694c7edabd8625b48ceb155e36fe6cb66296ed63445251ad8dfac2c4d1705d",
+      "bytes": 12557
+    },
+    "experiments/physical_refinement_20261031/code/temporal_v2.py": {
+      "source": "/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/physical_refinement_20261031/code/temporal_v2.py",
+      "sha256": "0864d8018a0cd46b36e6d1577d6ec89f7d04a64d5de65ea23a1eea741238732a",
+      "bytes": 10304
+    },
+    "experiments/physical_refinement_20261031/code/test_joint_core_v1.py": {
+      "source": "/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/physical_refinement_20261031/code/test_joint_core_v1.py",
+      "sha256": "9b8ffa64cdfb15dab9c9230714e72215a6322f710ea005022bea011e32b6370c",
+      "bytes": 4390
+    },
+    "experiments/validation_20261031/GENUINE_JOINT_FULL_V3_OUTPUT_REVIEW.json": {
+      "source": "/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/validation_20261031/GENUINE_JOINT_FULL_V3_OUTPUT_REVIEW.json",
+      "sha256": "f42b6424c27751a99e0b917093d229ec0174e3ad1bf84d546917e1319bbe06f3",
+      "bytes": 51691
+    },
+    "experiments/joint_kaggle_20261031/code/prepare_fit_inputs_v1.py": {
+      "source": "/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031/code/prepare_fit_inputs_v1.py",
+      "sha256": "6aaa8da8943e7524b3c2e8753853bf763331bcc401e837810006b51ce288257a",
+      "bytes": 4794
+    },
+    "experiments/joint_kaggle_20261031/SOURCE_RUN_SPEC_V2.json": {
+      "source": "/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031/SOURCE_RUN_SPEC_V2.json",
+      "sha256": "a31029ae1cbfd33e43db9f5e308f5088a1156596932ae8326db6d2f073251440",
+      "bytes": 10561
+    },
+    "experiments/joint_kaggle_20261031/array_fit_v2.pbs": {
+      "source": "/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031/array_fit_v2.pbs",
+      "sha256": "75fdbf2bb42a91065e909121fe566291afb3ad5e31ec4c4cc223ba5cade9e243",
+      "bytes": 2006
+    },
+    "experiments/joint_kaggle_20261031/code/official_closest_repair_v2.py": {
+      "source": "/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031/code/official_closest_repair_v2.py",
+      "sha256": "d345fe270e97ffe9f5514c01097e40baf94731c23dddf2b22833d94397c30382",
+      "bytes": 5908
+    },
+    "experiments/joint_kaggle_20261031/code/pack_validate_v4.py": {
+      "source": "/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031/code/pack_validate_v4.py",
+      "sha256": "220ca26d5572bcdb0cfe71d620a981739cd49dfb8e8d0e80dd99a367cf5d747e",
+      "bytes": 9318
+    },
+    "experiments/joint_kaggle_20261031/code/prepare_fit_inputs_v2.py": {
+      "source": "/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031/code/prepare_fit_inputs_v2.py",
+      "sha256": "d57e1fc7b70b35f159fed2ab48c92ab94470bf4ad439255dc6672e4bbac95373",
+      "bytes": 2586
+    },
+    "experiments/joint_kaggle_20261031/code/run_challenge_joint_v2.py": {
+      "source": "/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031/code/run_challenge_joint_v2.py",
+      "sha256": "b2d0f8d66ee4713e39f25417bbe8f7c06d47b9f2a969735fbd858f6e6d1b7f98",
+      "bytes": 14670
+    },
+    "experiments/joint_kaggle_20261031/code/test_official_closest_branch_v2.py": {
+      "source": "/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031/code/test_official_closest_branch_v2.py",
+      "sha256": "955da816df93c0858c3e5be13a07490df0be93351d4031123940a52517914bb2",
+      "bytes": 4250
+    },
+    "experiments/joint_kaggle_20261031/code/test_official_closest_repair_v2.py": {
+      "source": "/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031/code/test_official_closest_repair_v2.py",
+      "sha256": "df808e4a7735cf2c9d8411946aac755903a0c228267717e7af7d58cf2bcf1452",
+      "bytes": 5082
+    },
+    "experiments/joint_kaggle_20261031/code/upload_validated_v2.py": {
+      "source": "/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031/code/upload_validated_v2.py",
+      "sha256": "566c88dbe0208c705ea43846b42433dfe8147ef8a8a064c1c79aeb8aa00258cd",
+      "bytes": 9075
+    },
+    "experiments/joint_kaggle_20261031/consolidate_fit_v2.pbs": {
+      "source": "/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031/consolidate_fit_v2.pbs",
+      "sha256": "e59d7890cf6046e7966e6db41e2533832970b38a87a9b5d26725c0b118e2296e",
+      "bytes": 2302
+    },
+    "experiments/joint_kaggle_20261031/cpu_pack_v4.pbs": {
+      "source": "/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031/cpu_pack_v4.pbs",
+      "sha256": "c65c35548e4ecb880011a90d7eb94f0f16a570720157c0634173c3d42bb01ae9",
+      "bytes": 645
+    },
+    "experiments/joint_kaggle_20261031/cpu_upload_v2.pbs": {
+      "source": "/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031/cpu_upload_v2.pbs",
+      "sha256": "c3d91952bc559a041ec8692d02c50873e99dad56ce3f543fab6fbcd946a95442",
+      "bytes": 586
+    },
+    "experiments/joint_kaggle_20261031/smoke_fit_v2.pbs": {
+      "source": "/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031/smoke_fit_v2.pbs",
+      "sha256": "f23608f260b48e8eab313290670e8a5506086752ba6cf30d3783b88ff78b4788",
+      "bytes": 1196
+    },
+    "experiments/joint_kaggle_20261031/validation/OFFICIAL_CLOSEST_BRANCH_TEST_V2.json": {
+      "source": "/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031/validation/OFFICIAL_CLOSEST_BRANCH_TEST_V2.json",
+      "sha256": "9d37f815a69be881463b3a90bbcaa63841c559d1c6d6e8d52288a860f43d05c5",
+      "bytes": 2951
+    },
+    "experiments/joint_kaggle_20261031/validation/audit_case_v2.py": {
+      "source": "/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031/validation/audit_case_v2.py",
+      "sha256": "67176966775483ffb07159de9a6a7cdcf0bcdda87d8774434083505536a945f8",
+      "bytes": 13447
+    },
+    "experiments/joint_kaggle_20261031/validation/audit_final_parquet_v2.pbs": {
+      "source": "/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031/validation/audit_final_parquet_v2.pbs",
+      "sha256": "4af7e2abe308f1373532129265cd393366e8c357c2bd0148718cd739ca0ee1db",
+      "bytes": 860
+    },
+    "experiments/joint_kaggle_20261031/validation/audit_final_parquet_v2.py": {
+      "source": "/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031/validation/audit_final_parquet_v2.py",
+      "sha256": "a9343e884c885e91d2982941ee0bfa91c3309f3bb58d412b91b753ef8eb41cd2",
+      "bytes": 14317
+    },
+    "experiments/joint_kaggle_20261031/validation/audit_producer_v2.pbs": {
+      "source": "/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031/validation/audit_producer_v2.pbs",
+      "sha256": "93c4ce38c7c0035e54f072c54d0b91256fd911cb2376de9a7b037e5d819e6cc3",
+      "bytes": 847
+    },
+    "experiments/joint_kaggle_20261031/validation/audit_producer_v2.py": {
+      "source": "/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031/validation/audit_producer_v2.py",
+      "sha256": "d57a1b2f6116dd4135115334873fb89656fc46882ed408baec3c8773c53e8fdc",
+      "bytes": 5759
+    },
+    "experiments/joint_kaggle_20261031/validation/diagnose_kernel_probe_v1.py": {
+      "source": "/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031/validation/diagnose_kernel_probe_v1.py",
+      "sha256": "c80200ed830630108897570209ea97c0361184926108d6252c6de35822e270f4",
+      "bytes": 3217
+    },
+    "experiments/validation_20261031/audit_joint_full_v3.py": {
+      "source": "/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/validation_20261031/audit_joint_full_v3.py",
+      "sha256": "860d0209eda6dd91bfbc84ae4f008c3ca0474ccb703a6520f3584472168e780f",
+      "bytes": 9829
+    }
+  },
+  "publish_manifest_repo_path": "experiments/joint_kaggle_20261031/SOURCE_BUNDLE_MANIFEST_V2.json",
+  "manifest_self_in_files": false,
+  "manifest_self_hash_recorded_in_publication_receipt": true,
+  "runtime_manifest_hashes": {
+    "FIT_INPUTS_V1.json": "ff3a1dd25fb20f68a9254ea42ead213e844bbd880dbb4571053a2d4d2b82a1e6",
+    "FIT_INPUTS_V2.json": "1533f49b930b8ff2cddd3f62c8c66f8135af2ec46ea759461be000edd026a909",
+    "PBS_SOURCE_PINS_V2.json": "3559f6e9611cc081e282d45e21b1727e056d0b30a6684f31fafc7aed4579ed02"
+  },
+  "excludes": [
+    "READMEchanges",
+    "mainbranchupdates",
+    "weights",
+    "humanNPZ/meshes",
+    "HAND_VERTEX_IDS.npy",
+    "RGB/masks/pointmaps",
+    "GT data or values",
+    "credentialfiles",
+    "Kagglehistory/auth snapshots",
+    "hugeFIT_INPUTS predictedcalibrationarrays"
+  ],
+  "reproduction_hand_builder": "experiments/joint_kaggle_20261031/code/rebuild_hand_vertex_ids_v1.py",
+  "pending_validation_source_flags": [],
+  "pack_source": "experiments/joint_kaggle_20261031/code/pack_validate_v4.py",
+  "upload_source": "experiments/joint_kaggle_20261031/code/upload_validated_v2.py",
+  "previous_manifest_sha256": "e943834c97c0d624cbb554a1b6e492394a4a84044eb9948b3c120426afe905d1",
+  "previous_publication_receipt_sha256": "a6386fc03a7ebfc36310687a07f2493654521ba701b9d30153e856170061f38f",
+  "publication_requires_independent_repair_source_GO": true,
+  "runtime_repair": "Exactoldfastpathunchanged; only originalwould-fail1e-7distancecheck dispatchesoracle-consistentclosestprojection; sameobjective/weights/guardandall30policy",
+  "regression_regeneration_source_explicit": true
+}

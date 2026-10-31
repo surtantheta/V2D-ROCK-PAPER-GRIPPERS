@@ -1,0 +1,32 @@
+#!/bin/bash
+#PBS -N v2d_joint30_arr2
+#PBS -l select=1:ncpus=2:mem=16gb
+#PBS -l walltime=02:00:00
+#PBS -j oe
+#PBS -k doe
+set -euo pipefail
+TASK_ROOT=/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031
+exec > "$TASK_ROOT/logs/array_v2_${PBS_JOBID%%.*}_${PBS_ARRAY_INDEX:-single}.log" 2>&1
+export OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 NUMBA_NUM_THREADS=2
+export PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1
+export NUMBA_CACHE_DIR=/rhome/tanuj/v2d_joint_kaggle_20261031/numba_cache_v2
+export XDG_CACHE_HOME=/rhome/tanuj/v2d_joint_kaggle_20261031/cache
+cd "$TASK_ROOT"
+printf '%s  %s\n' '1533f49b930b8ff2cddd3f62c8c66f8135af2ec46ea759461be000edd026a909' "$TASK_ROOT/FIT_INPUTS_V2.json" | sha256sum --check --status
+printf '%s  %s\n' '67176966775483ffb07159de9a6a7cdcf0bcdda87d8774434083505536a945f8' "$TASK_ROOT/validation/audit_case_v2.py" | sha256sum --check --status
+if [ "${PBS_ARRAY_INDEX:?missing array index}" = 12 ]; then
+    /home/tanuj/.conda/envs/cari4d/bin/python -I -B -u - "$TASK_ROOT" <<'PY_SMOKE'
+from pathlib import Path
+import hashlib,json,sys
+root=Path(sys.argv[1]);p=Path('/rhome/tanuj/v2d_joint_kaggle_20261031/episodes_v2/episode_000012/COMPLETE.json')
+j=json.loads((root/'validation/SMOKE_OUTPUT_REVIEW_V2.json').read_text())
+assert j['status']=='PASS_CHALLENGE_SMOKE_V2'
+assert j['producer_completion_sha256']==hashlib.sha256(p.read_bytes()).hexdigest()
+assert j['input_manifest_sha256']==hashlib.sha256((root/'FIT_INPUTS_V2.json').read_bytes()).hexdigest()
+print('REUSED_INDEPENDENTLY_AUDITED_V2_SMOKE12')
+PY_SMOKE
+    exit 0
+fi
+/home/tanuj/.conda/envs/cari4d/bin/python -I -B -u "$TASK_ROOT/code/run_challenge_joint_v2.py" --episode "${PBS_ARRAY_INDEX}"
+printf -v EPISODE_STEM '%06d' "${PBS_ARRAY_INDEX}"
+/home/tanuj/.conda/envs/cari4d/bin/python -I -B -u "$TASK_ROOT/validation/audit_case_v2.py" --episode "${PBS_ARRAY_INDEX}" --out "/rhome/tanuj/v2d_joint_kaggle_20261031/episodes_v2/episode_${EPISODE_STEM}/INDEPENDENT_REVIEW.json"

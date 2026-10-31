@@ -1,0 +1,189 @@
+{
+  "schema": "genuine-joint-full30-public-run-spec-v2-oracle-consistent-rare-repair",
+  "team": "Rock Paper Grippers",
+  "candidate": "Pi3X existing masks plus genuine joint translation optimization, uniform oracle-consistent rare closest-point repair",
+  "base_commit": "ae9ad7f5a0387f17e786e40c50512370c8ef5c2c",
+  "upstream_reconstruction": "Exact source from parent Pi3X commit; same30 baseline NPZ/PLY files and RGB-only geometry/modelcheckpoint.",
+  "cases": 30,
+  "full_frames": 16563,
+  "scored_frames": 9877,
+  "rows": 740780,
+  "scene_coordinates": "OpenCV metres: X=s R V+t",
+  "native_frame_policy": "allframes0..N-1,30fps",
+  "optimizer": {
+    "temporal_native_strength": 64,
+    "collision_strength": 10,
+    "clearance_margin_m": 0.002,
+    "maximum_correction_m": 0.02,
+    "outer_iterations": 4,
+    "inner_max_nfev": 80,
+    "maximum_point_depth_increase_m": 0.002,
+    "mean_penetration_squared_tolerance_m2": 1e-12,
+    "reference_hand_sampling_density": 5840
+  },
+  "contact_normalization": "Perframe baseline active count fixed for wholefit; density floor Npoints/5840; no growing-active-count reward",
+  "image_depth_guard": {
+    "maximum_projected_centroid_change_pixels_at512": 16,
+    "maximum_mean_mask_IoU_drop": 0.02,
+    "minimum_baseline_IoU_to_gate": 0.1,
+    "maximum_mean_cloud_depth_residual_increase_m": 0.01,
+    "minimum_baseline_cloud_points": 16,
+    "minimum_allvertex_camera_z_m": 0.001
+  },
+  "unchanged": [
+    "human pose/scales/shape",
+    "object rotation",
+    "one object scale perclip",
+    "canonical source mesh",
+    "MAIN camera"
+  ],
+  "numerical_transport": "Original joint_runner_v3.fit_case changed only cohort metadata lookup; core numerical solve/guard code unchanged.",
+  "GT_used_for_fitting": false,
+  "external_assets": "Use public MHR lod1 TorchScript and official challenge kit/sample; do not use Track2assets.",
+  "hand_proxy": {
+    "vertices": 5840,
+    "hosted_roles": 512,
+    "exact_host_role_equivalence_claimed": false,
+    "builder": "code/rebuild_hand_vertex_ids_v1.py",
+    "method": "For neutralshape/zero204params, perturb each hand articulation coordinate68..121 by0.3; select vertices withmax displacement>1e-4m.",
+    "expected_indices_sha256": "95ade45339d0bc8cab40055ef1c91adee2100e15048bc79cfe0323fd3e826205",
+    "rebuild_PBS_test": "142394 PASS"
+  },
+  "runtime": {
+    "fit_python": "/home/tanuj/.conda/envs/cari4d/bin/python",
+    "fit_readonly_overlay": "/home/tanuj/.conda/envs/grail/lib/python3.10/site-packages",
+    "pack_upload_python": "/home/tanuj/.conda/envs/v2d/bin/python",
+    "GPU_required": false,
+    "fit_PBS": "smoke_fit_v2.pbs on12 then array_fit_v2.pbs onallother29 then consolidate_fit_v2.pbs",
+    "pack_PBS": "cpu_pack_v4.pbs after V2independentproducerPASS",
+    "upload_PBS": "cpu_upload_v2.pbs onlyafterV2publishedsource/finalartifactaudit/root exactfilegate"
+  },
+  "source_input_generation": {
+    "entry": "code/run_challenge_joint_v2.py",
+    "freeze_command": "python code/prepare_fit_inputs_v2.py",
+    "full_manifest_sha256": "1533f49b930b8ff2cddd3f62c8c66f8135af2ec46ea759461be000edd026a909",
+    "source_pins": 29,
+    "case_input_pins": 630,
+    "public_challenge_metadata": "CHALLENGE_EPISODES.json from parent baseline producer",
+    "frozen_local_physics_policy_sha256": "5671f186c71439050402955417db6e4d4c5b91cd6976e5fd1e35096449b9977f",
+    "builder_status": "V2builder regeneratesV1andaddschecked uniformrare-repair sources; frozen source/input guards verifiedbeforepublication.",
+    "fit_command": "python code/run_challenge_joint_v2.py --episode EP",
+    "consolidate_command": "python code/run_challenge_joint_v2.py --consolidate",
+    "check_command": "python code/prepare_fit_inputs_v2.py --check-only",
+    "v1_manifest_sha256": "ff3a1dd25fb20f68a9254ea42ead213e844bbd880dbb4571053a2d4d2b82a1e6",
+    "regression_proof_regeneration": [
+      "PBS: python validation/diagnose_kernel_probe_v1.py",
+      "PBS: python code/test_official_closest_repair_v2.py",
+      "PBS: python code/test_official_closest_branch_v2.py"
+    ],
+    "regression_decoder_source": "experiments/validation_20261031/audit_joint_full_v3.py:decode (imports only; no reference/GT reads)",
+    "regression_query_recipe": "From public-MHR-decoded Pi3X baseline: episode12/frame163/handproxy3564 and episode13/frame175/handproxy3661; zero and plus/minus20mm per scene axis (14queries). No actualXYZ/triangles are published."
+  },
+  "pack_contract": {
+    "script": "code/pack_validate_v4.py",
+    "artifact": "ready_v2/track1_pi3x_joint_physics.parquet",
+    "commit_source": "SOURCE_COMMIT_URL_V2.txt",
+    "publication_receipt": "SOURCE_PUBLICATION_RECEIPT_V2.json",
+    "producer": "large/COMPLETE.json",
+    "independent_producer": "validation/PRODUCER_OUTPUT_REVIEW_V2.json",
+    "independent_final": "validation/FINAL_UPLOAD_AUDIT_V2.json",
+    "nontranslation_rows_exact": true,
+    "meaningful_delta_minimum_m": 0.0001,
+    "full_roundtrip": true,
+    "collision_fit_mesh_equals_uploaded_mesh": true,
+    "per_case_audits": "large/episodes_v2/episode_XXXXXX/INDEPENDENT_REVIEW.json, except12ROOTvalidation/SMOKE_OUTPUT_REVIEW_V2.json"
+  },
+  "upload_contract": {
+    "script": "code/upload_validated_v2.py",
+    "root_gate": "LAUNCH_UPLOAD_V2.json",
+    "one_round_only": true,
+    "default_mode": "--upload",
+    "read_only_poll": "--poll",
+    "partial_resume": "--resume-missing requires exact root-reconciled IDs/history; no automatic round retry",
+    "official_receipt": "ready_v2/JOINT_KAGGLE_RECEIPT_V2.json",
+    "resume_authorization": "RESUME_UPLOAD_V2.json",
+    "legacy_round_guard": "AnyV1attemptorreceiptmustfirstbereconciled; nonehasbeensubmittedbytheV1workflow."
+  },
+  "runtime_inputs_not_published": [
+    {
+      "path": "/home/tanuj/V2D_challenge/models/mhr/mhr_model.pt",
+      "sha256": "352e271a6c42729c68554ceaea0c955e866970160c31e35506d782dc0f7377bc",
+      "reason": "runtime_model_or_array_or_predicted_observation_manifest_not_published"
+    },
+    {
+      "path": "/home/tanuj/V2D_challenge/models/mhr/mhr_faces_lod1.npy",
+      "sha256": "38a54991de6de3f9b9399e17f265dbda47da25b23fc5cb967276536803374841",
+      "reason": "runtime_model_or_array_or_predicted_observation_manifest_not_published"
+    },
+    {
+      "path": "/home/tanuj/V2D_challenge/experiments/post_feedback_20261026/human_penetration_audit/run_v2_cari4d/HAND_VERTEX_IDS.npy",
+      "sha256": "95ade45339d0bc8cab40055ef1c91adee2100e15048bc79cfe0323fd3e826205",
+      "reason": "runtime_model_or_array_or_predicted_observation_manifest_not_published"
+    },
+    {
+      "path": "/rhome/tanuj/v2d_pi3x_kaggle_20261029/cpu_v2/fit/INPUTS.json",
+      "sha256": "517df6cb0069617ac17e3def8c6662fbbdeed25e1232354c9a27ae1752c4ab97",
+      "reason": "runtime_model_or_array_or_predicted_observation_manifest_not_published"
+    },
+    {
+      "path": "/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031/FIT_INPUTS_V1.json",
+      "sha256": "ff3a1dd25fb20f68a9254ea42ead213e844bbd880dbb4571053a2d4d2b82a1e6",
+      "reason": "full_fit_input_manifest_contains_predicted_calibration_arrays_not_published"
+    },
+    {
+      "path": "/home/tanuj/V2D_challenge/models/mhr/mhr_model.pt",
+      "sha256": "352e271a6c42729c68554ceaea0c955e866970160c31e35506d782dc0f7377bc",
+      "reason": "runtime_model_or_predicted_arrays_or_full_input/probe_values_not_published"
+    },
+    {
+      "path": "/home/tanuj/V2D_challenge/models/mhr/mhr_faces_lod1.npy",
+      "sha256": "38a54991de6de3f9b9399e17f265dbda47da25b23fc5cb967276536803374841",
+      "reason": "runtime_model_or_predicted_arrays_or_full_input/probe_values_not_published"
+    },
+    {
+      "path": "/home/tanuj/V2D_challenge/experiments/post_feedback_20261026/human_penetration_audit/run_v2_cari4d/HAND_VERTEX_IDS.npy",
+      "sha256": "95ade45339d0bc8cab40055ef1c91adee2100e15048bc79cfe0323fd3e826205",
+      "reason": "runtime_model_or_predicted_arrays_or_full_input/probe_values_not_published"
+    },
+    {
+      "path": "/rhome/tanuj/v2d_pi3x_kaggle_20261029/cpu_v2/fit/INPUTS.json",
+      "sha256": "517df6cb0069617ac17e3def8c6662fbbdeed25e1232354c9a27ae1752c4ab97",
+      "reason": "runtime_model_or_predicted_arrays_or_full_input/probe_values_not_published"
+    },
+    {
+      "path": "/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031/FIT_INPUTS_V1.json",
+      "sha256": "ff3a1dd25fb20f68a9254ea42ead213e844bbd880dbb4571053a2d4d2b82a1e6",
+      "reason": "runtime_model_or_predicted_arrays_or_full_input/probe_values_not_published"
+    },
+    {
+      "path": "/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031/validation/KERNEL_POINT_PROBE_V1.json",
+      "sha256": "b2a7b92c64eedec5f15948593c7a2c2b1ba1c448d3dbe65cb49908752640ead2",
+      "reason": "runtime_model_or_predicted_arrays_or_full_input/probe_values_not_published"
+    },
+    {
+      "path": "/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031/validation/OFFICIAL_CLOSEST_REPAIR_TEST_V2.json",
+      "sha256": "549706a379479aa43de87168dd99a1d5df92f330877091fbc944416021f8232f",
+      "reason": "runtime_model_or_predicted_arrays_or_full_input/probe_values_not_published"
+    },
+    {
+      "path": "/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031/FIT_INPUTS_V2.json",
+      "sha256": "1533f49b930b8ff2cddd3f62c8c66f8135af2ec46ea759461be000edd026a909",
+      "reason": "full_V2_prediction_input_manifest_excluded"
+    }
+  ],
+  "tests": {
+    "isolated_import_and_nested_actual_CLI": "PACKAGING_RUNTIME_PROBE_V1.json PASS",
+    "budget_cross_environment": "validation/BUDGET_ENVIRONMENT_REVIEW.json all30 arrays bitexact",
+    "actual_submitted_meshhash_extraction": "PACKAGING_ARTIFACT_PROBE_V1.json PASS",
+    "public_hand_rebuild": "142394 PASS exactnpysourceSHA",
+    "V2pack_upload_source_review": "validation/PACK_V4_UPLOAD_V2_SOURCE_REVIEW.json GOtransport; producer/finalartifactproofsstillrequired"
+  },
+  "readme_changes": false,
+  "main_branch_changes": false,
+  "closest_point_policy": "unchanged original fast path; only a formerly failed distance-gradient assertion invokes oracle-consistent closest-point arithmetic; tolerance and objective unchanged",
+  "successful_V1_reuse_rule": "V1 COMPLETE plus independent all-frame audit and identical source/inputs prove no exceptional branch could execute",
+  "objective_config_changed": false,
+  "oracle_distances_changed": false,
+  "original_scene_distance_tolerance_m": 1e-07,
+  "source_publication_preserves_V1": true
+}

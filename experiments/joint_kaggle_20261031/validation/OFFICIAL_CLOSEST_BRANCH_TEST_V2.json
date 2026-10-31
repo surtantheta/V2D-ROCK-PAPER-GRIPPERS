@@ -1,0 +1,46 @@
+{
+  "status": "PASS_REAL_PAN_RARE_BRANCH_ROTATED_SCALED_GRADIENT",
+  "old_branch_reproduced_failure": true,
+  "exceptional_branch_events": [
+    {
+      "frame": 0,
+      "hand_point": 0,
+      "old_distance_m": 0.00010101460917165677,
+      "oracle_distance_m": 1.0501339432050982e-05,
+      "repaired_distance_m": 1.0501339432050982e-05,
+      "original_discrepancy_m": 9.051326973960578e-05,
+      "canonical_query_difference_model_units": 0.0,
+      "official_triangle_index": 1793
+    }
+  ],
+  "actual_rotated_scaled_pose_gradient_max_error": 1.5993771862454764e-09,
+  "original_fastpath_bitexact": true,
+  "all14_real_oracle_queries_exact": true,
+  "original_tolerance_unchanged": true,
+  "proof": {
+    "schema": "official-closest-rare-branch-repair-v2",
+    "original_linearization_source_sha256": "22b917cc78c35cf99a637eabc2104e09f71b22546d830f2b5fca52f7523f2582",
+    "patched_linearization_source_sha256": "30594da9761353ece90ce8559a16698fa8f6da508f90d5f21f7f485b7744b4ac",
+    "unchanged_threshold_scene_m": 1e-07,
+    "branch_condition": "exact logical negation of the former failing assertion",
+    "original_fast_path_unchanged": true,
+    "successful_V1_reuse_proof": "Every completed V1 fit passed each old assertion; the new branch would never execute, leaving every evaluated numeric expression and iterate unchanged.",
+    "objective_oracle_policy_config_unchanged": true,
+    "point_kernel": {
+      "official_closest_squared_source_sha256": "6bd3794b80bb3615ee1764bb0094ba76fc3fe686a9fc74a11538f3196e365073",
+      "transform": "only function name and final squared-distance return replaced by closest-point tuple",
+      "entire_triangle_pool": true,
+      "official_distance_oracle_unchanged": true
+    }
+  },
+  "sha256": {
+    "/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031/code/test_official_closest_branch_v2.py": "955da816df93c0858c3e5be13a07490df0be93351d4031123940a52517914bb2",
+    "/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031/code/official_closest_repair_v2.py": "d345fe270e97ffe9f5514c01097e40baf94731c23dddf2b22833d94397c30382",
+    "/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/physical_refinement_20261031/code/joint_core_v1.py": "023e0229ee20347e255dbf673442956a0f9ff36016fb3d793b611edc3de505b6",
+    "/home/tanuj/V2D_challenge/data/assets/submission_kit/v2d_submission_kit/metric_code/track_1/PEN.py": "07585d38cc0911f0d9b14c53d482302c7b9cc31365a394127687798136604021",
+    "/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031/validation/KERNEL_POINT_PROBE_V1.json": "b2a7b92c64eedec5f15948593c7a2c2b1ba1c448d3dbe65cb49908752640ead2",
+    "/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031/validation/OFFICIAL_CLOSEST_REPAIR_TEST_V2.json": "549706a379479aa43de87168dd99a1d5df92f330877091fbc944416021f8232f"
+  },
+  "GT_loaded": false,
+  "CPU_job": "142405.caquelon"
+}
