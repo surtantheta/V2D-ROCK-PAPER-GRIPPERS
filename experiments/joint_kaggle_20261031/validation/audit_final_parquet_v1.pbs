@@ -1,0 +1,16 @@
+#!/bin/bash
+#PBS -N v2d_audit_final_
+#PBS -l select=1:ncpus=2:mem=12gb
+#PBS -l walltime=01:00:00
+#PBS -j oe
+#PBS -k doe
+set -euo pipefail
+TASK_ROOT=/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031
+exec > "$TASK_ROOT/logs/audit_final_parquet_v1_${PBS_JOBID%%.*}.log" 2>&1
+export PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1
+export OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 NUMBA_NUM_THREADS=2
+export XDG_CACHE_HOME=/rhome/tanuj/v2d_joint_kaggle_20261031/cache
+export NUMBA_CACHE_DIR=/rhome/tanuj/v2d_joint_kaggle_20261031/numba_cache
+cd "$TASK_ROOT"
+printf '%s  %s\n' 'd18448bbb32eb31807e3d9c86866f46ced804273b72d755314c746c9422d489e' "$TASK_ROOT/validation/audit_final_parquet_v1.py" | sha256sum --check --status
+/home/tanuj/.conda/envs/v2d/bin/python -I -B -u "$TASK_ROOT/validation/audit_final_parquet_v1.py"

@@ -1,0 +1,13 @@
+#!/bin/bash
+#PBS -N v2d_joint_hand1
+#PBS -l select=1:ncpus=2:mem=8gb
+#PBS -l walltime=00:15:00
+#PBS -j oe
+#PBS -k doe
+set -euo pipefail
+TASK_ROOT=/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031
+exec > "$TASK_ROOT/logs/hand_rebuild_${PBS_JOBID%%.*}.log" 2>&1
+export OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2
+export PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1
+export XDG_CACHE_HOME=/rhome/tanuj/v2d_joint_kaggle_20261031/cache
+/home/tanuj/.conda/envs/cari4d/bin/python -I -B -u "$TASK_ROOT/code/rebuild_hand_vertex_ids_v1.py" --model /rhome/tanuj/home_moved_20261029/V2D_challenge/models/mhr/mhr_model.pt --expected-indices-sha256 95ade45339d0bc8cab40055ef1c91adee2100e15048bc79cfe0323fd3e826205 --out /rhome/tanuj/v2d_joint_kaggle_20261031/reproduction_hand_vertices/HAND_VERTEX_IDS.npy

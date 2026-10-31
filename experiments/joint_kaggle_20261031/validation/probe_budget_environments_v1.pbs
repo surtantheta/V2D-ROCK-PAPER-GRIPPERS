@@ -1,0 +1,31 @@
+#!/bin/bash
+#PBS -N v2d_budget_envs
+#PBS -l select=1:ncpus=2:mem=8gb
+#PBS -l walltime=00:15:00
+#PBS -j oe
+#PBS -k doe
+set -euo pipefail
+TASK_ROOT=/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031
+exec > "$TASK_ROOT/logs/budget_probe_${PBS_JOBID%%.*}.log" 2>&1
+export PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1
+export OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2
+export XDG_CACHE_HOME=/rhome/tanuj/v2d_joint_kaggle_20261031/cache
+cd "$TASK_ROOT"
+/home/tanuj/.conda/envs/cari4d/bin/python -I -B -u "$TASK_ROOT/validation/probe_budget_environments_v1.py" --environment cari4d_grail --out /rhome/tanuj/v2d_joint_kaggle_20261031/budget_probe/cari4d_grail
+/home/tanuj/.conda/envs/v2d/bin/python -I -B -u "$TASK_ROOT/validation/probe_budget_environments_v1.py" --environment v2d --out /rhome/tanuj/v2d_joint_kaggle_20261031/budget_probe/v2d
+/home/tanuj/.conda/envs/v2d/bin/python -I -B -u - "$TASK_ROOT" <<'PY'
+from pathlib import Path
+import hashlib,json,os,sys
+r=Path(sys.argv[1]);base=Path('/rhome/tanuj/v2d_joint_kaggle_20261031/budget_probe')
+a=json.loads((base/'cari4d_grail/COMPLETE.json').read_text());b=json.loads((base/'v2d/COMPLETE.json').read_text())
+rows=[]
+for x,y in zip(a['records'],b['records']):
+ assert x['episode']==y['episode']
+ arrays=x['vertices_sha256']==y['vertices_sha256'] and x['faces_sha256']==y['faces_sha256']
+ geometry=x['oriented_surface_sha256']==y['oriented_surface_sha256']
+ reversal=x['oriented_surface_sha256']==y['reversed_oriented_surface_sha256']
+ rows.append(dict(episode=x['episode'],arrays_bitexact=arrays,oriented_geometry_bitexact=geometry,geometry_equal_under_global_orientation_reversal=reversal))
+receipt=dict(status='PASS_ALL30_ARRAYS_BITEXACT' if all(q['arrays_bitexact'] for q in rows) else 'ARRAY_DIFFERENCES_REQUIRE_REVIEW',cases=30,records=rows,versions_cari4d=a['versions'],versions_v2d=b['versions'],source_receipts_sha256={str(p):hashlib.sha256(p.read_bytes()).hexdigest() for p in [base/'cari4d_grail/COMPLETE.json',base/'v2d/COMPLETE.json']},PBS_JOBID=os.environ['PBS_JOBID'])
+(r/'validation/BUDGET_ENVIRONMENT_REVIEW.json').write_text(json.dumps(receipt,indent=2)+'\n')
+print(json.dumps(receipt),flush=True)
+PY

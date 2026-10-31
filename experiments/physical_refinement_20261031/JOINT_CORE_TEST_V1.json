@@ -1,0 +1,19 @@
+{
+  "status": "PASS",
+  "rare_single_contact_12mm_cleared": true,
+  "rare_contact_displacement_m": 0.012727272727270747,
+  "active_normalizer_not_diluted_by_5840points": true,
+  "uniform_point_duplication_objective_invariant": true,
+  "deep_contact_20mm_bound": true,
+  "opposing_contacts_explicitly_unresolved": true,
+  "analytic_jacobian_max_error": 9.341874829260632e-09,
+  "rotated_scaled_object_sdf_derivative_correct": true,
+  "padded_unused_vertex_safe": true,
+  "gap_triples_not_bridged": true,
+  "native_stride_penalty_scaling_correct": true,
+  "source_sha256": {
+    "/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/physical_refinement_20261031/code/test_joint_core_v1.py": "9b8ffa64cdfb15dab9c9230714e72215a6322f710ea005022bea011e32b6370c",
+    "/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/physical_refinement_20261031/code/joint_core_v1.py": "023e0229ee20347e255dbf673442956a0f9ff36016fb3d793b611edc3de505b6"
+  },
+  "CPU_job": "142353.caquelon"
+}
