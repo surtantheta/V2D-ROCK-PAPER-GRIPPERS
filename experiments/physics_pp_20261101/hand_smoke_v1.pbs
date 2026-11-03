@@ -1,0 +1,16 @@
+#!/bin/bash
+#PBS -N v2d_hand_smoke
+#PBS -q workq
+#PBS -l select=1:ncpus=8:mem=48gb
+#PBS -l walltime=02:00:00
+#PBS -j oe
+#PBS -J 0-2
+#PBS -o /rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/physics_pp_20261101/logs/hand_smoke_pbs.log
+S=/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/physics_pp_20261101
+EPS=(29 22 27); E=${EPS[$PBS_ARRAY_INDEX]}
+exec > "$S/logs/hand_smoke_v1_ep${E}.log" 2>&1
+echo "host $(hostname) start $(date -Is) job $PBS_JOBID"; sha256sum "$S/code/hand_clear.py" "$S/code/physics_pp_v2.py"
+export OMP_NUM_THREADS=8 NUMBA_NUM_THREADS=8 PYTHONNOUSERSITE=1 NUMBA_CACHE_DIR=/rhome/tanuj/v2d_physics_pp_20261101/numba_cache
+IN=/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031/ready_v2/track1_pi3x_joint_physics.parquet
+/home/tanuj/.conda/envs/cari4d/bin/python -I -u "$S/code/hand_clear.py" --parquet "$IN" --episode $E --out /rhome/tanuj/v2d_physics_pp_20261101/hand_smoke_v1
+echo "exit $? end $(date -Is)"

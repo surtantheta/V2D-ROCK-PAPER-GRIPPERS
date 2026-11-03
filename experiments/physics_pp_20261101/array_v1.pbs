@@ -1,0 +1,18 @@
+#!/bin/bash
+#PBS -N v2d_pp_array
+#PBS -q workq
+#PBS -l select=1:ncpus=4:mem=24gb
+#PBS -l walltime=03:00:00
+#PBS -j oe
+#PBS -J 0-29
+#PBS -o /rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/physics_pp_20261101/logs/array_pbs.log
+# Usage: qsub -v LAM_O=3000,LAM_H=0,TAG=o3000_h0 array_v1.pbs
+S=/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/physics_pp_20261101
+exec > "$S/logs/array_${TAG}_${PBS_ARRAY_INDEX}.log" 2>&1
+set -u
+echo "host $(hostname) start $(date -Is) job $PBS_JOBID"; sha256sum "$S/code/physics_pp.py"
+export OMP_NUM_THREADS=4 NUMBA_NUM_THREADS=4 PYTHONNOUSERSITE=1 NUMBA_CACHE_DIR=/rhome/tanuj/v2d_physics_pp_20261101/numba_cache
+IN=${IN:-/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031/ready_v2/track1_pi3x_joint_physics.parquet}
+/home/tanuj/.conda/envs/cari4d/bin/python -I -u "$S/code/physics_pp.py" --parquet "$IN" --episode "$PBS_ARRAY_INDEX" \
+  --lam-object "$LAM_O" --lam-human "$LAM_H" --out "/rhome/tanuj/v2d_physics_pp_20261101/$TAG/episodes"
+echo "exit $? end $(date -Is)"

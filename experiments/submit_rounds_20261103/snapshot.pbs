@@ -1,0 +1,16 @@
+#!/bin/bash
+#PBS -N v2d_snap
+#PBS -q workq
+#PBS -l select=1:ncpus=1:mem=2gb
+#PBS -l walltime=00:15:00
+#PBS -j oe
+#PBS -o /rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/submit_rounds_20261103/logs/snapshot_pbs.log
+R=/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/submit_rounds_20261103
+TAG=${TAG:-$(date +%Y%m%d_%H%M)}
+exec > "$R/logs/snapshot_${TAG}_${PBS_JOBID%%.*}.log" 2>&1
+echo "host $(hostname) start $(date -Is)"; sha256sum $R/code/*.py
+export PYTHONNOUSERSITE=1
+PY=/home/tanuj/.conda/envs/v2d/bin/python
+$PY -I "$R/code/preflight_readonly.py" "$R/PREFLIGHT_${TAG}.json"
+$PY "$R/code/leaderboard_rank_analysis.py" "$R/LEADERBOARD_${TAG}.json" > /dev/null && echo leaderboard ok
+echo "exit $? end $(date -Is)"

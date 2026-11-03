@@ -1,0 +1,17 @@
+#!/bin/bash
+#PBS -N v2d_pp_merge
+#PBS -q workq
+#PBS -l select=1:ncpus=2:mem=24gb
+#PBS -l walltime=00:30:00
+#PBS -j oe
+#PBS -o /rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/physics_pp_20261101/logs/merge_pbs.log
+# Usage: qsub -v TAG=o3000_h0 -W depend=afterok:<array job> merge_v1.pbs
+S=/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/physics_pp_20261101
+exec > "$S/logs/merge_${TAG}_${PBS_JOBID%%.*}.log" 2>&1
+set -u
+echo "host $(hostname) start $(date -Is)"; sha256sum "$S/code/merge_parquet.py"
+IN=${IN:-/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031/ready_v2/track1_pi3x_joint_physics.parquet}
+O=/rhome/tanuj/v2d_physics_pp_20261101/$TAG
+PYTHONNOUSERSITE=1 /home/tanuj/.conda/envs/cari4d/bin/python -I -u "$S/code/merge_parquet.py" --parquet "$IN" \
+  --episodes-dir "$O/episodes" --out "$O/track1_physics_pp_${TAG}.parquet"
+echo "exit $? end $(date -Is)"

@@ -1,0 +1,19 @@
+#!/bin/bash
+#PBS -N v2d_pp_smoke
+#PBS -q workq
+#PBS -l select=1:ncpus=8:mem=32gb
+#PBS -l walltime=01:30:00
+#PBS -j oe
+#PBS -o /rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/physics_pp_20261101/logs/smoke_v1_pbs.log
+S=/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/physics_pp_20261101
+exec > "$S/logs/smoke_v1_${PBS_JOBID%%.*}.log" 2>&1
+set -u
+echo "host $(hostname) start $(date -Is)"; sha256sum "$S/code/physics_pp.py"
+export OMP_NUM_THREADS=8 NUMBA_NUM_THREADS=8 PYTHONNOUSERSITE=1 NUMBA_CACHE_DIR=/rhome/tanuj/v2d_physics_pp_20261101/numba_cache
+PY=/home/tanuj/.conda/envs/cari4d/bin/python
+IN=/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031/ready_v2/track1_pi3x_joint_physics.parquet
+O=/rhome/tanuj/v2d_physics_pp_20261101/smoke_v1
+for cfg in "29 300" "29 3000" "11 3000"; do set -- $cfg
+  $PY -I -u "$S/code/physics_pp.py" --parquet "$IN" --episode $1 --lam-object $2 --out "$O/lam$2" || echo "FAILED ep$1 lam$2"
+done
+echo "end $(date -Is)"

@@ -1,0 +1,12 @@
+#!/bin/bash
+#PBS -N v2d_publish
+#PBS -q workq
+#PBS -l select=1:ncpus=1:mem=2gb
+#PBS -l walltime=00:15:00
+#PBS -j oe
+#PBS -o /rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/submit_rounds_20261103/logs/publish_pbs.log
+R=/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/submit_rounds_20261103
+exec > "$R/logs/publish_${BR}_${PBS_JOBID%%.*}.log" 2>&1
+echo "host $(hostname) start $(date -Is)"
+bash $R/code/publish_source.sh "$BR" "$MSG"
+echo "exit $? end $(date -Is)"

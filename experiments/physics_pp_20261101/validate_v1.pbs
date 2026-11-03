@@ -1,0 +1,17 @@
+#!/bin/bash
+#PBS -N v2d_pp_valid
+#PBS -q workq
+#PBS -l select=1:ncpus=4:mem=32gb
+#PBS -l walltime=01:00:00
+#PBS -j oe
+#PBS -o /rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/physics_pp_20261101/logs/validate_pbs.log
+# Usage: qsub -v TAG=sm_o4000_h0 validate_v1.pbs
+S=/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/physics_pp_20261101
+exec > "$S/logs/validate_${TAG}_${PBS_JOBID%%.*}.log" 2>&1
+echo "host $(hostname) start $(date -Is)"; sha256sum "$S/code/validate_parquet.py" "$S/code/physics_pp_v2.py"
+export OMP_NUM_THREADS=4 NUMBA_NUM_THREADS=4 PYTHONNOUSERSITE=1 NUMBA_CACHE_DIR=/rhome/tanuj/v2d_physics_pp_20261101/numba_cache
+IN=${IN:-/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031/ready_v2/track1_pi3x_joint_physics.parquet}
+O=/rhome/tanuj/v2d_physics_pp_20261101/$TAG
+/home/tanuj/.conda/envs/cari4d/bin/python -I -u "$S/code/validate_parquet.py" --parquet "$O/track1_physics_pp_${TAG}.parquet" \
+  --source "$IN" --episodes-dir "$O/episodes" --out "$O/VALIDATION.json"
+echo "exit $? end $(date -Is)"

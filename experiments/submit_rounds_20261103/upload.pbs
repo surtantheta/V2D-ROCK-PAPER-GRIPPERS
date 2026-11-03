@@ -1,0 +1,14 @@
+#!/bin/bash
+#PBS -N v2d_round
+#PBS -q workq
+#PBS -l select=1:ncpus=2:mem=12gb
+#PBS -l walltime=01:30:00
+#PBS -j oe
+#PBS -o /rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/submit_rounds_20261103/logs/upload_pbs.log
+# Usage: qsub -v IN=<parquet>,TAG=<round tag>,COMMIT=<sha40>,NOTE="<text>"[,DRY=1] upload.pbs
+R=/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/submit_rounds_20261103
+exec > "$R/logs/round_${TAG}_${PBS_JOBID%%.*}.log" 2>&1
+echo "host $(hostname) start $(date -Is)"; sha256sum "$R/code/upload_round.py"
+export PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=2
+/home/tanuj/.conda/envs/v2d/bin/python -I -B -u "$R/code/upload_round.py" --parquet "$IN" --tag "$TAG" --commit "$COMMIT" --note "$NOTE" ${DRY:+--dry-run}
+echo "exit $? end $(date -Is)"
