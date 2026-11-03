@@ -3,7 +3,7 @@
 
 The 22 body joints scored by ACC-H are smoothed in closed form (second-difference penalty within each
 stretch of consecutive scored frames; the first scored frame is pinned exactly because the scorer fits its
-Sim(3) there). Each later frame's non-hand MHR pose parameters are then refit to the smoothed joints by
+Sim(3) there, unless --free-first, which lets smoothing denoise that frame and so the alignment). Each later frame's non-hand MHR pose parameters are then refit to the smoothed joints by
 damped Gauss-Newton through the MHR TorchScript. Nothing is unwrapped or averaged in parameter space, so
 the Euler/translation/scale channels of the MHR parameter transform cannot be mixed up (the failure of
 physics_pp_v2 --lam-human). Hand-only parameters, identity, object and mesh are unchanged. An optional
@@ -23,14 +23,15 @@ from hand_clear import FREE as HAND_FREE
 FIT = [i for i in range(136) if i not in set(HAND_FREE)]
 
 
-def smooth_targets(j, frames, lam):
-    """Penalized second-difference smoothing of [T, J, 3] joints; frame 0 pinned exactly."""
+def smooth_targets(j, frames, lam, pin_first=True):
+    """Penalized second-difference smoothing of [T, J, 3] joints; frame 0 pinned exactly unless pin_first=False."""
     T = len(j)
     D = pp.d2_matrix(frames)
-    w = np.ones(T); w[0] = 1e9
+    w = np.ones(T); w[0] = 1e9 if pin_first else 1.0
     A = (sparse.diags(w) + lam * (D.T @ D)).tocsc()
     out = np.asarray(spsolve(A, w[:, None] * j.reshape(T, -1))).reshape(j.shape)
-    out[0] = j[0]
+    if pin_first:
+        out[0] = j[0]
     return out
 
 
@@ -89,6 +90,9 @@ def main():
     ap.add_argument('--lam', type=float, required=True); ap.add_argument('--out', required=True)
     ap.add_argument('--iters', type=int, default=6); ap.add_argument('--gamma', type=float, default=1e-3)
     ap.add_argument('--max-step', type=float, default=0.5); ap.add_argument('--chunk', type=int, default=128)
+    ap.add_argument('--free-first', action='store_true',
+                    help='smooth and refit the first scored frame too (it sets the scorer Sim(3), so its noise '
+                         'misaligns every frame; pinned by default)')
     a = ap.parse_args()
     t0 = time.time(); out = Path(a.out); out.mkdir(parents=True, exist_ok=True)
     ep = pp.load_episode(a.parquet, a.episode)
@@ -98,19 +102,19 @@ def main():
         s = float(st['object_scale']) if 'object_scale' in st.files else s
     frames = ep['frames']
     v_before, j_before = pp.decode(pose, ep['scales'], ep['shape'])
-    target = smooth_targets(j_before[:, pp.BODY_J], frames, a.lam)
+    target = smooth_targets(j_before[:, pp.BODY_J], frames, a.lam, pin_first=not a.free_first)
     target_cm = target * 100.0 * pp.FLIP                          # back to the native MHR frame
     ts = torch.jit.load(pp.MHR_MODEL, map_location='cpu').eval()
     shape = torch.from_numpy(ep['shape'].reshape(1, 45).astype(np.float32))
     scales = torch.from_numpy(ep['scales'].astype(np.float32))
     new_pose = pose.copy()
-    for c0 in range(1, len(pose), a.chunk):                      # frame 0 stays exact
+    for c0 in range(0 if a.free_first else 1, len(pose), a.chunk):  # frame 0 stays exact unless --free-first
         sl = slice(c0, min(len(pose), c0 + a.chunk))
         new_pose[sl] = fit_chunk(ts, shape, scales, pose[sl], target_cm[sl], a.iters, a.gamma, a.max_step)
     v_after, j_after = pp.decode(new_pose, ep['scales'], ep['shape'])
     hand_ids = np.load(pp.HAND_IDS)
     resid = np.linalg.norm(j_after[:, pp.BODY_J] - target, axis=2) * 1000
-    rep = {'episode': a.episode, 'frames': int(len(frames)), 'start': a.start, 'lam': a.lam,
+    rep = {'episode': a.episode, 'frames': int(len(frames)), 'start': a.start, 'lam': a.lam, 'free_first': a.free_first,
            'own_acc_h_before': pp.own_acc(j_before[:, pp.BODY_J], frames),
            'own_acc_h_target': pp.own_acc(target, frames),
            'own_acc_h_after': pp.own_acc(j_after[:, pp.BODY_J], frames),

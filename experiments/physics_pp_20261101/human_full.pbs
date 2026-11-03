@@ -5,7 +5,7 @@
 #PBS -l walltime=02:00:00
 #PBS -j oe
 #PBS -o /rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/physics_pp_20261101/logs/human_full_pbs.log
-# Usage: qsub -v LAM=300,START=sm_o4000_h0,TAG=hs300_o4000 human_full.pbs   (30 episodes, merge, validate)
+# Usage: qsub -v LAM=300,START=sm_o4000_h0,TAG=hs300_o4000[,ARGS=--free-first] human_full.pbs   (30 episodes, merge, validate)
 S=/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/physics_pp_20261101
 exec > "$S/logs/human_full_${TAG}_${PBS_JOBID%%.*}.log" 2>&1
 set -u
@@ -16,7 +16,7 @@ IN=/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261
 B=/rhome/tanuj/v2d_physics_pp_20261101; O=$B/$TAG
 for e in $(seq 0 29); do
   st=$(printf "$B/$START/episodes/episode_%06d.npz" $e)
-  $PY -I -u "$S/code/human_smooth.py" --parquet "$IN" --episode $e --lam $LAM --start "$st" --out "$O/episodes" > /dev/null || { echo "episode $e failed"; exit 1; }
+  $PY -I -u "$S/code/human_smooth.py" --parquet "$IN" --episode $e --lam $LAM --start "$st" --out "$O/episodes" ${ARGS:-} > /dev/null || { echo "episode $e failed"; exit 1; }
 done
 $PY -I -u "$S/code/merge_parquet_v2.py" --parquet "$IN" --episodes-dir "$O/episodes" --out "$O/track1_physics_pp_${TAG}.parquet" || exit 1
 $PY -I -u "$S/code/validate_parquet.py" --parquet "$O/track1_physics_pp_${TAG}.parquet" --source "$IN" --episodes-dir "$O/episodes" --out "$O/VALIDATION.json"

@@ -76,6 +76,9 @@ def main():
     st = np.load(a.start)
     pose, t_start = st['mhr_pose'].copy(), st['object_translation'].copy()
     s0 = float(st['object_scale']) if 'object_scale' in st.files else ep['s']
+    rot = {'object_rotation': st['object_rotation']} if 'object_rotation' in st.files else {}   # rot_smooth.py start
+    if rot:
+        ep['R'] = rot['object_rotation']
     frames, R, T = ep['frames'], ep['R'], len(pose)
     hand_ids = np.load(pp.HAND_IDS)
     v, _ = pp.decode(pose, ep['scales'], ep['shape'])
@@ -147,7 +150,7 @@ def main():
         results[f'{w:g}'] = res
         out = Path(a.out) / f'w{w:g}' / 'episodes'; out.mkdir(parents=True, exist_ok=True)
         np.savez(out / f'episode_{a.episode:06d}.npz', frames=frames, object_translation=t_new, mhr_pose=pose,
-                 object_scale=np.array(s1))
+                 object_scale=np.array(s1), **rot)
         (out / f'episode_{a.episode:06d}.json').write_text(json.dumps({**rep, **res, 'object_scale_before': s0,
                                                                        'human_first_frame_exact': True}, indent=1))
     rep.update({'results': results, 'seconds': time.time() - t0, 'source_sha256': pp.sha(__file__),
