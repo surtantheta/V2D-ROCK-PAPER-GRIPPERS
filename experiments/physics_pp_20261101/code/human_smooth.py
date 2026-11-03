@@ -59,7 +59,7 @@ def fit_chunk(ts, shape, scales, p0, target_cm, iters, gamma, max_step):
     c = cost(x)
     for _ in range(iters):
         xv, J = joints(x, True)
-        r = (tgt - J).double()
+        r = (tgt - J.detach()).double()
         jac = torch.empty(n, J.shape[1], len(FIT), dtype=torch.float64)
         for k in range(J.shape[1]):
             g, = torch.autograd.grad(J[:, k].sum(), xv, retain_graph=k < J.shape[1] - 1)
@@ -78,7 +78,7 @@ def fit_chunk(ts, shape, scales, p0, target_cm, iters, gamma, max_step):
             accepted |= better
             if accepted.all():
                 break
-    out = p0.copy(); out[:, FIT] = x.numpy()
+    out = p0.copy(); out[:, FIT] = x.detach().numpy()
     return out
 
 

@@ -1,0 +1,23 @@
+#!/bin/bash
+#PBS -N v2d_hs_full
+#PBS -q workq
+#PBS -l select=1:ncpus=8:mem=32gb:host=cvml11
+#PBS -l walltime=02:00:00
+#PBS -j oe
+#PBS -o /rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/physics_pp_20261101/logs/human_full_pbs.log
+# Usage: qsub -v LAM=300,START=sm_o4000_h0,TAG=hs300_o4000 human_full.pbs   (30 episodes, merge, validate)
+S=/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/physics_pp_20261101
+exec > "$S/logs/human_full_${TAG}_${PBS_JOBID%%.*}.log" 2>&1
+set -u
+echo "host $(hostname) start $(date -Is) job $PBS_JOBID"; sha256sum "$S/code/human_smooth.py" "$S/code/physics_pp_v2.py" "$S/code/merge_parquet_v2.py" "$S/code/validate_parquet.py"
+export OMP_NUM_THREADS=8 NUMBA_NUM_THREADS=8 PYTHONNOUSERSITE=1 NUMBA_CACHE_DIR=/rhome/tanuj/v2d_physics_pp_20261101/numba_cache
+PY=/home/tanuj/.conda/envs/cari4d/bin/python
+IN=/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031/ready_v2/track1_pi3x_joint_physics.parquet
+B=/rhome/tanuj/v2d_physics_pp_20261101; O=$B/$TAG
+for e in $(seq 0 29); do
+  st=$(printf "$B/$START/episodes/episode_%06d.npz" $e)
+  $PY -I -u "$S/code/human_smooth.py" --parquet "$IN" --episode $e --lam $LAM --start "$st" --out "$O/episodes" > /dev/null || { echo "episode $e failed"; exit 1; }
+done
+$PY -I -u "$S/code/merge_parquet_v2.py" --parquet "$IN" --episodes-dir "$O/episodes" --out "$O/track1_physics_pp_${TAG}.parquet" || exit 1
+$PY -I -u "$S/code/validate_parquet.py" --parquet "$O/track1_physics_pp_${TAG}.parquet" --source "$IN" --episodes-dir "$O/episodes" --out "$O/VALIDATION.json"
+echo "exit $? end $(date -Is)"
