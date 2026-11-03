@@ -4,7 +4,10 @@
 Tests for a systematic bias in the estimated object size: object_scale -> k * object_scale about the object's
 local bounding-box centre (translation compensated so the centre stays put), the same k for every episode.
 Rotation, mesh and human are unchanged; the translation shift is (1 - k) s R c, so own ACC-O changes only through
-the rotation of c. One output per --k value.
+the rotation of c (r18: k 0.95 raised hosted ACC-O 0.0740 -> 0.0755 where c is far from the origin or the
+rotation flips); --comp-lam smooths that shift in time. --about camera instead scales translation and size
+together about the camera centre (image projection unchanged), a global object depth test.
+One output per --k value.
 """
 import argparse, json, sys, time
 from pathlib import Path
@@ -19,6 +22,8 @@ def main():
     ap.add_argument('--parquet', required=True); ap.add_argument('--episode', type=int, required=True)
     ap.add_argument('--start', required=True); ap.add_argument('--out', required=True, help='one subdir per k')
     ap.add_argument('--k', default='0.95:1.05', help='colon or comma separated')
+    ap.add_argument('--about', choices=['centre', 'camera'], default='centre')
+    ap.add_argument('--comp-lam', type=float, default=0.0, help='centre mode: smooth the compensating shift')
     a = ap.parse_args()
     t0 = time.time()
     ep = pp.load_episode(a.parquet, a.episode)
@@ -35,8 +40,12 @@ def main():
            'centre_local_norm_m': float(np.linalg.norm(centre) * s), 'pen_before': pp.pen_proxy(ep, hands, t, s),
            'own_acc_o_before': pp.own_acc(t, frames)}
     for k in [float(x) for x in a.k.replace(':', ',').split(',')]:
-        t_new = t + (1.0 - k) * s * np.einsum('tij,j->ti', R, centre)
-        res = {'k': k, 'object_scale_after': k * s, 'pen_after': pp.pen_proxy(ep, hands, t_new, k * s),
+        if a.about == 'camera':
+            t_new = k * t
+        else:
+            shift = (1.0 - k) * s * np.einsum('tij,j->ti', R, centre)
+            t_new = t + (pp.smooth_translation(shift, frames, a.comp_lam) if a.comp_lam > 0 else shift)
+        res = {'k': k, 'about': a.about, 'comp_lam': a.comp_lam,'object_scale_after': k * s, 'pen_after': pp.pen_proxy(ep, hands, t_new, k * s),
                'own_acc_o_after': pp.own_acc(t_new, frames),
                'translation_change_cm_mean': float(np.linalg.norm(t_new - t, axis=1).mean() * 100)}
         out = Path(a.out) / f'k{k:g}' / 'episodes'; out.mkdir(parents=True, exist_ok=True)
