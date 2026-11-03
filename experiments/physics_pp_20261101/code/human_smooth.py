@@ -23,8 +23,15 @@ from hand_clear import FREE as HAND_FREE
 FIT = [i for i in range(136) if i not in set(HAND_FREE)]
 
 
-def smooth_targets(j, frames, lam, pin_first=True):
-    """Penalized second-difference smoothing of [T, J, 3] joints; frame 0 pinned exactly unless pin_first=False."""
+def smooth_targets(j, frames, lam, pin_first=True, lam_root=None):
+    """Penalized second-difference smoothing of [T, J, 3] joints; frame 0 pinned exactly unless pin_first=False.
+
+    With lam_root, the joint centroid (global body position, where monocular depth jitter lives) is smoothed
+    with lam_root and the centroid-relative joints with lam.
+    """
+    if lam_root is not None:
+        c = j.mean(1, keepdims=True)
+        return (smooth_targets(c, frames, lam_root, pin_first) + smooth_targets(j - c, frames, lam, pin_first))
     T = len(j)
     D = pp.d2_matrix(frames)
     w = np.ones(T); w[0] = 1e9 if pin_first else 1.0
@@ -93,6 +100,9 @@ def main():
     ap.add_argument('--free-first', action='store_true',
                     help='smooth and refit the first scored frame too (it sets the scorer Sim(3), so its noise '
                          'misaligns every frame; pinned by default)')
+    ap.add_argument('--lam-root', type=float, default=None,
+                    help='separate penalty for the joint centroid (global body position); --lam then applies to '
+                         'the centroid-relative joints')
     a = ap.parse_args()
     t0 = time.time(); out = Path(a.out); out.mkdir(parents=True, exist_ok=True)
     ep = pp.load_episode(a.parquet, a.episode)
@@ -102,7 +112,7 @@ def main():
         s = float(st['object_scale']) if 'object_scale' in st.files else s
     frames = ep['frames']
     v_before, j_before = pp.decode(pose, ep['scales'], ep['shape'])
-    target = smooth_targets(j_before[:, pp.BODY_J], frames, a.lam, pin_first=not a.free_first)
+    target = smooth_targets(j_before[:, pp.BODY_J], frames, a.lam, pin_first=not a.free_first, lam_root=a.lam_root)
     target_cm = target * 100.0 * pp.FLIP                          # back to the native MHR frame
     ts = torch.jit.load(pp.MHR_MODEL, map_location='cpu').eval()
     shape = torch.from_numpy(ep['shape'].reshape(1, 45).astype(np.float32))
@@ -114,7 +124,7 @@ def main():
     v_after, j_after = pp.decode(new_pose, ep['scales'], ep['shape'])
     hand_ids = np.load(pp.HAND_IDS)
     resid = np.linalg.norm(j_after[:, pp.BODY_J] - target, axis=2) * 1000
-    rep = {'episode': a.episode, 'frames': int(len(frames)), 'start': a.start, 'lam': a.lam, 'free_first': a.free_first,
+    rep = {'episode': a.episode, 'frames': int(len(frames)), 'start': a.start, 'lam': a.lam, 'free_first': a.free_first, 'lam_root': a.lam_root,
            'own_acc_h_before': pp.own_acc(j_before[:, pp.BODY_J], frames),
            'own_acc_h_target': pp.own_acc(target, frames),
            'own_acc_h_after': pp.own_acc(j_after[:, pp.BODY_J], frames),
