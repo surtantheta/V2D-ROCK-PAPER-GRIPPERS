@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Write a submission Parquet with post-processed object translations and MHR poses.
 
-Starts from the input Parquet and replaces only the `object_translation` and `mhr_pose` rows with the
+Starts from the input Parquet and replaces only the `object_translation` and `mhr_pose` rows (plus
+`object_scale` / `object_rotation` when an episode output carries them) with the
 per-episode outputs of physics_pp_v2.py, human_smooth.py or hand_clear.py; every other row and the row order are kept. Verifies that all
 unchanged rows are identical, all values are finite, and every episode was replaced. Also summarizes
 the per-episode reports.
@@ -15,7 +16,7 @@ KIT = Path('/home/tanuj/V2D_challenge/data/assets/submission_kit/v2d_submission_
 _spec = importlib.util.spec_from_file_location('v2d_scorer', KIT / 'metric_code/track_1/PEN.py')
 sc = importlib.util.module_from_spec(_spec); _spec.loader.exec_module(sc)
 ARRAY_NAMES = list(sc._ARRAYS)
-A_T, A_POSE, A_S = (ARRAY_NAMES.index(n) for n in ('object_translation', 'mhr_pose', 'object_scale'))
+A_T, A_POSE, A_S, A_R = (ARRAY_NAMES.index(n) for n in ('object_translation', 'mhr_pose', 'object_scale', 'object_rotation'))
 
 
 def sha(p):
@@ -50,6 +51,11 @@ def main():
             rows = np.flatnonzero((ep == e) & (ar == A_S))
             assert len(rows) == 1
             xyz[rows] = [float(d['object_scale']), 0.0, 0.0]
+            replaced[rows] = True
+        if 'object_rotation' in d.files:                                 # rot_smooth.py: 3 matrix rows per frame
+            rows = np.flatnonzero((ep == e) & (ar == A_R))
+            assert len(rows) == 3 * len(fpos), (e, len(rows))
+            xyz[rows] = d['object_rotation'][[fpos[int(f)] for f in fr[rows]], pt[rows]]
             replaced[rows] = True
     assert np.isfinite(xyz).all()
     df[['x', 'y', 'z']] = xyz

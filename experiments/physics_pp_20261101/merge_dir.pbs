@@ -1,0 +1,20 @@
+#!/bin/bash
+#PBS -N v2d_mergedir
+#PBS -q workq
+#PBS -l select=1:ncpus=2:mem=16gb
+#PBS -l walltime=00:40:00
+#PBS -j oe
+#PBS -o /rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/physics_pp_20261101/logs/merge_dir_pbs.log
+# Usage: qsub -v DIR=pzs_sh0/w1e+06,NAME=pzs_sh0_w1e6 -l select=1:ncpus=2:mem=16gb:host=cvml11 merge_dir.pbs
+S=/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/physics_pp_20261101
+exec > "$S/logs/merge_dir_${NAME}_${PBS_JOBID%%.*}.log" 2>&1
+set -u
+echo "host $(hostname) start $(date -Is)"; sha256sum "$S/code/merge_parquet_v2.py" "$S/code/validate_parquet.py"
+export PYTHONNOUSERSITE=1 NUMBA_CACHE_DIR=/rhome/tanuj/v2d_physics_pp_20261101/numba_cache
+PY=/home/tanuj/.conda/envs/cari4d/bin/python
+IN=/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031/ready_v2/track1_pi3x_joint_physics.parquet
+O=/rhome/tanuj/v2d_physics_pp_20261101/$DIR
+test $(ls "$O"/episodes/episode_*.npz | wc -l) -eq 30 || { echo "need 30 episodes"; exit 1; }
+$PY -I -u "$S/code/merge_parquet_v2.py" --parquet "$IN" --episodes-dir "$O/episodes" --out "$O/track1_physics_pp_${NAME}.parquet" || exit 1
+$PY -I -u "$S/code/validate_parquet.py" --parquet "$O/track1_physics_pp_${NAME}.parquet" --source "$IN" --episodes-dir "$O/episodes" --out "$O/VALIDATION.json"
+echo "exit $? end $(date -Is)"
