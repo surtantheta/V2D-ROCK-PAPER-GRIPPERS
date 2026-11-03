@@ -1,0 +1,20 @@
+#!/bin/bash
+#PBS -N v2d_snap
+#PBS -q workq
+#PBS -l select=1:ncpus=4:mem=24gb
+#PBS -l walltime=01:30:00
+#PBS -j oe
+#PBS -J 0-29
+#PBS -o /rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/physics_pp_20261101/logs/snap_pbs.log
+# Usage: qsub -v MODE=scale,HUMAN=hs300_o4000,OBJECT=sm_o300000_h0,TAG=snap_scale -l select=1:ncpus=4:mem=24gb:host=cvml10 snap_array.pbs
+S=/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/physics_pp_20261101
+exec > "$S/logs/snap_${TAG}_${PBS_ARRAY_INDEX}.log" 2>&1
+set -u
+echo "host $(hostname) start $(date -Is) job $PBS_JOBID"; sha256sum "$S/code/contact_snap.py" "$S/code/physics_pp_v2.py"
+export OMP_NUM_THREADS=4 NUMBA_NUM_THREADS=4 PYTHONNOUSERSITE=1 NUMBA_CACHE_DIR=/rhome/tanuj/v2d_physics_pp_20261101/numba_cache
+IN=/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031/ready_v2/track1_pi3x_joint_physics.parquet
+B=/rhome/tanuj/v2d_physics_pp_20261101; e=$PBS_ARRAY_INDEX
+/home/tanuj/.conda/envs/cari4d/bin/python -I -u "$S/code/contact_snap.py" --parquet "$IN" --episode $e --mode $MODE \
+  --human "$(printf "$B/$HUMAN/episodes/episode_%06d.npz" $e)" --object "$(printf "$B/$OBJECT/episodes/episode_%06d.npz" $e)" \
+  --out "$B/$TAG/episodes"
+echo "exit $? end $(date -Is)"

@@ -1,7 +1,7 @@
 #!/bin/bash
 #PBS -N v2d_hs_full
 #PBS -q workq
-#PBS -l select=1:ncpus=8:mem=32gb:host=cvml11
+#PBS -l select=1:ncpus=8:mem=32gb:host=cvml10
 #PBS -l walltime=02:00:00
 #PBS -j oe
 #PBS -o /rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/physics_pp_20261101/logs/human_full_pbs.log

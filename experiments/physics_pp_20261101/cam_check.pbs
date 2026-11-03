@@ -1,0 +1,9 @@
+#!/bin/bash
+#PBS -N v2d_camchk
+#PBS -q workq
+#PBS -l select=1:ncpus=2:mem=8gb:host=cvml12
+#PBS -l walltime=00:15:00
+#PBS -j oe
+#PBS -o /rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/physics_pp_20261101/logs/cam_check_pbs.log
+export PYTHONNOUSERSITE=1 NUMBA_CACHE_DIR=/rhome/tanuj/v2d_physics_pp_20261101/numba_cache
+/home/tanuj/.conda/envs/cari4d/bin/python -I /rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/physics_pp_20261101/code/cam_check.py > /rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/physics_pp_20261101/logs/cam_check.log 2>&1
