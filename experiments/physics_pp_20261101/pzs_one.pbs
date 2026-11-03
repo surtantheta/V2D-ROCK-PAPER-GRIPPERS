@@ -1,0 +1,18 @@
+#!/bin/bash
+#PBS -N v2d_pensmooth
+#PBS -q workq
+#PBS -l select=1:ncpus=4:mem=12gb
+#PBS -l walltime=04:00:00
+#PBS -j oe
+#PBS -o /rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/physics_pp_20261101/logs/pzs_pbs.log
+# Usage: qsub -v EP=22,START=best_hs300_o3e5,TAG=pzs_sh5,ARGS="--max-shrink 0.05" -l select=1:ncpus=4:mem=12gb:host=cvml10 pzs_one.pbs
+S=/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/physics_pp_20261101
+exec > "$S/logs/${TAG}_ep${EP}_${PBS_JOBID%%.*}.log" 2>&1
+set -u
+echo "host $(hostname) start $(date -Is) job $PBS_JOBID"; sha256sum "$S/code/pen_smooth.py" "$S/code/pen_zero.py" "$S/code/physics_pp_v2.py"
+export OMP_NUM_THREADS=4 NUMBA_NUM_THREADS=4 PYTHONNOUSERSITE=1 NUMBA_CACHE_DIR=/rhome/tanuj/v2d_physics_pp_20261101/numba_cache
+IN=/rhome/tanuj/home_moved_20261029/V2D_challenge/experiments/joint_kaggle_20261031/ready_v2/track1_pi3x_joint_physics.parquet
+B=/rhome/tanuj/v2d_physics_pp_20261101
+/home/tanuj/.conda/envs/cari4d/bin/python -I -u "$S/code/pen_smooth.py" --parquet "$IN" --episode $EP \
+  --start "$(printf "$B/$START/episodes/episode_%06d.npz" $EP)" --out "$B/$TAG" ${ARGS}
+echo "exit $? end $(date -Is)"
