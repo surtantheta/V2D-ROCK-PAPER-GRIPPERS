@@ -31,11 +31,14 @@ def main():
     pose, t = st['mhr_pose'], st['object_translation']
     s = float(st['object_scale']) if 'object_scale' in st.files else ep['s']
     rot = {'object_rotation': st['object_rotation']} if 'object_rotation' in st.files else {}
+    if rot:
+        ep['R'] = rot['object_rotation']
     frames = ep['frames']
     hid = np.load(pp.HAND_IDS)
     raw = pose[:, HAND_FREE]
     hp = np.unwrap(raw, axis=0)
     v0 = pp.decode(pose, ep['scales'], ep['shape'])[0][:, hid]
+    pen_before = pp.pen_proxy(ep, v0, t, s)
     for lam in [float(x) for x in a.lam.replace(':', ',').split(',')]:
         d = smooth_targets(hp, frames, lam, pin_first=not a.free_first) - hp   # real angular change per entry
         for cap in [float(x) for x in a.cap_rad.replace(':', ',').split(',')]:
@@ -48,6 +51,7 @@ def main():
                    'own_acc_hand_vertices_before': pp.own_acc(v0, frames),
                    'own_acc_hand_vertices_after': pp.own_acc(v1, frames),
                    'frame_max_hand_move_cm_p50_p99_max': [float(np.percentile(mv, q)) for q in (50, 99, 100)],
+                   'pen_before': pen_before, 'pen_after': pp.pen_proxy(ep, v1, t, s),
                    'non_hand_identical': bool(np.array_equal(np.delete(new, HAND_FREE, 1), np.delete(pose, HAND_FREE, 1))),
                    'human_first_frame_exact': bool(np.array_equal(new[0], pose[0])),
                    'seconds': time.time() - t0, 'source_sha256': pp.sha(__file__)}
