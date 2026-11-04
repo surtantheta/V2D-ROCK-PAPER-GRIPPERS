@@ -6,7 +6,7 @@ stretch of consecutive scored frames; the first scored frame is pinned exactly b
 Sim(3) there, unless --free-first, which lets smoothing denoise that frame and so the alignment). Each later frame's non-hand MHR pose parameters are then refit to the smoothed joints by
 damped Gauss-Newton through the MHR TorchScript. Nothing is unwrapped or averaged in parameter space, so
 the Euler/translation/scale channels of the MHR parameter transform cannot be mixed up (the failure of
-physics_pp_v2 --lam-human). Hand-only parameters, identity, object and mesh are unchanged. An optional
+physics_pp_v2 --lam-human). Hand-only parameters (unless --lam-hand), identity, object and mesh are unchanged. An optional
 physics_pp_v2 episode npz supplies the starting object translation/pose (for example a smoothed object).
 """
 import argparse, json, sys, time
@@ -103,6 +103,9 @@ def main():
     ap.add_argument('--lam-root', type=float, default=None,
                     help='separate penalty for the joint centroid (global body position); --lam then applies to '
                          'the centroid-relative joints')
+    ap.add_argument('--lam-hand', type=float, default=None,
+                    help='also smooth the wrist and finger parameters (hand_clear.FREE, left raw by the body refit) '
+                         'in parameter space with this penalty; first frame pinned unless --free-first')
     a = ap.parse_args()
     t0 = time.time(); out = Path(a.out); out.mkdir(parents=True, exist_ok=True)
     ep = pp.load_episode(a.parquet, a.episode)
@@ -121,6 +124,9 @@ def main():
     for c0 in range(0 if a.free_first else 1, len(pose), a.chunk):  # frame 0 stays exact unless --free-first
         sl = slice(c0, min(len(pose), c0 + a.chunk))
         new_pose[sl] = fit_chunk(ts, shape, scales, pose[sl], target_cm[sl], a.iters, a.gamma, a.max_step)
+    if a.lam_hand is not None:                                    # angles: unwrap so a +-pi crossing is not a jump
+        hp = np.unwrap(new_pose[:, HAND_FREE], axis=0)
+        new_pose[:, HAND_FREE] = smooth_targets(hp, frames, a.lam_hand, pin_first=not a.free_first)
     v_after, j_after = pp.decode(new_pose, ep['scales'], ep['shape'])
     hand_ids = np.load(pp.HAND_IDS)
     resid = np.linalg.norm(j_after[:, pp.BODY_J] - target, axis=2) * 1000
@@ -138,6 +144,11 @@ def main():
            'pen_after': pp.pen_proxy(ep, v_after[:, hand_ids], t, s),
            'own_acc_o': pp.own_acc(t, frames),
            'seconds': time.time() - t0, 'source_sha256': pp.sha(__file__), 'parquet_sha256': pp.sha(a.parquet)}
+    if a.lam_hand is not None:
+        rep.update({'lam_hand': a.lam_hand,
+                    'own_acc_hand_vertices_before': pp.own_acc(v_before[:, hand_ids], frames),
+                    'own_acc_hand_vertices_after': pp.own_acc(v_after[:, hand_ids], frames),
+                    'hand_vertex_change_cm_mean': float(np.linalg.norm(v_after[:, hand_ids] - v_before[:, hand_ids], axis=2).mean() * 100)})
     np.savez(out / f'episode_{a.episode:06d}.npz', frames=frames, object_translation=t, mhr_pose=new_pose,
              object_scale=np.array(s))
     (out / f'episode_{a.episode:06d}.json').write_text(json.dumps(rep, indent=1))
